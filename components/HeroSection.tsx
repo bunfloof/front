@@ -148,8 +148,23 @@ export function HeroSection() {
 
   // Touch handlers
   const handleTouchStart = (e: React.TouchEvent) => {
-    // Don't allow dragging if we're already transitioning
-    if (isTransitioning) return;
+    // Cancel any ongoing transition - user is taking control
+    if (isTransitioning) {
+      transitionEndRef.current = null;
+      setIsTransitioning(false);
+    }
+
+    // If we're on a cloned slide, instantly reset to the real slide position
+    if (actualSlideIndex === 0 || actualSlideIndex === TOTAL_SLIDES + 1) {
+      setEnableTransition(false);
+      const realIndex = actualSlideIndex === 0 ? TOTAL_SLIDES : 1;
+      const realSlideIndex = actualSlideIndex === 0 ? TOTAL_SLIDES - 1 : 0;
+      setActualSlideIndex(realIndex);
+      setCurrentSlide(realSlideIndex);
+      // Re-enable transition after instant jump
+      setTimeout(() => setEnableTransition(true), 50);
+    }
+
     setIsDragging(true);
     touchStartX.current = e.touches[0].clientX;
     setDragOffset(0);
@@ -180,8 +195,23 @@ export function HeroSection() {
 
   // Mouse handlers for desktop
   const handleMouseDown = (e: React.MouseEvent) => {
-    // Don't allow dragging if we're already transitioning
-    if (isTransitioning) return;
+    // Cancel any ongoing transition - user is taking control
+    if (isTransitioning) {
+      transitionEndRef.current = null;
+      setIsTransitioning(false);
+    }
+
+    // If we're on a cloned slide, instantly reset to the real slide position
+    if (actualSlideIndex === 0 || actualSlideIndex === TOTAL_SLIDES + 1) {
+      setEnableTransition(false);
+      const realIndex = actualSlideIndex === 0 ? TOTAL_SLIDES : 1;
+      const realSlideIndex = actualSlideIndex === 0 ? TOTAL_SLIDES - 1 : 0;
+      setActualSlideIndex(realIndex);
+      setCurrentSlide(realSlideIndex);
+      // Re-enable transition after instant jump
+      setTimeout(() => setEnableTransition(true), 50);
+    }
+
     setIsDragging(true);
     mouseStartX.current = e.clientX;
     setDragOffset(0);
@@ -220,7 +250,7 @@ export function HeroSection() {
   };
 
   const slides = [
-    <Slide1 key="slide-1" />,
+    <Slide1 key="slide-1" isAnimating={isDragging || isTransitioning} />,
     <Slide2 key="slide-2" />,
     <Slide3 key="slide-3" />,
   ];

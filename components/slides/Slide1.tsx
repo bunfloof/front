@@ -1,15 +1,19 @@
 import Image from "next/image";
 import Noise from "@/components/ui/noise";
 
-export function Slide1() {
+interface Slide1Props {
+  isAnimating?: boolean;
+}
+
+export function Slide1({ isAnimating = false }: Slide1Props) {
   return (
     <div className="h-[500px] md:h-[600px] lg:h-[700px] flex flex-col relative overflow-hidden pt-20">
       {/* Background with Noise */}
       <div className="absolute inset-0 bg-black -top-20">
         {/* Radial spotlight */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_900px_at_50%_300px,rgba(116,212,255,0.20),transparent)]" />
-        {/* Grain overlay */}
-        <Noise patternRefreshInterval={2} patternAlpha={35} />
+        {/* Grain overlay - disabled during animations for better performance */}
+        {!isAnimating && <Noise patternRefreshInterval={2} patternAlpha={35} />}
       </div>
 
       {/* Content - Top section with vertical centering */}
@@ -18,7 +22,7 @@ export function Slide1() {
           {/* Hero Text */}
           <div className="text-white max-w-5xl">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-             Game Hosting on 
+              Game Hosting on
               <br />
             </h1>
             <div className="flex gap-4 flex-wrap">
