@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Noise from "@/components/ui/noise";
+import { Button } from "@/components/ui/button";
 
 interface Slide1Props {
   isAnimating?: boolean;
@@ -9,9 +10,9 @@ export function Slide1({ isAnimating = false }: Slide1Props) {
   return (
     <div className="h-[500px] md:h-[600px] lg:h-[700px] flex flex-col relative overflow-hidden pt-20">
       {/* Background with Noise */}
-      <div className="absolute inset-0 bg-black -top-20">
+      <div className="absolute inset-0 bg-[#0b140c] -top-20">
         {/* Radial spotlight */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_900px_at_50%_300px,rgba(116,212,255,0.20),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_900px_at_50%_900px,rgba(115,208,126,0.20),transparent)]" />
         {/* Grain overlay - disabled during animations for better performance */}
         {!isAnimating && <Noise patternRefreshInterval={2} patternAlpha={35} />}
       </div>
@@ -21,37 +22,15 @@ export function Slide1({ isAnimating = false }: Slide1Props) {
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Hero Text */}
           <div className="text-white max-w-5xl">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-              Game Hosting on
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+              Minecraft Server Hosting
               <br />
             </h1>
+            <p className="text-gray-400 mb-6">For developers, by developers.</p>
             <div className="flex gap-4 flex-wrap">
-              <button className="bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium transition-all inline-flex items-center gap-2 shadow-lg">
-                <svg
-                  className="w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z" />
-                </svg>
-                Get Started Today
-              </button>
-              <button className="bg-transparent border border-gray-600 hover:border-gray-500 text-white px-6 py-3 rounded-lg font-medium transition-all inline-flex items-center gap-2">
-                Starting at just $12/month
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
-              </button>
+              <Button variant="classic" size="lg" className="text-md">
+                Get Started
+              </Button>
             </div>
           </div>
         </div>

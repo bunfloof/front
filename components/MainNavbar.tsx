@@ -44,7 +44,7 @@ export const MainNavbar = () => {
           }`}
         >
           <div
-            className={`max-w-6xl mx-auto w-full flex flex-col relative px-4 py-4 transition duration-200`}
+            className={`max-w-[90rem] mx-auto w-full flex flex-col relative px-4 py-4 transition duration-200`}
           >
             <div className="flex flex-row items-center justify-between transition duration-200">
               <div className="flex flex-row gap-2 items-center">

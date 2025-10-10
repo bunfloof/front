@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Slide1 } from "@/components/slides/Slide1";
 import { Slide2 } from "@/components/slides/Slide2";
 import { Slide3 } from "@/components/slides/Slide3";
+import { Pause, Play } from "lucide-react";
 
 const TOTAL_SLIDES = 3;
 const SLIDE_DURATION = 10000; // 10 seconds
@@ -16,6 +17,7 @@ export function HeroSection() {
   const [dragOffset, setDragOffset] = useState(0);
   const [actualSlideIndex, setActualSlideIndex] = useState(1); // Start at 1 (real first slide)
   const [enableTransition, setEnableTransition] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
 
   const touchStartX = useRef(0);
   const mouseStartX = useRef(0);
@@ -29,8 +31,8 @@ export function HeroSection() {
       clearTimeout(autoRotateTimerRef.current);
     }
 
-    // Don't start timer if user is dragging
-    if (isDragging) return;
+    // Don't start timer if user is dragging or autoplay is paused
+    if (isDragging || isPaused) return;
 
     // Start new timer for auto-rotation
     autoRotateTimerRef.current = setTimeout(() => {
@@ -42,11 +44,11 @@ export function HeroSection() {
         clearTimeout(autoRotateTimerRef.current);
       }
     };
-  }, [currentSlide, isDragging]);
+  }, [currentSlide, isDragging, isPaused]);
 
   useEffect(() => {
-    // Don't animate progress if user is dragging
-    if (isDragging) return;
+    // Don't animate progress if user is dragging or autoplay is paused
+    if (isDragging || isPaused) return;
 
     // Progress bar animation
     const progressInterval = setInterval(() => {
@@ -59,7 +61,7 @@ export function HeroSection() {
     }, 100);
 
     return () => clearInterval(progressInterval);
-  }, [currentSlide, isDragging]);
+  }, [currentSlide, isDragging, isPaused]);
 
   const goToSlide = (index: number) => {
     if (index === currentSlide || isTransitioning) return;
@@ -336,6 +338,19 @@ export function HeroSection() {
             ))}
           </div>
         </div>
+
+        {/* Pause/Play Button */}
+        <button
+          onClick={() => setIsPaused(!isPaused)}
+          className="absolute bottom-0 right-0 z-30 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-3 transition-all duration-200 border-t border-l border-white/20"
+          aria-label={isPaused ? "Play autoplay" : "Pause autoplay"}
+        >
+          {isPaused ? (
+            <Play className="w-5 h-5" fill="white" />
+          ) : (
+            <Pause className="w-5 h-5" />
+          )}
+        </button>
       </section>
 
       {/* Transition Section */}

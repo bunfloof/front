@@ -1,3 +1,5 @@
+import { Button } from "../ui/button";
+
 export function Slide2() {
   return (
     <div className="h-[500px] md:h-[600px] lg:h-[700px] relative overflow-hidden pt-20">
@@ -16,12 +18,11 @@ export function Slide2() {
             Built for performance and reliability
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <button className="bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium transition-all inline-flex items-center gap-2 shadow-lg">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-              </svg>
-              View Features
-            </button>
+            <div className="flex gap-4 flex-wrap">
+              <Button variant="minecraft" size="lg" className="text-md">
+                Get Started
+              </Button>
+            </div>
             <button className="bg-transparent border border-gray-600 hover:border-gray-500 text-white px-6 py-3 rounded-lg font-medium transition-all inline-flex items-center gap-2">
               99.9% Uptime Guaranteed
               <svg

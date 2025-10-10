@@ -10,6 +10,7 @@
   --font-mono: var(--font-geist-mono);
   --font-bbh-sans-bartle: "BBH Sans Bartle", sans-serif;
   --font-pt-serif: "PT Serif", serif;
+  --font-minecraft: "Minecraft", "Arial", sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -39,6 +40,34 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-grass-1: var(--grass-1);
+  --color-grass-2: var(--grass-2);
+  --color-grass-3: var(--grass-3);
+  --color-grass-4: var(--grass-4);
+  --color-grass-5: var(--grass-5);
+  --color-grass-6: var(--grass-6);
+  --color-grass-7: var(--grass-7);
+  --color-grass-8: var(--grass-8);
+  --color-grass-9: var(--grass-9);
+  --color-grass-10: var(--grass-10);
+  --color-grass-11: var(--grass-11);
+  --color-grass-12: var(--grass-12);
+  --color-grass-a1: var(--grass-a1);
+  --color-grass-a2: var(--grass-a2);
+  --color-grass-a3: var(--grass-a3);
+  --color-grass-a4: var(--grass-a4);
+  --color-grass-a5: var(--grass-a5);
+  --color-grass-a6: var(--grass-a6);
+  --color-grass-a7: var(--grass-a7);
+  --color-grass-a8: var(--grass-a8);
+  --color-grass-a9: var(--grass-a9);
+  --color-grass-a10: var(--grass-a10);
+  --color-grass-a11: var(--grass-a11);
+  --color-grass-a12: var(--grass-a12);
+  --color-grass-contrast: var(--grass-contrast);
+  --color-grass-surface: var(--grass-surface);
+  --color-grass-indicator: var(--grass-indicator);
+  --color-grass-track: var(--grass-track);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -78,6 +107,109 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  --grass-1: #0b140c;
+  --grass-2: #121b12;
+  --grass-3: #162b18;
+  --grass-4: #113d19;
+  --grass-5: #154b1f;
+  --grass-6: #185b25;
+  --grass-7: #1b6c2c;
+  --grass-8: #1a7f31;
+  --grass-9: #2e8e40;
+  --grass-10: #1c8033;
+  --grass-11: #73d07e;
+  --grass-12: #aef7b4;
+
+  --grass-a1: #00d10004;
+  --grass-a2: #29f9290b;
+  --grass-a3: #3ffe511c;
+  --grass-a4: #11fb3c30;
+  --grass-a5: #22fc4a3f;
+  --grass-a6: #27fd5150;
+  --grass-a7: #2cfe5862;
+  --grass-a8: #25ff5776;
+  --grass-a9: #49ff6b86;
+  --grass-a10: #29ff5a77;
+  --grass-a11: #8bff99cd;
+  --grass-a12: #b3feb9f7;
+
+  --grass-contrast: #fff;
+  --grass-surface: #13251380;
+  --grass-indicator: #2e8e40;
+  --grass-track: #2e8e40;
+}
+
+.dark,
+.dark-theme {
+  --grass-1: #0b140c;
+  --grass-2: #121b12;
+  --grass-3: #162b18;
+  --grass-4: #113d19;
+  --grass-5: #154b1f;
+  --grass-6: #185b25;
+  --grass-7: #1b6c2c;
+  --grass-8: #1a7f31;
+  --grass-9: #2e8e40;
+  --grass-10: #1c8033;
+  --grass-11: #73d07e;
+  --grass-12: #aef7b4;
+
+  --grass-a1: #00d10004;
+  --grass-a2: #29f9290b;
+  --grass-a3: #3ffe511c;
+  --grass-a4: #11fb3c30;
+  --grass-a5: #22fc4a3f;
+  --grass-a6: #27fd5150;
+  --grass-a7: #2cfe5862;
+  --grass-a8: #25ff5776;
+  --grass-a9: #49ff6b86;
+  --grass-a10: #29ff5a77;
+  --grass-a11: #8bff99cd;
+  --grass-a12: #b3feb9f7;
+
+  --grass-contrast: #fff;
+  --grass-surface: #13251380;
+  --grass-indicator: #2e8e40;
+  --grass-track: #2e8e40;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    .dark,
+    .dark-theme {
+      --grass-1: oklch(17.8% 0.021 146.7);
+      --grass-2: oklch(20.9% 0.0211 146.7);
+      --grass-3: oklch(26.6% 0.0448 146.7);
+      --grass-4: oklch(31.9% 0.0779 146.7);
+      --grass-5: oklch(36.7% 0.0924 146.7);
+      --grass-6: oklch(41.6% 0.1076 146.7);
+      --grass-7: oklch(46.8% 0.1246 146.7);
+      --grass-8: oklch(52.4% 0.1452 146.7);
+      --grass-9: oklch(57.3% 0.1452 146.7);
+      --grass-10: oklch(52.8% 0.1452 146.7);
+      --grass-11: oklch(78% 0.1452 146.7);
+      --grass-12: oklch(91.1% 0.1164 146.7);
+
+      --grass-a1: color(display-p3 0 0.9725 0 / 0.013);
+      --grass-a2: color(display-p3 0.3412 0.9804 0.251 / 0.043);
+      --grass-a3: color(display-p3 0.4392 0.9922 0.4 / 0.106);
+      --grass-a4: color(display-p3 0.349 1 0.3294 / 0.181);
+      --grass-a5: color(display-p3 0.3961 1 0.3804 / 0.24);
+      --grass-a6: color(display-p3 0.4275 1 0.4 / 0.307);
+      --grass-a7: color(display-p3 0.4431 1 0.4314 / 0.374);
+      --grass-a8: color(display-p3 0.4471 1 0.4314 / 0.454);
+      --grass-a9: color(display-p3 0.5098 1 0.4941 / 0.517);
+      --grass-a10: color(display-p3 0.4549 1 0.4471 / 0.458);
+      --grass-a11: color(display-p3 0.6667 1 0.6471 / 0.795);
+      --grass-a12: color(display-p3 0.7725 1 0.7569 / 0.958);
+
+      --grass-contrast: #fff;
+      --grass-surface: color(display-p3 0.0863 0.1412 0.0784 / 0.5);
+      --grass-indicator: oklch(57.3% 0.1452 146.7);
+      --grass-track: oklch(57.3% 0.1452 146.7);
+    }
+  }
 }
 
 @layer base {
@@ -87,4 +219,80 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Minecraft Fonts */
+@font-face {
+  font-family: "Minecraft";
+  src: url("/fonts/Minecraft-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Minecraft";
+  src: url("/fonts/Minecraft-Bold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Minecraft";
+  src: url("/fonts/Minecraft-Italic.woff2") format("woff2");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Minecraft";
+  src: url("/fonts/Minecraft-BoldItalic.woff2") format("woff2");
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Minecraft Button Variables */
+:root {
+  --block-size: 48px;
+}
+
+/* Minecraft Button Styles */
+.minecraft-button {
+  user-select: none;
+  cursor: pointer;
+  image-rendering: pixelated;
+  background-size: cover;
+  background-image: url("/imgs/ui/button-inside.png");
+  border-width: calc(var(--block-size) / 10);
+  border-style: solid;
+  border-image: url("/imgs/ui/button-border.png");
+  border-image-width: calc(var(--block-size) / 10);
+  border-image-slice: 10% 3%;
+  border-image-repeat: stretch;
+  color: #d1d5db;
+  text-shadow: 1.5px 1.5px #000;
+  font-family: var(--font-minecraft);
+  transition: none;
+}
+
+.minecraft-button:hover {
+  background-size: cover;
+  background-image: url("/imgs/ui/button-inside-hover.png");
+  border-width: calc(var(--block-size) / 10);
+  border-image: url("/imgs/ui/button-border-hover.png");
+  border-image-width: calc(var(--block-size) / 10);
+  border-image-slice: 10% 3%;
+  border-image-repeat: stretch;
+  color: #fef08a;
+}
+
+.minecraft-button:active {
+  background-size: cover;
+  background-image: url("/imgs/ui/button-inside-active.png");
+  border-width: calc(var(--block-size) / 10);
+  border-image: url("/imgs/ui/button-border-active.png");
+  border-image-width: calc(var(--block-size) / 10);
+  border-image-slice: 10% 3%;
+  border-image-repeat: contain;
+  color: #a8a29e;
 }
