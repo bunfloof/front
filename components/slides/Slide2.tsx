@@ -1,8 +1,8 @@
 export function Slide2() {
   return (
-    <div className="min-h-[700px]">
+    <div className="h-[500px] md:h-[600px] lg:h-[700px] relative overflow-hidden pt-20">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900" />
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 -top-20" />
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-20">

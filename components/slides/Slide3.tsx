@@ -1,17 +1,12 @@
 export function Slide3() {
   return (
-    <div className="min-h-[700px]">
+    <div className="h-[500px] md:h-[600px] lg:h-[700px] relative overflow-hidden pt-20">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-purple-900 to-gray-900" />
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-purple-900 to-gray-900 -top-20" />
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-20">
         <div className="text-center text-white max-w-5xl mx-auto mb-16">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-            Deploy in
-            <br />
-            <span className="text-purple-400">Seconds</span>
-          </h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-8">
             One-click deployment for over 100+ games
           </p>
