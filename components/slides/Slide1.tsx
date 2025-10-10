@@ -3,7 +3,7 @@ import Noise from "@/components/ui/noise";
 
 export function Slide1() {
   return (
-    <>
+    <div className="min-h-[700px] flex flex-col">
       {/* Background with Noise */}
       <div className="absolute inset-0 bg-black">
         {/* Radial spotlight */}
@@ -12,10 +12,10 @@ export function Slide1() {
         <Noise patternRefreshInterval={2} patternAlpha={35} />
       </div>
 
-      {/* Content */}
+      {/* Content - Top section */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-20">
         {/* Hero Text */}
-        <div className="text-center text-white max-w-5xl mx-auto mb-16">
+        <div className="text-center text-white max-w-5xl mx-auto mb-8 md:mb-12">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
             Elevate your next
             <br />
@@ -46,8 +46,10 @@ export function Slide1() {
             </button>
           </div>
         </div>
+      </div>
 
-        {/* Console Screenshot - Clipped */}
+      {/* Console Screenshot - Bottom section with mt-auto to push to bottom */}
+      <div className="relative z-10 mt-auto max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="max-w-6xl mx-auto">
           <div className="relative rounded-t-xl overflow-hidden shadow-2xl border border-gray-800/50 border-b-0">
             {/* Subtle glow behind screenshot */}
@@ -67,6 +69,6 @@ export function Slide1() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

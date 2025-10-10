@@ -1,11 +1,11 @@
 export function Slide2() {
   return (
-    <>
+    <div className="min-h-[700px]">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900" />
 
-      {/* Content - Match Slide 1 height */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-20 pb-64">
+      {/* Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-20">
         <div className="text-center text-white max-w-5xl mx-auto mb-16">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
             Scale with
@@ -41,6 +41,6 @@ export function Slide2() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
