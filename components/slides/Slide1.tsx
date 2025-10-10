@@ -16,13 +16,12 @@ export function Slide1() {
       <div className="relative z-10 flex-1 flex items-center">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Hero Text */}
-          <div className="text-center text-white max-w-5xl mx-auto">
+          <div className="text-white max-w-5xl">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-              Elevate your next
+             Game Hosting on 
               <br />
-              <span className="text-blue-500">Game Server</span>
             </h1>
-            <div className="flex gap-4 justify-center flex-wrap">
+            <div className="flex gap-4 flex-wrap">
               <button className="bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium transition-all inline-flex items-center gap-2 shadow-lg">
                 <svg
                   className="w-5 h-5"
@@ -67,6 +66,7 @@ export function Slide1() {
                 width={1920}
                 height={1080}
                 className="w-full h-auto object-cover object-top"
+                draggable={false}
                 priority
               />
             </div>

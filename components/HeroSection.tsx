@@ -6,6 +6,7 @@ import { Slide3 } from "@/components/slides/Slide3";
 
 const TOTAL_SLIDES = 3;
 const SLIDE_DURATION = 10000; // 10 seconds
+const TRANSITION_DURATION = 300; // 300ms - adjust this to make transitions faster/slower
 
 export function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -14,6 +15,7 @@ export function HeroSection() {
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
   const [actualSlideIndex, setActualSlideIndex] = useState(1); // Start at 1 (real first slide)
+  const [enableTransition, setEnableTransition] = useState(true);
 
   const touchStartX = useRef(0);
   const mouseStartX = useRef(0);
@@ -27,10 +29,12 @@ export function HeroSection() {
       clearTimeout(autoRotateTimerRef.current);
     }
 
+    // Don't start timer if user is dragging
+    if (isDragging) return;
+
     // Start new timer for auto-rotation
     autoRotateTimerRef.current = setTimeout(() => {
-      setCurrentSlide((current) => (current + 1) % TOTAL_SLIDES);
-      setProgress(0);
+      nextSlide();
     }, SLIDE_DURATION);
 
     return () => {
@@ -38,9 +42,12 @@ export function HeroSection() {
         clearTimeout(autoRotateTimerRef.current);
       }
     };
-  }, [currentSlide]);
+  }, [currentSlide, isDragging]);
 
   useEffect(() => {
+    // Don't animate progress if user is dragging
+    if (isDragging) return;
+
     // Progress bar animation
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
@@ -52,7 +59,7 @@ export function HeroSection() {
     }, 100);
 
     return () => clearInterval(progressInterval);
-  }, [currentSlide]);
+  }, [currentSlide, isDragging]);
 
   const goToSlide = (index: number) => {
     if (index === currentSlide || isTransitioning) return;
@@ -60,42 +67,70 @@ export function HeroSection() {
     setCurrentSlide(index);
     setActualSlideIndex(index + 1); // +1 because of prepended slide
     setProgress(0);
-    setTimeout(() => setIsTransitioning(false), 500);
+    setTimeout(() => setIsTransitioning(false), TRANSITION_DURATION);
   };
 
   const nextSlide = () => {
     if (isTransitioning) return;
     setIsTransitioning(true);
-    setActualSlideIndex((prev) => prev + 1);
+
+    const nextActualIndex = actualSlideIndex + 1;
+    setActualSlideIndex(nextActualIndex);
+    setProgress(0);
 
     // Set up transition end handler for seamless loop
     transitionEndRef.current = () => {
-      if (actualSlideIndex + 1 > TOTAL_SLIDES) {
-        // We've reached the clone at the end, jump to real first slide
-        setActualSlideIndex(1);
-        setCurrentSlide(0);
+      if (nextActualIndex > TOTAL_SLIDES) {
+        // We've reached the clone at the end, jump to real first slide instantly
+        setEnableTransition(false);
+        setIsTransitioning(false);
+
+        // Use setTimeout to ensure the transition is disabled before changing position
+        setTimeout(() => {
+          setActualSlideIndex(1);
+          setCurrentSlide(0);
+
+          // Re-enable transition after jump
+          setTimeout(() => {
+            setEnableTransition(true);
+          }, 50);
+        }, 50);
       } else {
-        setCurrentSlide((actualSlideIndex + 1 - 1) % TOTAL_SLIDES);
+        setCurrentSlide(nextActualIndex - 1);
+        setIsTransitioning(false);
       }
-      setIsTransitioning(false);
     };
   };
 
   const prevSlide = () => {
     if (isTransitioning) return;
     setIsTransitioning(true);
-    setActualSlideIndex((prev) => prev - 1);
+
+    const prevActualIndex = actualSlideIndex - 1;
+    setActualSlideIndex(prevActualIndex);
+    setProgress(0);
 
     // Set up transition end handler for seamless loop
     transitionEndRef.current = () => {
-      if (actualSlideIndex - 1 < 1) {
-        // We've reached the clone at the start, jump to real last slide
-        setActualSlideIndex(TOTAL_SLIDES);
-        setCurrentSlide(TOTAL_SLIDES - 1);
+      if (prevActualIndex < 1) {
+        // We've reached the clone at the start, jump to real last slide instantly
+        setEnableTransition(false);
+        setIsTransitioning(false);
+
+        // Use setTimeout to ensure the transition is disabled before changing position
+        setTimeout(() => {
+          setActualSlideIndex(TOTAL_SLIDES);
+          setCurrentSlide(TOTAL_SLIDES - 1);
+
+          // Re-enable transition after jump
+          setTimeout(() => {
+            setEnableTransition(true);
+          }, 50);
+        }, 50);
       } else {
-        setCurrentSlide((actualSlideIndex - 1 - 1) % TOTAL_SLIDES);
+        setCurrentSlide(prevActualIndex - 1);
+        setIsTransitioning(false);
       }
-      setIsTransitioning(false);
     };
   };
 
@@ -106,13 +141,15 @@ export function HeroSection() {
         transitionEndRef.current();
         transitionEndRef.current = null;
       }
-    }, 500);
+    }, TRANSITION_DURATION);
 
     return () => clearTimeout(timer);
   }, [actualSlideIndex]);
 
   // Touch handlers
   const handleTouchStart = (e: React.TouchEvent) => {
+    // Don't allow dragging if we're already transitioning
+    if (isTransitioning) return;
     setIsDragging(true);
     touchStartX.current = e.touches[0].clientX;
     setDragOffset(0);
@@ -143,6 +180,8 @@ export function HeroSection() {
 
   // Mouse handlers for desktop
   const handleMouseDown = (e: React.MouseEvent) => {
+    // Don't allow dragging if we're already transitioning
+    if (isTransitioning) return;
     setIsDragging(true);
     mouseStartX.current = e.clientX;
     setDragOffset(0);
@@ -223,19 +262,21 @@ export function HeroSection() {
                 <button
                   key={index}
                   onClick={() => goToSlide(index)}
-                  className="relative w-20 h-1.5 bg-white/20 rounded-full overflow-hidden hover:bg-white/30 transition-colors"
+                  className="relative w-20 py-2 cursor-pointer group"
                 >
-                  <div
-                    className={`absolute top-0 left-0 h-full bg-white rounded-full transition-all duration-100 ${
-                      index === currentSlide ? "opacity-100" : "opacity-0"
-                    }`}
-                    style={{
-                      width: index === currentSlide ? `${progress}%` : "0%",
-                    }}
-                  />
-                  {index < currentSlide && (
-                    <div className="absolute top-0 left-0 w-full h-full bg-white rounded-full" />
-                  )}
+                  <div className="relative h-0.5 bg-white/20 rounded-full overflow-hidden group-hover:bg-white/30 transition-colors">
+                    <div
+                      className={`absolute top-0 left-0 h-full bg-white rounded-full transition-all duration-100 ${
+                        index === currentSlide ? "opacity-100" : "opacity-0"
+                      }`}
+                      style={{
+                        width: index === currentSlide ? `${progress}%` : "0%",
+                      }}
+                    />
+                    {index < currentSlide && (
+                      <div className="absolute top-0 left-0 w-full h-full bg-white rounded-full" />
+                    )}
+                  </div>
                 </button>
               ))}
             </div>
@@ -248,7 +289,10 @@ export function HeroSection() {
             className="flex"
             style={{
               transform: `translateX(${getTranslateX()}%)`,
-              transition: isDragging ? "none" : "transform 500ms ease-in-out",
+              transition:
+                isDragging || !enableTransition
+                  ? "none"
+                  : `transform ${TRANSITION_DURATION}ms ease-in-out`,
               willChange: "transform",
             }}
           >
