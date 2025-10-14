@@ -50,6 +50,7 @@ const INITIAL_POSITION = {
 // Badge styling constants - CUSTOMIZE THESE VALUES
 const BADGE_HEIGHT = 28; // Change this to adjust badge height
 const ARROW_SIZE = 6; // Size of the arrow triangle
+const ELEMENT_SCALE = 0.7; // Global scale for badges and dots (adjust this to change size)
 
 // Helper function to render badge tip based on direction (shadcn-style)
 // Using triangular arrows like CSS border trick
@@ -149,7 +150,29 @@ const getBadgeTip = (
 export function ServerLocationsSection() {
   const [position, setPosition] = useState(INITIAL_POSITION);
   const [badgeWidths, setBadgeWidths] = useState<Record<string, number>>({});
+  const [responsiveScale, setResponsiveScale] = useState(ELEMENT_SCALE);
   const textRefs = useRef<Record<string, SVGTextElement | null>>({});
+
+  // Adjust scale based on screen size to keep elements visible
+  useEffect(() => {
+    const updateScale = () => {
+      const width = window.innerWidth;
+      // Smaller screens need LARGER scale to compensate for compression
+      if (width < 640) {
+        setResponsiveScale(ELEMENT_SCALE * 1.8); // Mobile: 80% larger
+      } else if (width < 768) {
+        setResponsiveScale(ELEMENT_SCALE * 1.5); // Small tablet: 50% larger
+      } else if (width < 1024) {
+        setResponsiveScale(ELEMENT_SCALE * 1.2); // Tablet: 20% larger
+      } else {
+        setResponsiveScale(ELEMENT_SCALE); // Desktop: normal
+      }
+    };
+
+    updateScale();
+    window.addEventListener("resize", updateScale);
+    return () => window.removeEventListener("resize", updateScale);
+  }, []);
 
   // Measure actual text widths after render
   useEffect(() => {
@@ -188,10 +211,13 @@ export function ServerLocationsSection() {
             ensure optimal performance and low latency.
           </p>
         </div>
+      </div>
 
-        <div className="relative w-full h-[500px] bg-black rounded-lg overflow-hidden border border-gray-800 flex">
-          {/* Map Section - 4/5 width */}
-          <div className="w-4/5 h-full bg-ocean-1">
+      {/* Full-width map container */}
+      <div className="w-full">
+        <div className="relative w-full h-[720px] bg-black overflow-hidden border border-gray-800">
+          {/* Map Section - Full Width */}
+          <div className="w-full h-full bg-ocean-1">
             <ComposableMap
               projection="geoMercator"
               className="w-full h-full"
@@ -243,7 +269,7 @@ export function ServerLocationsSection() {
                     key={location.name}
                     coordinates={location.coordinates}
                   >
-                    <g transform={`scale(${1.5 / position.zoom})`}>
+                    <g transform={`scale(${responsiveScale / position.zoom})`}>
                       {/* Pulsing outer circle */}
                       <circle
                         r={8}
@@ -319,7 +345,7 @@ export function ServerLocationsSection() {
                     >
                       <g
                         transform={`scale(${
-                          1 / position.zoom
+                          responsiveScale / position.zoom
                         }) translate(${offsetX}, ${offsetY})`}
                       >
                         {/* Badge that hugs the text */}
@@ -359,20 +385,22 @@ export function ServerLocationsSection() {
             </ComposableMap>
           </div>
 
-          {/* Sidebar - 1/5 width */}
-          <div className="w-1/5 h-full bg-bluey-900 border-l border-gray-800 p-6 flex flex-col gap-4">
-            <h3 className="text-white font-semibold text-lg mb-2">
-              Our Locations
-            </h3>
-            {locations.map((location) => (
-              <button
-                key={location.name}
-                onClick={() => handleLocationClick(location)}
-                className="w-full text-left px-4 py-3 bg-bluey-950 border border-gray-700 rounded-lg text-white hover:bg-gray-800 hover:border-blue-500 transition-all duration-200 font-medium"
-              >
-                {location.name}
-              </button>
-            ))}
+          {/* Overlay - Floating on top */}
+          <div className="absolute top-0 right-0 h-full w-64 bg-gradient-to-l from-black/80 via-black/60 to-transparent pointer-events-none">
+            <div className="absolute right-0 top-0 h-full w-48 p-6 flex flex-col gap-4 pointer-events-auto">
+              <h3 className="text-white font-semibold text-lg mb-2">
+                Our Locations
+              </h3>
+              {locations.map((location) => (
+                <button
+                  key={location.name}
+                  onClick={() => handleLocationClick(location)}
+                  className="w-full text-left px-4 py-3 bg-black/50 backdrop-blur-sm border border-gray-700/50 rounded-lg text-white hover:bg-black/70 hover:border-blue-500 transition-all duration-200 font-medium"
+                >
+                  {location.name}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
