@@ -8,6 +8,7 @@ import {
   Marker,
   ZoomableGroup,
 } from "react-simple-maps";
+import { SignalBar, pingToSignalState } from "./SignalBar";
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
@@ -18,26 +19,38 @@ interface Location {
   coordinates: [number, number]; // [longitude, latitude] for the dot
   badgeCoordinates: [number, number]; // [longitude, latitude] for where the ARROW TIP should be
   tipDirection: TipDirection; // Direction the tooltip tip points (badge extends from this tip)
+  websocketUrl: string; // WebSocket URL for ping measurement
 }
 
 const locations: Location[] = [
   {
-    name: "Los Angeles",
+    name: "El Segundo",
     coordinates: [-118.2437, 34.0522],
-    badgeCoordinates: [-118.2437, 28], // Tip positioned here, badge extends downward
-    tipDirection: "top", // Tip points upward to the dot
+    badgeCoordinates: [-118.5991, 34.0522], // Tip positioned here, badge extends downward
+    tipDirection: "right", // Tip points upward to the dot
+    websocketUrl: "wss://losangeles.ca.speedtest.frontier.com:8080/ws",
   },
   {
-    name: "Irvine",
-    coordinates: [-117.8265, 33.6846],
-    badgeCoordinates: [-112, 33.6846], // Tip positioned here, badge extends rightward
-    tipDirection: "left", // Tip points left to the dot
+    name: "Chicago",
+    coordinates: [-87.6298, 41.8781],
+    badgeCoordinates: [-73.706, 40.7128], // Tip positioned here, badge extends upward
+    tipDirection: "left", // Tip points downward to the dot
+    websocketUrl: "wss://speedtest.is.cc.prod.hosts.ooklaserver.net:8080/ws?",
   },
   {
     name: "New York",
     coordinates: [-74.006, 40.7128],
-    badgeCoordinates: [-74.006, 46], // Tip positioned here, badge extends upward
+    badgeCoordinates: [-73.706, 40.7128], // Tip positioned here, badge extends upward
+    tipDirection: "left", // Tip points downward to the dot
+    websocketUrl: "wss://speedtest.is.cc.prod.hosts.ooklaserver.net:8080/ws?",
+  },
+  {
+    name: "Frankfurt",
+    coordinates: [8.6821, 50.1109],
+    badgeCoordinates: [8.6821, 50.3555], // Tip positioned here, badge extends upward
     tipDirection: "bottom", // Tip points downward to the dot
+    websocketUrl:
+      "wss://speedtest1.synlinq.de.prod.hosts.ooklaserver.net:8080/ws?",
   },
 ];
 
@@ -51,6 +64,71 @@ const INITIAL_POSITION = {
 const BADGE_HEIGHT = 28; // Change this to adjust badge height
 const ARROW_SIZE = 6; // Size of the arrow triangle
 const ELEMENT_SCALE = 0.7; // Global scale for badges and dots (adjust this to change size)
+
+// Helper function to render signal bars in pure SVG
+const renderSignalBarSVG = (
+  x: number,
+  y: number,
+  state: "none" | "1" | "2" | "3" | "4" | "5" | "polling",
+  pollingBar: number
+) => {
+  const signalStates: Record<
+    string,
+    { fg: string; bg: string; bars: number; animate?: boolean }
+  > = {
+    none: { fg: "#5B5B5B", bg: "#383838", bars: 0 },
+    "1": { fg: "#FF0000", bg: "#810002", bars: 1 },
+    "2": { fg: "#FF6F01", bg: "#853700", bars: 2 },
+    "3": { fg: "#F3FF01", bg: "#808A00", bars: 3 },
+    "4": { fg: "#B3FE01", bg: "#618700", bars: 4 },
+    "5": { fg: "#02FF46", bg: "#008720", bars: 5 },
+    polling: { fg: "#0356F7", bg: "#012D7D", bars: 5, animate: true },
+  };
+
+  const currentState = signalStates[state];
+  const barHeights = [3, 4, 5, 6, 7];
+  const pixelSize = 2.75;
+
+  return (
+    <g transform={`translate(${x}, ${y})`}>
+      {barHeights.map((height, barNum) => {
+        let isLit;
+        if (currentState.animate) {
+          isLit = barNum === pollingBar;
+        } else {
+          isLit = barNum < currentState.bars;
+        }
+
+        const fgColor = isLit ? currentState.fg : "#1A1A1A";
+        const bgColor = isLit ? currentState.bg : "#2D2D2D";
+
+        const barX = barNum * pixelSize * 2;
+        const barY = -height * pixelSize;
+
+        return (
+          <g key={barNum}>
+            {/* Main color column (left side, from row 2 to top) */}
+            <rect
+              x={barX}
+              y={barY}
+              width={pixelSize}
+              height={(height - 1) * pixelSize}
+              fill={fgColor}
+            />
+            {/* Backdrop column (right side, from bottom to second-to-last row) */}
+            <rect
+              x={barX + pixelSize}
+              y={barY + pixelSize}
+              width={pixelSize}
+              height={(height - 1) * pixelSize}
+              fill={bgColor}
+            />
+          </g>
+        );
+      })}
+    </g>
+  );
+};
 
 // Helper function to render badge tip based on direction (shadcn-style)
 // Using triangular arrows like CSS border trick
@@ -151,6 +229,9 @@ export function ServerLocationsSection() {
   const [position, setPosition] = useState(INITIAL_POSITION);
   const [badgeWidths, setBadgeWidths] = useState<Record<string, number>>({});
   const [responsiveScale, setResponsiveScale] = useState(ELEMENT_SCALE);
+  const [pings, setPings] = useState<Record<string, number | null>>({});
+  const [pollingBar, setPollingBar] = useState(0);
+  const [pollingDirection, setPollingDirection] = useState(1);
   const textRefs = useRef<Record<string, SVGTextElement | null>>({});
 
   // Adjust scale based on screen size to keep elements visible
@@ -187,6 +268,91 @@ export function ServerLocationsSection() {
       }
     });
     setBadgeWidths(widths);
+  }, []);
+
+  // Polling bar animation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPollingBar((prev) => {
+        const next = prev + pollingDirection;
+        if (next >= 5) {
+          setPollingDirection(-1);
+          return 4;
+        }
+        if (next < 0) {
+          setPollingDirection(1);
+          return 1;
+        }
+        return next;
+      });
+    }, 150);
+    return () => clearInterval(interval);
+  }, [pollingDirection]);
+
+  // WebSocket ping measurement for each location
+  useEffect(() => {
+    const websockets: Record<string, WebSocket> = {};
+
+    locations.forEach((location) => {
+      try {
+        const ws = new WebSocket(location.websocketUrl);
+
+        ws.onopen = () => {
+          // Start pinging every 2 seconds
+          const pingInterval = setInterval(() => {
+            if (ws.readyState === WebSocket.OPEN) {
+              const sendTime = Date.now();
+              ws.send("PING 0");
+
+              // Store send time temporarily
+              (ws as any)._lastPingTime = sendTime;
+            }
+          }, 2000);
+
+          (ws as any)._pingInterval = pingInterval;
+        };
+
+        ws.onmessage = (event) => {
+          const message = event.data;
+          if (message.startsWith("PONG")) {
+            const sendTime = (ws as any)._lastPingTime;
+            if (sendTime) {
+              const receiveTime = Date.now();
+              const ping = receiveTime - sendTime;
+
+              setPings((prev) => ({
+                ...prev,
+                [location.name]: ping,
+              }));
+            }
+          }
+        };
+
+        ws.onerror = () => {
+          setPings((prev) => ({
+            ...prev,
+            [location.name]: -1, // Error state
+          }));
+        };
+
+        websockets[location.name] = ws;
+      } catch (error) {
+        setPings((prev) => ({
+          ...prev,
+          [location.name]: -1,
+        }));
+      }
+    });
+
+    return () => {
+      // Cleanup websockets
+      Object.values(websockets).forEach((ws) => {
+        if ((ws as any)._pingInterval) {
+          clearInterval((ws as any)._pingInterval);
+        }
+        ws.close();
+      });
+    };
   }, []);
 
   const handleLocationClick = (location: Location) => {
@@ -251,7 +417,7 @@ export function ServerLocationsSection() {
                           key={geo.rsmKey}
                           geography={geo}
                           fill="#1e293b"
-                          stroke="#334155"
+                          stroke="#070E2B"
                           strokeWidth={0.5}
                           style={{
                             default: { outline: "none" },
@@ -307,9 +473,14 @@ export function ServerLocationsSection() {
 
                 {/* Render badges at separate positions */}
                 {locations.map((location) => {
+                  const ping = pings[location.name];
+                  const signalState = pingToSignalState(ping);
+
                   // Use measured width, fallback to approximate if not yet measured
-                  const badgeWidth =
+                  const baseWidth =
                     badgeWidths[location.name] || location.name.length * 8 + 16;
+                  // Add extra width for signal bar and ping
+                  const badgeWidth = baseWidth + 60;
                   const badgeHeight = BADGE_HEIGHT;
                   const halfWidth = badgeWidth / 2;
                   const halfHeight = badgeHeight / 2;
@@ -365,17 +536,45 @@ export function ServerLocationsSection() {
                           badgeWidth,
                           badgeHeight
                         )}
+                        {/* City name */}
                         <text
-                          textAnchor="middle"
+                          x={-halfWidth + 8}
                           y={4}
+                          textAnchor="start"
                           style={{
                             fill: "#fff",
-                            fontSize: "15px",
+                            fontSize: "14px",
                             fontWeight: "600",
                             letterSpacing: "0.01em",
+                            fontFamily: "system-ui",
                           }}
                         >
                           {location.name}
+                        </text>
+                        {/* Signal bars - pure SVG, positioned from right edge */}
+                        {renderSignalBarSVG(
+                          halfWidth - 70,
+                          10,
+                          signalState,
+                          pollingBar
+                        )}
+                        {/* Ping display */}
+                        <text
+                          x={halfWidth - 8}
+                          y={10}
+                          textAnchor="end"
+                          style={{
+                            fill: "#fff",
+                            fontSize: "14px",
+                            fontFamily: "monospace",
+                            fontWeight: "400",
+                          }}
+                        >
+                          {ping === null
+                            ? "..."
+                            : ping < 0
+                            ? "ERR"
+                            : `${Math.round(ping)}ms`}
                         </text>
                       </g>
                     </Marker>
@@ -391,15 +590,35 @@ export function ServerLocationsSection() {
               <h3 className="text-white font-semibold text-lg mb-2">
                 Our Locations
               </h3>
-              {locations.map((location) => (
-                <button
-                  key={location.name}
-                  onClick={() => handleLocationClick(location)}
-                  className="w-full text-left px-4 py-3 bg-black/50 backdrop-blur-sm border border-gray-700/50 rounded-lg text-white hover:bg-black/70 hover:border-blue-500 transition-all duration-200 font-medium"
-                >
-                  {location.name}
-                </button>
-              ))}
+              {locations.map((location) => {
+                const ping = pings[location.name];
+                const signalState = pingToSignalState(ping);
+
+                return (
+                  <button
+                    key={location.name}
+                    onClick={() => handleLocationClick(location)}
+                    className="w-full text-left px-4 py-3 bg-black/50 backdrop-blur-sm border border-gray-700/50 rounded-lg text-white hover:bg-black/70 hover:border-blue-500 transition-all duration-200 font-medium"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="flex-1">{location.name}</span>
+                      <div className="flex items-center gap-2">
+                        <SignalBar
+                          state={signalState}
+                          pollingBar={pollingBar}
+                        />
+                        <span className="text-xs font-mono">
+                          {ping === null
+                            ? "..."
+                            : ping < 0
+                            ? "ERR"
+                            : `${Math.round(ping)}ms`}
+                        </span>
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
