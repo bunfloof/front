@@ -88,9 +88,9 @@ export function SignalBar({
 export function pingToSignalState(ping: number | null): SignalState {
   if (ping === null) return "polling";
   if (ping < 0) return "none";
-  if (ping <= 50) return "5";
-  if (ping <= 100) return "4";
-  if (ping <= 150) return "3";
-  if (ping <= 250) return "2";
+  if (ping <= 150) return "5";
+  if (ping <= 300) return "4";
+  if (ping <= 600) return "3";
+  if (ping <= 1000) return "2";
   return "1";
 }

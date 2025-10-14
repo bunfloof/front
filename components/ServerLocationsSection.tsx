@@ -11,6 +11,8 @@ import {
 import { SignalBar, pingToSignalState } from "./SignalBar";
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
+const lakesUrl =
+  "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_lakes.geojson";
 
 type TipDirection = "top" | "bottom" | "left" | "right";
 
@@ -24,18 +26,26 @@ interface Location {
 
 const locations: Location[] = [
   {
-    name: "El Segundo",
+    name: "Los Angeles",
     coordinates: [-118.2437, 34.0522],
     badgeCoordinates: [-118.5991, 34.0522], // Tip positioned here, badge extends downward
     tipDirection: "right", // Tip points upward to the dot
     websocketUrl: "wss://losangeles.ca.speedtest.frontier.com:8080/ws",
   },
   {
+    name: "Dallas",
+    coordinates: [-96.8066, 32.7767],
+    badgeCoordinates: [-96.8066, 32.9767], // Tip positioned here, badge extends upward
+    tipDirection: "bottom", // Tip points downward to the dot
+    websocketUrl: "wss://dallas1.cabospeed.com:8080/ws?",
+  },
+  {
     name: "Chicago",
     coordinates: [-87.6298, 41.8781],
-    badgeCoordinates: [-73.706, 40.7128], // Tip positioned here, badge extends upward
-    tipDirection: "left", // Tip points downward to the dot
-    websocketUrl: "wss://speedtest.is.cc.prod.hosts.ooklaserver.net:8080/ws?",
+    badgeCoordinates: [-87.6298, 42.0781], // Tip positioned here, badge extends upward
+    tipDirection: "bottom", // Tip points downward to the dot
+    websocketUrl:
+      "wss://speedtest.chi.gigenet.com.prod.hosts.ooklaserver.net:8080/ws?",
   },
   {
     name: "New York",
@@ -51,6 +61,21 @@ const locations: Location[] = [
     tipDirection: "bottom", // Tip points downward to the dot
     websocketUrl:
       "wss://speedtest1.synlinq.de.prod.hosts.ooklaserver.net:8080/ws?",
+  },
+  {
+    name: "Helsinki",
+    coordinates: [24.9384, 60.1699],
+    badgeCoordinates: [24.9384, 60.3699], // Tip positioned here, badge extends upward
+    tipDirection: "bottom", // Tip points downward to the dot
+    websocketUrl:
+      "wss://speedtest-hki.retn.net.prod.hosts.ooklaserver.net:8080/ws?",
+  },
+  {
+    name: "Ho Chi Minh",
+    coordinates: [106.8412, 10.8231],
+    badgeCoordinates: [107.2412, 10.8231], // Tip positioned here, badge extends upward
+    tipDirection: "left", // Tip points downward to the dot
+    websocketUrl: "wss://speedtest.fpt.vn.prod.hosts.ooklaserver.net:8080/ws?",
   },
 ];
 
@@ -229,7 +254,14 @@ export function ServerLocationsSection() {
   const [position, setPosition] = useState(INITIAL_POSITION);
   const [badgeWidths, setBadgeWidths] = useState<Record<string, number>>({});
   const [responsiveScale, setResponsiveScale] = useState(ELEMENT_SCALE);
-  const [pings, setPings] = useState<Record<string, number | null>>({});
+  // Initialize with null for each location to show polling state
+  const [pings, setPings] = useState<Record<string, number | null>>(() => {
+    const initialPings: Record<string, number | null> = {};
+    locations.forEach((location) => {
+      initialPings[location.name] = null;
+    });
+    return initialPings;
+  });
   const [pollingBar, setPollingBar] = useState(0);
   const [pollingDirection, setPollingDirection] = useState(1);
   const textRefs = useRef<Record<string, SVGTextElement | null>>({});
@@ -426,6 +458,25 @@ export function ServerLocationsSection() {
                           }}
                         />
                       ))
+                  }
+                </Geographies>
+
+                {/* Lakes layer - same color as ocean */}
+                <Geographies geography={lakesUrl}>
+                  {({ geographies }) =>
+                    geographies.map((geo) => (
+                      <Geography
+                        key={geo.rsmKey}
+                        geography={geo}
+                        fill="#070e2b"
+                        stroke="none"
+                        style={{
+                          default: { outline: "none" },
+                          hover: { outline: "none" },
+                          pressed: { outline: "none" },
+                        }}
+                      />
+                    ))
                   }
                 </Geographies>
 
