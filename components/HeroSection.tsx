@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Slide1 } from "@/components/slides/Slide1";
 import { Slide2 } from "@/components/slides/Slide2";
 import { Slide3 } from "@/components/slides/Slide3";
+import { TransitionSection } from "@/components/TransitionSection";
 import { Pause, Play } from "lucide-react";
 
 const TOTAL_SLIDES = 3;
@@ -24,6 +25,9 @@ export function HeroSection() {
   const autoRotateTimerRef = useRef<NodeJS.Timeout | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const transitionEndRef = useRef<(() => void) | null>(null);
+  const dragStartedRef = useRef(false);
+  const isMouseDownRef = useRef(false);
+  const DRAG_THRESHOLD = 5; // pixels to move before initiating drag
 
   useEffect(() => {
     // Clear any existing timer
@@ -150,37 +154,57 @@ export function HeroSection() {
 
   // Touch handlers
   const handleTouchStart = (e: React.TouchEvent) => {
-    // Cancel any ongoing transition - user is taking control
-    if (isTransitioning) {
-      transitionEndRef.current = null;
-      setIsTransitioning(false);
-    }
-
-    // If we're on a cloned slide, instantly reset to the real slide position
-    if (actualSlideIndex === 0 || actualSlideIndex === TOTAL_SLIDES + 1) {
-      setEnableTransition(false);
-      const realIndex = actualSlideIndex === 0 ? TOTAL_SLIDES : 1;
-      const realSlideIndex = actualSlideIndex === 0 ? TOTAL_SLIDES - 1 : 0;
-      setActualSlideIndex(realIndex);
-      setCurrentSlide(realSlideIndex);
-      // Re-enable transition after instant jump
-      setTimeout(() => setEnableTransition(true), 50);
-    }
-
-    setIsDragging(true);
+    dragStartedRef.current = false;
     touchStartX.current = e.touches[0].clientX;
     setDragOffset(0);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging) return;
     const currentX = e.touches[0].clientX;
     const diff = currentX - touchStartX.current;
-    setDragOffset(diff);
+
+    // Check if we've moved beyond threshold to start dragging
+    if (!dragStartedRef.current && Math.abs(diff) > DRAG_THRESHOLD) {
+      dragStartedRef.current = true;
+
+      // Prevent default to stop button clicks when dragging
+      e.preventDefault();
+
+      // Cancel any ongoing transition - user is taking control
+      if (isTransitioning) {
+        transitionEndRef.current = null;
+        setIsTransitioning(false);
+      }
+
+      // If we're on a cloned slide, instantly reset to the real slide position
+      if (actualSlideIndex === 0 || actualSlideIndex === TOTAL_SLIDES + 1) {
+        setEnableTransition(false);
+        const realIndex = actualSlideIndex === 0 ? TOTAL_SLIDES : 1;
+        const realSlideIndex = actualSlideIndex === 0 ? TOTAL_SLIDES - 1 : 0;
+        setActualSlideIndex(realIndex);
+        setCurrentSlide(realSlideIndex);
+        // Re-enable transition after instant jump
+        setTimeout(() => setEnableTransition(true), 50);
+      }
+
+      setIsDragging(true);
+    }
+
+    // Update drag offset if we're dragging
+    if (dragStartedRef.current) {
+      setDragOffset(diff);
+    }
   };
 
   const handleTouchEnd = () => {
+    if (!isDragging) {
+      dragStartedRef.current = false;
+      return;
+    }
+
     setIsDragging(false);
+    dragStartedRef.current = false;
+
     const containerWidth = containerRef.current?.offsetWidth || 0;
     const dragPercentage = (dragOffset / containerWidth) * 100;
 
@@ -197,38 +221,59 @@ export function HeroSection() {
 
   // Mouse handlers for desktop
   const handleMouseDown = (e: React.MouseEvent) => {
-    // Cancel any ongoing transition - user is taking control
-    if (isTransitioning) {
-      transitionEndRef.current = null;
-      setIsTransitioning(false);
-    }
-
-    // If we're on a cloned slide, instantly reset to the real slide position
-    if (actualSlideIndex === 0 || actualSlideIndex === TOTAL_SLIDES + 1) {
-      setEnableTransition(false);
-      const realIndex = actualSlideIndex === 0 ? TOTAL_SLIDES : 1;
-      const realSlideIndex = actualSlideIndex === 0 ? TOTAL_SLIDES - 1 : 0;
-      setActualSlideIndex(realIndex);
-      setCurrentSlide(realSlideIndex);
-      // Re-enable transition after instant jump
-      setTimeout(() => setEnableTransition(true), 50);
-    }
-
-    setIsDragging(true);
+    isMouseDownRef.current = true;
+    dragStartedRef.current = false;
     mouseStartX.current = e.clientX;
     setDragOffset(0);
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
+    // Only track if mouse button is pressed
+    if (!isMouseDownRef.current) return;
+
     const currentX = e.clientX;
     const diff = currentX - mouseStartX.current;
-    setDragOffset(diff);
+
+    // Check if we've moved beyond threshold to start dragging
+    if (!dragStartedRef.current && Math.abs(diff) > DRAG_THRESHOLD) {
+      dragStartedRef.current = true;
+
+      // Cancel any ongoing transition - user is taking control
+      if (isTransitioning) {
+        transitionEndRef.current = null;
+        setIsTransitioning(false);
+      }
+
+      // If we're on a cloned slide, instantly reset to the real slide position
+      if (actualSlideIndex === 0 || actualSlideIndex === TOTAL_SLIDES + 1) {
+        setEnableTransition(false);
+        const realIndex = actualSlideIndex === 0 ? TOTAL_SLIDES : 1;
+        const realSlideIndex = actualSlideIndex === 0 ? TOTAL_SLIDES - 1 : 0;
+        setActualSlideIndex(realIndex);
+        setCurrentSlide(realSlideIndex);
+        // Re-enable transition after instant jump
+        setTimeout(() => setEnableTransition(true), 50);
+      }
+
+      setIsDragging(true);
+    }
+
+    // Update drag offset if we're dragging
+    if (dragStartedRef.current) {
+      setDragOffset(diff);
+    }
   };
 
   const handleMouseUp = () => {
-    if (!isDragging) return;
+    isMouseDownRef.current = false;
+
+    if (!isDragging) {
+      dragStartedRef.current = false;
+      return;
+    }
+
     setIsDragging(false);
+    dragStartedRef.current = false;
 
     const containerWidth = containerRef.current?.offsetWidth || 0;
     const dragPercentage = (dragOffset / containerWidth) * 100;
@@ -245,15 +290,18 @@ export function HeroSection() {
   };
 
   const handleMouseLeave = () => {
+    isMouseDownRef.current = false;
+
     if (isDragging) {
       setIsDragging(false);
       setDragOffset(0);
     }
+    dragStartedRef.current = false;
   };
 
   const slides = [
-    <Slide1 key="slide-1" isAnimating={isDragging || isTransitioning} />,
-    <Slide2 key="slide-2" />,
+    <Slide1 key="slide-1" />,
+    <Slide2 key="slide-2" isAnimating={isDragging || isTransitioning} />,
     <Slide3 key="slide-3" />,
   ];
 
@@ -277,7 +325,11 @@ export function HeroSection() {
       {/* Hero Carousel Section */}
       <section
         ref={containerRef}
-        className="relative overflow-hidden select-none"
+        className={`relative overflow-hidden select-none ${
+          isDragging
+            ? "[&_button]:pointer-events-none [&_a]:pointer-events-none"
+            : ""
+        }`}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -296,7 +348,7 @@ export function HeroSection() {
                   onClick={() => goToSlide(index)}
                   className="relative w-20 py-2 cursor-pointer group"
                 >
-                  <div className="relative h-0.5 bg-white/20 rounded-full overflow-hidden group-hover:bg-white/30 transition-colors">
+                  <div className="relative h-1 bg-white/20 rounded-full overflow-hidden group-hover:bg-white/30 transition-colors">
                     <div
                       className={`absolute top-0 left-0 h-full bg-white rounded-full transition-all duration-100 ${
                         index === currentSlide ? "opacity-100" : "opacity-0"
@@ -353,19 +405,7 @@ export function HeroSection() {
         </button>
       </section>
 
-      {/* Transition Section */}
-      <section className="relative bg-white py-24 md:py-32">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-6">
-            Lorem ipsum dolor sit amet, consectetur adipiscing
-          </h2>
-          <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis justo
-            orci, semper vel odio nec, tempor consectetur arcu. Aenean et nisl
-            non eros finibus blandit.
-          </p>
-        </div>
-      </section>
+      
     </>
   );
 }

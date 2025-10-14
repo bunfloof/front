@@ -2,15 +2,23 @@
 
 import { MainNavbar } from "@/components/MainNavbar";
 import { HeroSection } from "@/components/HeroSection";
+import { TransitionSection } from "@/components/TransitionSection";
+import { ServicesSection } from "@/components/ServicesSection";
+import { ServerLocationsSection } from "@/components/ServerLocationsSection";
 
 export default function Home() {
   return (
     <div className="font-sans bg-bluey-950 min-h-screen">
       <MainNavbar />
       <HeroSection />
-
+      {/* Transition Section */}
+      <TransitionSection />
+      {/* Services Section */}
+      <ServicesSection />
+      {/* Server Locations Section */}
+      <ServerLocationsSection />
       {/* Features Section */}
-      <section className="py-16 md:py-24 bg-black">
+      <section className="py-16 md:py-24 bg-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div>
             <div className="text-sm text-gray-400 mb-4 tracking-wider uppercase">

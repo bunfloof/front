@@ -29,7 +29,7 @@ export const MainNavbar = () => {
     <nav className="fixed top-0 inset-x-0 z-50 w-full">
       {/* Full-width gradient backdrop when at top */}
       {isAtTop && (
-        <div className="fixed inset-x-0 top-0 h-64 -z-10 pointer-events-none">
+        <div className="fixed inset-x-0 top-0 h-12 -z-10 pointer-events-none">
           <div className="w-full h-full bg-gradient-to-b from-black/50 via-black/40 to-transparent" />
         </div>
       )}

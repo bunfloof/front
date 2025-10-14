@@ -68,6 +68,62 @@
   --color-grass-surface: var(--grass-surface);
   --color-grass-indicator: var(--grass-indicator);
   --color-grass-track: var(--grass-track);
+  --color-ocean-1: var(--ocean-1);
+  --color-ocean-2: var(--ocean-2);
+  --color-ocean-3: var(--ocean-3);
+  --color-ocean-4: var(--ocean-4);
+  --color-ocean-5: var(--ocean-5);
+  --color-ocean-6: var(--ocean-6);
+  --color-ocean-7: var(--ocean-7);
+  --color-ocean-8: var(--ocean-8);
+  --color-ocean-9: var(--ocean-9);
+  --color-ocean-10: var(--ocean-10);
+  --color-ocean-11: var(--ocean-11);
+  --color-ocean-12: var(--ocean-12);
+  --color-ocean-a1: var(--ocean-a1);
+  --color-ocean-a2: var(--ocean-a2);
+  --color-ocean-a3: var(--ocean-a3);
+  --color-ocean-a4: var(--ocean-a4);
+  --color-ocean-a5: var(--ocean-a5);
+  --color-ocean-a6: var(--ocean-a6);
+  --color-ocean-a7: var(--ocean-a7);
+  --color-ocean-a8: var(--ocean-a8);
+  --color-ocean-a9: var(--ocean-a9);
+  --color-ocean-a10: var(--ocean-a10);
+  --color-ocean-a11: var(--ocean-a11);
+  --color-ocean-a12: var(--ocean-a12);
+  --color-ocean-contrast: var(--ocean-contrast);
+  --color-ocean-surface: var(--ocean-surface);
+  --color-ocean-indicator: var(--ocean-indicator);
+  --color-ocean-track: var(--ocean-track);
+  --color-oceangray-1: var(--oceangray-1);
+  --color-oceangray-2: var(--oceangray-2);
+  --color-oceangray-3: var(--oceangray-3);
+  --color-oceangray-4: var(--oceangray-4);
+  --color-oceangray-5: var(--oceangray-5);
+  --color-oceangray-6: var(--oceangray-6);
+  --color-oceangray-7: var(--oceangray-7);
+  --color-oceangray-8: var(--oceangray-8);
+  --color-oceangray-9: var(--oceangray-9);
+  --color-oceangray-10: var(--oceangray-10);
+  --color-oceangray-11: var(--oceangray-11);
+  --color-oceangray-12: var(--oceangray-12);
+  --color-oceangray-a1: var(--oceangray-a1);
+  --color-oceangray-a2: var(--oceangray-a2);
+  --color-oceangray-a3: var(--oceangray-a3);
+  --color-oceangray-a4: var(--oceangray-a4);
+  --color-oceangray-a5: var(--oceangray-a5);
+  --color-oceangray-a6: var(--oceangray-a6);
+  --color-oceangray-a7: var(--oceangray-a7);
+  --color-oceangray-a8: var(--oceangray-a8);
+  --color-oceangray-a9: var(--oceangray-a9);
+  --color-oceangray-a10: var(--oceangray-a10);
+  --color-oceangray-a11: var(--oceangray-a11);
+  --color-oceangray-a12: var(--oceangray-a12);
+  --color-oceangray-contrast: var(--oceangray-contrast);
+  --color-oceangray-surface: var(--oceangray-surface);
+  --color-oceangray-indicator: var(--oceangray-indicator);
+  --color-oceangray-track: var(--oceangray-track);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -138,6 +194,68 @@
   --grass-surface: #13251380;
   --grass-indicator: #2e8e40;
   --grass-track: #2e8e40;
+
+  --ocean-1: #070e2b;
+  --ocean-2: #0b1438;
+  --ocean-3: #162252;
+  --ocean-4: #202e5f;
+  --ocean-5: #2b3a6c;
+  --ocean-6: #36467a;
+  --ocean-7: #435489;
+  --ocean-8: #52649b;
+  --ocean-9: #6376ae;
+  --ocean-10: #5769a0;
+  --ocean-11: #9fb4ef;
+  --ocean-12: #d0e0ff;
+
+  --ocean-a1: #0000fe1c;
+  --ocean-a2: #0024fe2a;
+  --ocean-a3: #244ffe46;
+  --ocean-a4: #3f6afe54;
+  --ocean-a5: #557cfe62;
+  --ocean-a6: #6589fe71;
+  --ocean-a7: #7496ff81;
+  --ocean-a8: #81a1ff94;
+  --ocean-a9: #8da9fea9;
+  --ocean-a10: #85a3fe9a;
+  --ocean-a11: #a9c0ffee;
+  --ocean-a12: #d0e0ff;
+
+  --ocean-contrast: #fff;
+  --ocean-surface: #06175f80;
+  --ocean-indicator: #6376ae;
+  --ocean-track: #6376ae;
+
+  --oceangray-1: #0d101d;
+  --oceangray-2: #151826;
+  --oceangray-3: #1c2135;
+  --oceangray-4: #212742;
+  --oceangray-5: #272e4d;
+  --oceangray-6: #2e365d;
+  --oceangray-7: #3a4370;
+  --oceangray-8: #525d8b;
+  --oceangray-9: #5f6b9a;
+  --oceangray-10: #6c78a8;
+  --oceangray-11: #a4b1e2;
+  --oceangray-12: #eaeefb;
+
+  --oceangray-a1: #0000fd0d;
+  --oceangray-a2: #3e5ffa17;
+  --oceangray-a3: #597afd27;
+  --oceangray-a4: #5e7bfd35;
+  --oceangray-a5: #6783fd41;
+  --oceangray-a6: #6b84fd52;
+  --oceangray-a7: #788eff66;
+  --oceangray-a8: #90a5ff83;
+  --oceangray-a9: #99aeff93;
+  --oceangray-a10: #a1b4ffa2;
+  --oceangray-a11: #b8c7ffe0;
+  --oceangray-a12: #eef2fffb;
+
+  --oceangray-contrast: #ffffff;
+  --oceangray-surface: rgba(0, 0, 0, 0.05);
+  --oceangray-indicator: #5f6b9a;
+  --oceangray-track: #5f6b9a;
 }
 
 .dark,
@@ -172,6 +290,68 @@
   --grass-surface: #13251380;
   --grass-indicator: #2e8e40;
   --grass-track: #2e8e40;
+
+  --ocean-1: #070e2b;
+  --ocean-2: #0b1438;
+  --ocean-3: #162252;
+  --ocean-4: #202e5f;
+  --ocean-5: #2b3a6c;
+  --ocean-6: #36467a;
+  --ocean-7: #435489;
+  --ocean-8: #52649b;
+  --ocean-9: #6376ae;
+  --ocean-10: #5769a0;
+  --ocean-11: #9fb4ef;
+  --ocean-12: #d0e0ff;
+
+  --ocean-a1: #0000fe1c;
+  --ocean-a2: #0024fe2a;
+  --ocean-a3: #244ffe46;
+  --ocean-a4: #3f6afe54;
+  --ocean-a5: #557cfe62;
+  --ocean-a6: #6589fe71;
+  --ocean-a7: #7496ff81;
+  --ocean-a8: #81a1ff94;
+  --ocean-a9: #8da9fea9;
+  --ocean-a10: #85a3fe9a;
+  --ocean-a11: #a9c0ffee;
+  --ocean-a12: #d0e0ff;
+
+  --ocean-contrast: #fff;
+  --ocean-surface: #06175f80;
+  --ocean-indicator: #6376ae;
+  --ocean-track: #6376ae;
+
+  --oceangray-1: #0d101d;
+  --oceangray-2: #151826;
+  --oceangray-3: #1c2135;
+  --oceangray-4: #212742;
+  --oceangray-5: #272e4d;
+  --oceangray-6: #2e365d;
+  --oceangray-7: #3a4370;
+  --oceangray-8: #525d8b;
+  --oceangray-9: #5f6b9a;
+  --oceangray-10: #6c78a8;
+  --oceangray-11: #a4b1e2;
+  --oceangray-12: #eaeefb;
+
+  --oceangray-a1: #0000fd0d;
+  --oceangray-a2: #3e5ffa17;
+  --oceangray-a3: #597afd27;
+  --oceangray-a4: #5e7bfd35;
+  --oceangray-a5: #6783fd41;
+  --oceangray-a6: #6b84fd52;
+  --oceangray-a7: #788eff66;
+  --oceangray-a8: #90a5ff83;
+  --oceangray-a9: #99aeff93;
+  --oceangray-a10: #a1b4ffa2;
+  --oceangray-a11: #b8c7ffe0;
+  --oceangray-a12: #eef2fffb;
+
+  --oceangray-contrast: #ffffff;
+  --oceangray-surface: rgba(0, 0, 0, 0.05);
+  --oceangray-indicator: #5f6b9a;
+  --oceangray-track: #5f6b9a;
 }
 
 @supports (color: color(display-p3 1 1 1)) {
@@ -208,6 +388,68 @@
       --grass-surface: color(display-p3 0.0863 0.1412 0.0784 / 0.5);
       --grass-indicator: oklch(57.3% 0.1452 146.7);
       --grass-track: oklch(57.3% 0.1452 146.7);
+
+      --ocean-1: oklch(17.8% 0.0594 269.3);
+      --ocean-2: oklch(20.8% 0.0715 269.3);
+      --ocean-3: oklch(27.2% 0.0891 269.3);
+      --ocean-4: oklch(31.8% 0.0891 269.3);
+      --ocean-5: oklch(36.2% 0.0891 269.3);
+      --ocean-6: oklch(40.7% 0.0891 269.3);
+      --ocean-7: oklch(45.7% 0.0891 269.3);
+      --ocean-8: oklch(51.4% 0.0891 269.3);
+      --ocean-9: oklch(57.4% 0.0891 269.3);
+      --ocean-10: oklch(53% 0.0891 269.3);
+      --ocean-11: oklch(77.4% 0.0891 269.3);
+      --ocean-12: oklch(91% 0.0891 269.3);
+
+      --ocean-a1: color(display-p3 0 0 1 / 0.101);
+      --ocean-a2: color(display-p3 0 0.1451 1 / 0.156);
+      --ocean-a3: color(display-p3 0.1843 0.3216 0.9961 / 0.261);
+      --ocean-a4: color(display-p3 0.2902 0.4275 0.9961 / 0.316);
+      --ocean-a5: color(display-p3 0.3725 0.502 1 / 0.37);
+      --ocean-a6: color(display-p3 0.4353 0.5569 1 / 0.425);
+      --ocean-a7: color(display-p3 0.4941 0.6039 1 / 0.488);
+      --ocean-a8: color(display-p3 0.549 0.6392 1 / 0.564);
+      --ocean-a9: color(display-p3 0.5922 0.6784 1 / 0.643);
+      --ocean-a10: color(display-p3 0.5647 0.651 1 / 0.585);
+      --ocean-a11: color(display-p3 0.698 0.7647 1 / 0.912);
+      --ocean-a12: color(display-p3 0.8392 0.8863 1 / 0.988);
+
+      --ocean-contrast: #fff;
+      --ocean-surface: color(display-p3 0.0353 0.0784 0.3529 / 0.5);
+      --ocean-indicator: oklch(57.4% 0.0891 269.3);
+      --ocean-track: oklch(57.4% 0.0891 269.3);
+
+      --oceangray-1: oklch(17.8% 0.0273 273.3);
+      --oceangray-2: oklch(21.3% 0.028 273.3);
+      --oceangray-3: oklch(25.3% 0.0393 273.3);
+      --oceangray-4: oklch(28.3% 0.0504 273.3);
+      --oceangray-5: oklch(31.1% 0.0566 273.3);
+      --oceangray-6: oklch(34.6% 0.0681 273.3);
+      --oceangray-7: oklch(39.8% 0.0755 273.3);
+      --oceangray-8: oklch(49% 0.0755 273.3);
+      --oceangray-9: oklch(53.7% 0.0755 273.3);
+      --oceangray-10: oklch(58.3% 0.0755 273.3);
+      --oceangray-11: oklch(76.8% 0.0714 273.3);
+      --oceangray-12: oklch(94.9% 0.0193 273.3);
+
+      --oceangray-a1: color(display-p3 0 0 0.9882 / 0.047);
+      --oceangray-a2: color(display-p3 0.298 0.3882 0.9882 / 0.085);
+      --oceangray-a3: color(display-p3 0.3961 0.5059 1 / 0.143);
+      --oceangray-a4: color(display-p3 0.4039 0.502 1 / 0.198);
+      --oceangray-a5: color(display-p3 0.4392 0.5333 1 / 0.244);
+      --oceangray-a6: color(display-p3 0.4627 0.5412 1 / 0.307);
+      --oceangray-a7: color(display-p3 0.5059 0.5765 1 / 0.387);
+      --oceangray-a8: color(display-p3 0.5882 0.6588 0.9961 / 0.5);
+      --oceangray-a9: color(display-p3 0.6314 0.702 1 / 0.559);
+      --oceangray-a10: color(display-p3 0.6588 0.7216 1 / 0.618);
+      --oceangray-a11: color(display-p3 0.7451 0.7961 1 / 0.862);
+      --oceangray-a12: color(display-p3 0.9412 0.9529 1 / 0.979);
+
+      --oceangray-contrast: #ffffff;
+      --oceangray-surface: color(display-p3 0 0 0 / 5%);
+      --oceangray-indicator: oklch(53.7% 0.0755 273.3);
+      --oceangray-track: oklch(53.7% 0.0755 273.3);
     }
   }
 }
