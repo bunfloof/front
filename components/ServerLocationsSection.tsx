@@ -501,7 +501,7 @@ export function ServerLocationsSection() {
                               }}
                             />
 
-                            <span className="text-white text-sm font-semibold tracking-[0.01em]">
+                            <span className="text-white text-md font-semibold tracking-[0.01em]">
                               {location.name}
                             </span>
                             <SignalBar
@@ -509,7 +509,7 @@ export function ServerLocationsSection() {
                               pollingBar={pollingBar}
                               pixelSize={2.75}
                             />
-                            <span className="text-white text-sm font-minecraft font-normal">
+                            <span className="text-white text-md font-minecraft font-normal">
                               {pingText}
                             </span>
                           </div>
