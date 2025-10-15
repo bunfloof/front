@@ -101,6 +101,7 @@ const ELEMENT_SCALE = 0.7; // Global scale for badges and dots (adjust this to c
 export function ServerLocationsSection() {
   const [position, setPosition] = useState(INITIAL_POSITION);
   const [responsiveScale, setResponsiveScale] = useState(ELEMENT_SCALE);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Initialize with null for each location to show polling state
   const [pings, setPings] = useState<Record<string, number | null>>(() => {
@@ -220,10 +221,55 @@ export function ServerLocationsSection() {
   }, []);
 
   const handleLocationClick = (location: Location) => {
-    setPosition({
-      coordinates: location.coordinates,
+    // Offset the coordinates to the right to account for the overlay card on the left
+    // Longitude offset: positive moves west, negative moves east
+    const longitudeOffset = -15; // Adjust based on zoom level for better centering
+
+    // Enable smooth transition
+    setIsTransitioning(true);
+
+    // Smoothly transition to the new position
+    const startPosition = { ...position };
+    const endPosition = {
+      coordinates: [
+        location.coordinates[0] + longitudeOffset,
+        location.coordinates[1],
+      ] as [number, number],
       zoom: 4,
-    });
+    };
+
+    const duration = 250; // 1 second
+    const startTime = Date.now();
+
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Easing function (ease-in-out)
+      const eased =
+        progress < 0.5
+          ? 2 * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+      setPosition({
+        coordinates: [
+          startPosition.coordinates[0] +
+            (endPosition.coordinates[0] - startPosition.coordinates[0]) * eased,
+          startPosition.coordinates[1] +
+            (endPosition.coordinates[1] - startPosition.coordinates[1]) * eased,
+        ],
+        zoom:
+          startPosition.zoom + (endPosition.zoom - startPosition.zoom) * eased,
+      });
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        setIsTransitioning(false);
+      }
+    };
+
+    requestAnimationFrame(animate);
   };
 
   return (
@@ -245,9 +291,9 @@ export function ServerLocationsSection() {
 
       {/* Full-width map container */}
       <div className="w-full">
-        <div className="relative w-full h-[600px] bg-black overflow-hidden border border-gray-800">
+        <div className="relative w-full h-[600px] bg-black overflow-hidden border border-gray-800 select-none">
           {/* Map Section - Full Width */}
-          <div className="w-full h-full bg-[#080F2C]">
+          <div className="w-full h-full bg-[#080F2C] select-none">
             <ComposableMap
               projection="geoMercator"
               className="w-full h-full"
@@ -260,16 +306,19 @@ export function ServerLocationsSection() {
                 center={position.coordinates}
                 zoom={position.zoom}
                 onMoveEnd={(newPosition) => {
-                  setPosition(newPosition);
-                  // Console log for finding your desired initial position
-                  console.log("📍 Map Position:", {
-                    coordinates: newPosition.coordinates,
-                    zoom: newPosition.zoom,
-                  });
-                  console.log(
-                    "💡 Copy this to INITIAL_POSITION:",
-                    `{ coordinates: [${newPosition.coordinates[0]}, ${newPosition.coordinates[1]}] as [number, number], zoom: ${newPosition.zoom} }`
-                  );
+                  // Only update position if user is manually dragging (not during our custom animation)
+                  if (!isTransitioning) {
+                    setPosition(newPosition);
+                    // Console log for finding your desired initial position
+                    console.log("📍 Map Position:", {
+                      coordinates: newPosition.coordinates,
+                      zoom: newPosition.zoom,
+                    });
+                    console.log(
+                      "💡 Copy this to INITIAL_POSITION:",
+                      `{ coordinates: [${newPosition.coordinates[0]}, ${newPosition.coordinates[1]}] as [number, number], zoom: ${newPosition.zoom} }`
+                    );
+                  }
                 }}
               >
                 <Geographies geography={geoUrl}>
@@ -500,7 +549,7 @@ export function ServerLocationsSection() {
                         width={estimatedWidth}
                         height={badgeHeight + 12}
                         transform={`scale(${responsiveScale / position.zoom})`}
-                        style={{ overflow: "visible" }}
+                        style={{ overflow: "visible", pointerEvents: "none" }}
                       >
                         <div
                           className={`relative ${containerClass}`}
@@ -510,9 +559,11 @@ export function ServerLocationsSection() {
                           }}
                         >
                           <div
-                            className="relative inline-flex items-center gap-2 px-2 py-1 bg-[#080F2C] border border-[#323953] rounded-[3px] whitespace-nowrap"
+                            className="relative inline-flex items-center gap-2 px-2 py-1 bg-[#080F2C] border border-[#323953] rounded-[3px] whitespace-nowrap select-none"
                             style={{
                               position: "absolute",
+                              pointerEvents: "none",
+                              userSelect: "none",
                               ...(badgeAlignment === "flex-end"
                                 ? { right: 0 }
                                 : badgeAlignment === "center"
@@ -535,15 +586,29 @@ export function ServerLocationsSection() {
                               }}
                             />
 
-                            <span className="text-white text-md font-semibold tracking-[0.01em]">
+                            <span
+                              className="text-white text-md font-semibold tracking-[0.01em] select-none"
+                              style={{
+                                pointerEvents: "none",
+                                userSelect: "none",
+                              }}
+                            >
                               {location.name}
                             </span>
-                            <SignalBar
-                              state={signalState}
-                              pollingBar={pollingBar}
-                              pixelSize={2.75}
-                            />
-                            <span className="text-white text-md font-minecraft font-normal">
+                            <div style={{ pointerEvents: "none" }}>
+                              <SignalBar
+                                state={signalState}
+                                pollingBar={pollingBar}
+                                pixelSize={2.75}
+                              />
+                            </div>
+                            <span
+                              className="text-white text-md font-minecraft font-normal select-none"
+                              style={{
+                                pointerEvents: "none",
+                                userSelect: "none",
+                              }}
+                            >
                               {pingText}
                             </span>
                           </div>
@@ -556,22 +621,22 @@ export function ServerLocationsSection() {
             </ComposableMap>
           </div>
 
-          {/* Hero Overlay - Left aligned */}
-          <div className="absolute top-0 left-0 h-full w-full flex items-center pointer-events-none">
+          {/* Hero Overlay - Left aligned with gradient */}
+          <div className="absolute top-0 left-0 h-full w-full flex items-center pointer-events-none bg-gradient-to-r from-[#080F2C] from-20% via-[#080F2C]/60 via-40% to-transparent to-60%">
             <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pointer-events-none">
               <div className="max-w-3xl pointer-events-auto">
-                <div className="bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-8 md:p-12">
+                <div className="pr-6 md:pr-8 lg:pr-12">
                   {/* Hero Header */}
-                  <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+                  <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-6 leading-tight">
                     Dedicated servers in 7 global locations with local routing
                   </h1>
 
                   {/* Location Links */}
                   <div className="space-y-4">
-                    <p className="text-gray-300 text-lg mb-4">
+                    <p className="text-gray-300 text-base md:text-lg mb-4">
                       Explore our worldwide infrastructure:
                     </p>
-                    <div className="flex flex-wrap gap-3">
+                    <div className="flex flex-wrap gap-2 md:gap-3">
                       {locations.map((location) => {
                         const ping = pings[location.name];
                         const signalState = pingToSignalState(ping);
@@ -586,16 +651,18 @@ export function ServerLocationsSection() {
                           <button
                             key={location.name}
                             onClick={() => handleLocationClick(location)}
-                            className="group relative inline-flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-blue-400 rounded-lg text-white transition-all duration-200 font-medium"
+                            className="group relative inline-flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-blue-400 rounded-lg text-white transition-all duration-200 font-medium select-none"
                           >
-                            <span className="text-base">{location.name}</span>
+                            <span className="text-sm md:text-base">
+                              {location.name}
+                            </span>
                             <div className="flex items-center gap-1.5">
                               <SignalBar
                                 state={signalState}
                                 pollingBar={pollingBar}
                                 pixelSize={2.5}
                               />
-                              <span className="text-sm font-mono text-gray-400 group-hover:text-white transition-colors">
+                              <span className="text-xs md:text-sm font-mono text-gray-400 group-hover:text-white transition-colors">
                                 {pingText}
                               </span>
                             </div>
