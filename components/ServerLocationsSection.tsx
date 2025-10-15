@@ -196,14 +196,14 @@ const getBadgeTip = (
             points={`0,${halfHeight + ARROW_SIZE} ${
               -ARROW_SIZE - 1
             },${halfHeight} ${ARROW_SIZE + 1},${halfHeight}`}
-            fill="#3b82f6"
+            fill="#323953"
           />
           {/* Inner fill triangle - overlaps badge border to hide it */}
           <polygon
             points={`0,${halfHeight + ARROW_SIZE - 1.5} ${-ARROW_SIZE + 0.5},${
               halfHeight - 1
             } ${ARROW_SIZE - 0.5},${halfHeight - 1}`}
-            fill="#1e293b"
+            fill="#080F2C"
           />
         </>
       );
@@ -216,14 +216,14 @@ const getBadgeTip = (
             points={`${-halfWidth - ARROW_SIZE},0 ${-halfWidth},${
               -ARROW_SIZE - 1
             } ${-halfWidth},${ARROW_SIZE + 1}`}
-            fill="#3b82f6"
+            fill="#323953"
           />
           {/* Inner fill triangle - overlaps badge border to hide it */}
           <polygon
             points={`${-halfWidth - ARROW_SIZE + 1.5},0 ${-halfWidth + 1},${
               -ARROW_SIZE + 0.5
             } ${-halfWidth + 1},${ARROW_SIZE - 0.5}`}
-            fill="#1e293b"
+            fill="#080F2C"
           />
         </>
       );
@@ -236,7 +236,7 @@ const getBadgeTip = (
             points={`${halfWidth + ARROW_SIZE},0 ${halfWidth},${
               -ARROW_SIZE - 1
             } ${halfWidth},${ARROW_SIZE + 1}`}
-            fill="#3b82f6"
+            fill="#323953"
           />
           {/* Inner fill triangle - overlaps badge border to hide it */}
           <polygon
@@ -415,7 +415,7 @@ export function ServerLocationsSection() {
       <div className="w-full">
         <div className="relative w-full h-[720px] bg-black overflow-hidden border border-gray-800">
           {/* Map Section - Full Width */}
-          <div className="w-full h-full bg-ocean-1">
+          <div className="w-full h-full bg-[#080F2C]">
             <ComposableMap
               projection="geoMercator"
               className="w-full h-full"
@@ -448,13 +448,13 @@ export function ServerLocationsSection() {
                         <Geography
                           key={geo.rsmKey}
                           geography={geo}
-                          fill="#1e293b"
-                          stroke="#070E2B"
+                          fill="#222843"
+                          stroke="#080F2C"
                           strokeWidth={0.5}
                           style={{
                             default: { outline: "none" },
-                            hover: { fill: "#334155", outline: "none" },
-                            pressed: { fill: "#475569", outline: "none" },
+                            hover: { fill: "#222843", outline: "none" },
+                            pressed: { fill: "#222843", outline: "none" },
                           }}
                         />
                       ))
@@ -530,8 +530,18 @@ export function ServerLocationsSection() {
                   // Use measured width, fallback to approximate if not yet measured
                   const baseWidth =
                     badgeWidths[location.name] || location.name.length * 8 + 16;
-                  // Add extra width for signal bar and ping
-                  const badgeWidth = baseWidth + 60;
+
+                  // Calculate ping text width - account for longer ping values
+                  const pingText =
+                    ping === null
+                      ? "..."
+                      : ping < 0
+                      ? "ERR"
+                      : `${Math.round(ping)}ms`;
+                  const pingTextWidth = pingText.length * 8; // Approximate monospace character width
+
+                  // Add extra width for signal bar (20px) + ping text + padding (5px)
+                  const badgeWidth = baseWidth + 20 + pingTextWidth + 5;
                   const badgeHeight = BADGE_HEIGHT;
                   const halfWidth = badgeWidth / 2;
                   const halfHeight = badgeHeight / 2;
@@ -576,8 +586,8 @@ export function ServerLocationsSection() {
                           y={-halfHeight}
                           width={badgeWidth}
                           height={badgeHeight}
-                          fill="#1e293b"
-                          stroke="#3b82f6"
+                          fill="#080F2C"
+                          stroke="#323953"
                           strokeWidth={1.5}
                           rx={3}
                         />
@@ -602,22 +612,22 @@ export function ServerLocationsSection() {
                         >
                           {location.name}
                         </text>
-                        {/* Signal bars - pure SVG, positioned from right edge */}
+                        {/* Signal bars - pure SVG, positioned with proper spacing from ping text */}
                         {renderSignalBarSVG(
-                          halfWidth - 70,
+                          halfWidth - pingTextWidth - 36, // Position signal bars with enough space from ping text
                           10,
                           signalState,
                           pollingBar
                         )}
                         {/* Ping display */}
                         <text
-                          x={halfWidth - 8}
+                          x={halfWidth - 4}
                           y={10}
                           textAnchor="end"
                           style={{
                             fill: "#fff",
                             fontSize: "14px",
-                            fontFamily: "monospace",
+                            fontFamily: "minecraft",
                             fontWeight: "400",
                           }}
                         >
