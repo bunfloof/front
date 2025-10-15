@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import {
   ComposableMap,
   Geographies,
@@ -14,13 +14,14 @@ const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 const lakesUrl =
   "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_lakes.geojson";
 
-type TipDirection = "top" | "bottom" | "left" | "right";
+type TipEdge = "top" | "bottom" | "left" | "right";
 
 interface Location {
   name: string;
   coordinates: [number, number]; // [longitude, latitude] for the dot
-  badgeCoordinates: [number, number]; // [longitude, latitude] for where the ARROW TIP should be
-  tipDirection: TipDirection; // Direction the tooltip tip points (badge extends from this tip)
+  arrowCoordinates: [number, number]; // [longitude, latitude] where the arrow tip should be locked - arrow points to the dot from here
+  tipEdge: TipEdge; // Which edge the arrow is on (top/bottom/left/right)
+  tipOffset: number; // Precise pixel offset from center along the edge (positive/negative for fine-tuning)
   websocketUrl: string; // WebSocket URL for ping measurement
 }
 
@@ -28,53 +29,60 @@ const locations: Location[] = [
   {
     name: "Los Angeles",
     coordinates: [-118.2437, 34.0522],
-    badgeCoordinates: [-118.5991, 34.0522], // Tip positioned here, badge extends downward
-    tipDirection: "right", // Tip points upward to the dot
+    arrowCoordinates: [-118.5991, 34.0522], // Arrow tip locked here
+    tipEdge: "right", // Arrow on right edge of badge
+    tipOffset: 0, // Centered on that edge
     websocketUrl: "wss://losangeles.ca.speedtest.frontier.com:8080/ws",
   },
   {
     name: "Dallas",
     coordinates: [-96.8066, 32.7767],
-    badgeCoordinates: [-96.8066, 32.9767], // Tip positioned here, badge extends upward
-    tipDirection: "bottom", // Tip points downward to the dot
+    arrowCoordinates: [-96.8066, 32.9767], // Arrow tip locked here
+    tipEdge: "bottom", // Arrow on bottom edge of badge
+    tipOffset: 0, // Centered on that edge
     websocketUrl: "wss://dallas1.cabospeed.com:8080/ws?",
   },
   {
     name: "Chicago",
     coordinates: [-87.6298, 41.8781],
-    badgeCoordinates: [-87.6298, 42.0781], // Tip positioned here, badge extends upward
-    tipDirection: "bottom", // Tip points downward to the dot
+    arrowCoordinates: [-87.6298, 42.0781], // Arrow tip locked here
+    tipEdge: "bottom", // Arrow on bottom edge of badge
+    tipOffset: 0, // Centered on that edge
     websocketUrl:
       "wss://speedtest.chi.gigenet.com.prod.hosts.ooklaserver.net:8080/ws?",
   },
   {
     name: "New York",
     coordinates: [-74.006, 40.7128],
-    badgeCoordinates: [-73.706, 40.7128], // Tip positioned here, badge extends upward
-    tipDirection: "left", // Tip points downward to the dot
+    arrowCoordinates: [-73.706, 40.7128], // Arrow tip locked here
+    tipEdge: "left", // Arrow on left edge of badge
+    tipOffset: 0, // Centered on that edge
     websocketUrl: "wss://speedtest.is.cc.prod.hosts.ooklaserver.net:8080/ws?",
   },
   {
     name: "Frankfurt",
     coordinates: [8.6821, 50.1109],
-    badgeCoordinates: [8.6821, 50.3555], // Tip positioned here, badge extends upward
-    tipDirection: "bottom", // Tip points downward to the dot
+    arrowCoordinates: [8.6821, 50.3555], // Arrow tip locked here
+    tipEdge: "bottom", // Arrow on bottom edge of badge
+    tipOffset: 0, // Centered on that edge
     websocketUrl:
       "wss://speedtest1.synlinq.de.prod.hosts.ooklaserver.net:8080/ws?",
   },
   {
     name: "Helsinki",
     coordinates: [24.9384, 60.1699],
-    badgeCoordinates: [24.9384, 60.3699], // Tip positioned here, badge extends upward
-    tipDirection: "bottom", // Tip points downward to the dot
+    arrowCoordinates: [24.9384, 60.3699], // Arrow tip locked here
+    tipEdge: "bottom", // Arrow on bottom edge of badge
+    tipOffset: 0, // Centered on that edge
     websocketUrl:
       "wss://speedtest-hki.retn.net.prod.hosts.ooklaserver.net:8080/ws?",
   },
   {
     name: "Ho Chi Minh",
     coordinates: [106.8412, 10.8231],
-    badgeCoordinates: [107.2412, 10.8231], // Tip positioned here, badge extends upward
-    tipDirection: "left", // Tip points downward to the dot
+    arrowCoordinates: [107.2412, 10.8231], // Arrow tip locked here
+    tipEdge: "left", // Arrow on left edge of badge
+    tipOffset: 0, // Centered on that edge
     websocketUrl: "wss://speedtest.fpt.vn.prod.hosts.ooklaserver.net:8080/ws?",
   },
 ];
@@ -87,173 +95,13 @@ const INITIAL_POSITION = {
 
 // Badge styling constants - CUSTOMIZE THESE VALUES
 const BADGE_HEIGHT = 28; // Change this to adjust badge height
-const ARROW_SIZE = 6; // Size of the arrow triangle
+const ARROW_SIZE = 8; // Size of the arrow triangle (increased from 6)
 const ELEMENT_SCALE = 0.7; // Global scale for badges and dots (adjust this to change size)
-
-// Helper function to render signal bars in pure SVG
-const renderSignalBarSVG = (
-  x: number,
-  y: number,
-  state: "none" | "1" | "2" | "3" | "4" | "5" | "polling",
-  pollingBar: number
-) => {
-  const signalStates: Record<
-    string,
-    { fg: string; bg: string; bars: number; animate?: boolean }
-  > = {
-    none: { fg: "#5B5B5B", bg: "#383838", bars: 0 },
-    "1": { fg: "#FF0000", bg: "#810002", bars: 1 },
-    "2": { fg: "#FF6F01", bg: "#853700", bars: 2 },
-    "3": { fg: "#F3FF01", bg: "#808A00", bars: 3 },
-    "4": { fg: "#B3FE01", bg: "#618700", bars: 4 },
-    "5": { fg: "#02FF46", bg: "#008720", bars: 5 },
-    polling: { fg: "#0356F7", bg: "#012D7D", bars: 5, animate: true },
-  };
-
-  const currentState = signalStates[state];
-  const barHeights = [3, 4, 5, 6, 7];
-  const pixelSize = 2.75;
-
-  return (
-    <g transform={`translate(${x}, ${y})`}>
-      {barHeights.map((height, barNum) => {
-        let isLit;
-        if (currentState.animate) {
-          isLit = barNum === pollingBar;
-        } else {
-          isLit = barNum < currentState.bars;
-        }
-
-        const fgColor = isLit ? currentState.fg : "#1A1A1A";
-        const bgColor = isLit ? currentState.bg : "#2D2D2D";
-
-        const barX = barNum * pixelSize * 2;
-        const barY = -height * pixelSize;
-
-        return (
-          <g key={barNum}>
-            {/* Main color column (left side, from row 2 to top) */}
-            <rect
-              x={barX}
-              y={barY}
-              width={pixelSize}
-              height={(height - 1) * pixelSize}
-              fill={fgColor}
-            />
-            {/* Backdrop column (right side, from bottom to second-to-last row) */}
-            <rect
-              x={barX + pixelSize}
-              y={barY + pixelSize}
-              width={pixelSize}
-              height={(height - 1) * pixelSize}
-              fill={bgColor}
-            />
-          </g>
-        );
-      })}
-    </g>
-  );
-};
-
-// Helper function to render badge tip based on direction (shadcn-style)
-// Using triangular arrows like CSS border trick
-// Solution inspired by: https://www.jestsee.com/blog/customize-shadcn-tooltip-arrows/
-const getBadgeTip = (
-  direction: TipDirection,
-  badgeWidth: number,
-  badgeHeight: number
-) => {
-  const halfWidth = badgeWidth / 2;
-  const halfHeight = badgeHeight / 2;
-
-  switch (direction) {
-    case "top":
-      // Arrow pointing upward (triangle pointing up)
-      return (
-        <>
-          {/* Border triangle */}
-          <polygon
-            points={`0,${-halfHeight - ARROW_SIZE} ${
-              -ARROW_SIZE - 1
-            },${-halfHeight} ${ARROW_SIZE + 1},${-halfHeight}`}
-            fill="#3b82f6"
-          />
-          {/* Inner fill triangle - overlaps badge border to hide it */}
-          <polygon
-            points={`0,${-halfHeight - ARROW_SIZE + 1.5} ${-ARROW_SIZE + 0.5},${
-              -halfHeight + 1
-            } ${ARROW_SIZE - 0.5},${-halfHeight + 1}`}
-            fill="#1e293b"
-          />
-        </>
-      );
-    case "bottom":
-      // Arrow pointing downward (triangle pointing down)
-      return (
-        <>
-          {/* Border triangle */}
-          <polygon
-            points={`0,${halfHeight + ARROW_SIZE} ${
-              -ARROW_SIZE - 1
-            },${halfHeight} ${ARROW_SIZE + 1},${halfHeight}`}
-            fill="#323953"
-          />
-          {/* Inner fill triangle - overlaps badge border to hide it */}
-          <polygon
-            points={`0,${halfHeight + ARROW_SIZE - 1.5} ${-ARROW_SIZE + 0.5},${
-              halfHeight - 1
-            } ${ARROW_SIZE - 0.5},${halfHeight - 1}`}
-            fill="#080F2C"
-          />
-        </>
-      );
-    case "left":
-      // Arrow pointing left (triangle pointing left)
-      return (
-        <>
-          {/* Border triangle */}
-          <polygon
-            points={`${-halfWidth - ARROW_SIZE},0 ${-halfWidth},${
-              -ARROW_SIZE - 1
-            } ${-halfWidth},${ARROW_SIZE + 1}`}
-            fill="#323953"
-          />
-          {/* Inner fill triangle - overlaps badge border to hide it */}
-          <polygon
-            points={`${-halfWidth - ARROW_SIZE + 1.5},0 ${-halfWidth + 1},${
-              -ARROW_SIZE + 0.5
-            } ${-halfWidth + 1},${ARROW_SIZE - 0.5}`}
-            fill="#080F2C"
-          />
-        </>
-      );
-    case "right":
-      // Arrow pointing right (triangle pointing right)
-      return (
-        <>
-          {/* Border triangle */}
-          <polygon
-            points={`${halfWidth + ARROW_SIZE},0 ${halfWidth},${
-              -ARROW_SIZE - 1
-            } ${halfWidth},${ARROW_SIZE + 1}`}
-            fill="#323953"
-          />
-          {/* Inner fill triangle - overlaps badge border to hide it */}
-          <polygon
-            points={`${halfWidth + ARROW_SIZE - 1.5},0 ${halfWidth - 1},${
-              -ARROW_SIZE + 0.5
-            } ${halfWidth - 1},${ARROW_SIZE - 0.5}`}
-            fill="#1e293b"
-          />
-        </>
-      );
-  }
-};
 
 export function ServerLocationsSection() {
   const [position, setPosition] = useState(INITIAL_POSITION);
-  const [badgeWidths, setBadgeWidths] = useState<Record<string, number>>({});
   const [responsiveScale, setResponsiveScale] = useState(ELEMENT_SCALE);
+
   // Initialize with null for each location to show polling state
   const [pings, setPings] = useState<Record<string, number | null>>(() => {
     const initialPings: Record<string, number | null> = {};
@@ -264,7 +112,6 @@ export function ServerLocationsSection() {
   });
   const [pollingBar, setPollingBar] = useState(0);
   const [pollingDirection, setPollingDirection] = useState(1);
-  const textRefs = useRef<Record<string, SVGTextElement | null>>({});
 
   // Adjust scale based on screen size to keep elements visible
   useEffect(() => {
@@ -285,21 +132,6 @@ export function ServerLocationsSection() {
     updateScale();
     window.addEventListener("resize", updateScale);
     return () => window.removeEventListener("resize", updateScale);
-  }, []);
-
-  // Measure actual text widths after render
-  useEffect(() => {
-    const widths: Record<string, number> = {};
-    locations.forEach((location) => {
-      const textElement = textRefs.current[location.name];
-      if (textElement) {
-        // Get actual rendered text width
-        const bbox = textElement.getBBox();
-        // Add padding (8px on each side = 16px total)
-        widths[location.name] = bbox.width + 20;
-      }
-    });
-    setBadgeWidths(widths);
   }, []);
 
   // Polling bar animation
@@ -503,141 +335,186 @@ export function ServerLocationsSection() {
                   </Marker>
                 ))}
 
-                {/* Hidden text elements for measuring actual width */}
-                <defs>
-                  {locations.map((location) => (
-                    <text
-                      key={`measure-${location.name}`}
-                      ref={(el) => {
-                        textRefs.current[location.name] = el;
-                      }}
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: "600",
-                        letterSpacing: "0.01em",
-                      }}
-                    >
-                      {location.name}
-                    </text>
-                  ))}
-                </defs>
-
-                {/* Render badges at separate positions */}
+                {/* Render badges using foreignObject for proper HTML/Tailwind layout */}
                 {locations.map((location) => {
                   const ping = pings[location.name];
                   const signalState = pingToSignalState(ping);
-
-                  // Use measured width, fallback to approximate if not yet measured
-                  const baseWidth =
-                    badgeWidths[location.name] || location.name.length * 8 + 16;
-
-                  // Calculate ping text width - account for longer ping values
                   const pingText =
                     ping === null
                       ? "..."
                       : ping < 0
                       ? "ERR"
                       : `${Math.round(ping)}ms`;
-                  const pingTextWidth = pingText.length * 8; // Approximate monospace character width
 
-                  // Add extra width for signal bar (20px) + ping text + padding (5px)
-                  const badgeWidth = baseWidth + 20 + pingTextWidth + 5;
+                  // Calculate badge dimensions - foreignObject will handle the layout
+                  const estimatedWidth = 200; // Generous width, HTML will size itself
                   const badgeHeight = BADGE_HEIGHT;
-                  const halfWidth = badgeWidth / 2;
-                  const halfHeight = badgeHeight / 2;
 
-                  // Calculate offset based on tip direction
-                  // badgeCoordinates now represents where the TIP is, not the center
+                  // Calculate offset and arrow positioning based on tip edge and offset
+                  // The arrow tip is locked at arrowCoordinates, and the badge extends from it
                   let offsetX = 0;
                   let offsetY = 0;
+                  let arrowBeforeStyle: React.CSSProperties = {};
+                  let arrowAfterStyle: React.CSSProperties = {};
+                  let containerClass = "";
 
-                  switch (location.tipDirection) {
+                  const baseArrowStyle = {
+                    position: "absolute" as const,
+                    width: 0,
+                    height: 0,
+                    background: "transparent",
+                  };
+
+                  switch (location.tipEdge) {
                     case "top":
-                      // Tip is at top, badge extends downward
-                      offsetY = halfHeight + ARROW_SIZE;
+                      // Arrow tip at top, badge extends downward
+                      offsetY = ARROW_SIZE;
+                      offsetX = -estimatedWidth / 2 - location.tipOffset; // Compensate for tipOffset so arrow stays fixed
+                      containerClass = "pt-1.5";
+                      // Arrow on top edge, positioned at tipOffset pixels from center (pointing up)
+                      arrowBeforeStyle = {
+                        ...baseArrowStyle,
+                        top: 0,
+                        left: `calc(50% + ${location.tipOffset}px)`,
+                        transform: "translate(-50%, -100%)",
+                        borderLeft: "8px solid transparent",
+                        borderRight: "8px solid transparent",
+                        borderBottom: "8px solid #323953",
+                      };
+                      arrowAfterStyle = {
+                        ...baseArrowStyle,
+                        top: "1.5px",
+                        left: `calc(50% + ${location.tipOffset}px)`,
+                        transform: "translate(-50%, -100%)",
+                        borderLeft: "7px solid transparent",
+                        borderRight: "7px solid transparent",
+                        borderBottom: "7px solid #080F2C",
+                      };
                       break;
                     case "bottom":
-                      // Tip is at bottom, badge extends upward
-                      offsetY = -(halfHeight + ARROW_SIZE);
+                      // Arrow tip at bottom, badge extends upward
+                      offsetY = -(badgeHeight + ARROW_SIZE);
+                      offsetX = -estimatedWidth / 2 - location.tipOffset; // Compensate for tipOffset so arrow stays fixed
+                      containerClass = "pb-1.5";
+                      // Arrow on bottom edge, positioned at tipOffset pixels from center (pointing down)
+                      arrowBeforeStyle = {
+                        ...baseArrowStyle,
+                        bottom: 0,
+                        left: `calc(50% + ${location.tipOffset}px)`,
+                        transform: "translate(-50%, 100%)",
+                        borderLeft: "8px solid transparent",
+                        borderRight: "8px solid transparent",
+                        borderTop: "8px solid #323953",
+                      };
+                      arrowAfterStyle = {
+                        ...baseArrowStyle,
+                        bottom: "1.5px",
+                        left: `calc(50% + ${location.tipOffset}px)`,
+                        transform: "translate(-50%, 100%)",
+                        borderLeft: "7px solid transparent",
+                        borderRight: "7px solid transparent",
+                        borderTop: "7px solid #080F2C",
+                      };
                       break;
                     case "left":
-                      // Tip is at left, badge extends rightward
-                      offsetX = halfWidth + ARROW_SIZE;
+                      // Arrow tip at left, badge extends rightward
+                      offsetX = ARROW_SIZE;
+                      offsetY = -badgeHeight / 2 - location.tipOffset; // Compensate for tipOffset so arrow stays fixed
+                      containerClass = "pl-1.5";
+                      // Arrow on left edge, positioned at tipOffset pixels from center (pointing left)
+                      arrowBeforeStyle = {
+                        ...baseArrowStyle,
+                        left: 0,
+                        top: `calc(50% + ${location.tipOffset}px)`,
+                        transform: "translate(-100%, -50%)",
+                        borderTop: "8px solid transparent",
+                        borderBottom: "8px solid transparent",
+                        borderRight: "8px solid #323953",
+                      };
+                      arrowAfterStyle = {
+                        ...baseArrowStyle,
+                        left: "1.5px",
+                        top: `calc(50% + ${location.tipOffset}px)`,
+                        transform: "translate(-100%, -50%)",
+                        borderTop: "7px solid transparent",
+                        borderBottom: "7px solid transparent",
+                        borderRight: "7px solid #080F2C",
+                      };
                       break;
                     case "right":
-                      // Tip is at right, badge extends leftward
-                      offsetX = -(halfWidth + ARROW_SIZE);
+                      // Arrow tip at right, badge extends leftward
+                      offsetX = -(estimatedWidth + ARROW_SIZE);
+                      offsetY = -badgeHeight / 2 - location.tipOffset; // Compensate for tipOffset so arrow stays fixed
+                      containerClass = "pr-1.5";
+                      // Arrow on right edge, positioned at tipOffset pixels from center (pointing right)
+                      arrowBeforeStyle = {
+                        ...baseArrowStyle,
+                        right: 0,
+                        top: `calc(50% + ${location.tipOffset}px)`,
+                        transform: "translate(100%, -50%)",
+                        borderTop: "8px solid transparent",
+                        borderBottom: "8px solid transparent",
+                        borderLeft: "8px solid #323953",
+                      };
+                      arrowAfterStyle = {
+                        ...baseArrowStyle,
+                        right: "1.5px",
+                        top: `calc(50% + ${location.tipOffset}px)`,
+                        transform: "translate(100%, -50%)",
+                        borderTop: "7px solid transparent",
+                        borderBottom: "7px solid transparent",
+                        borderLeft: "7px solid #080F2C",
+                      };
                       break;
                   }
 
                   return (
                     <Marker
                       key={`badge-${location.name}`}
-                      coordinates={location.badgeCoordinates}
+                      coordinates={location.arrowCoordinates}
                     >
-                      <g
-                        transform={`scale(${
-                          responsiveScale / position.zoom
-                        }) translate(${offsetX}, ${offsetY})`}
+                      <foreignObject
+                        x={offsetX}
+                        y={offsetY}
+                        width={estimatedWidth}
+                        height={badgeHeight + 12}
+                        transform={`scale(${responsiveScale / position.zoom})`}
+                        style={{ overflow: "visible" }}
                       >
-                        {/* Badge that hugs the text */}
-                        <rect
-                          x={-halfWidth}
-                          y={-halfHeight}
-                          width={badgeWidth}
-                          height={badgeHeight}
-                          fill="#080F2C"
-                          stroke="#323953"
-                          strokeWidth={1.5}
-                          rx={3}
-                        />
-                        {/* Tooltip tip pointing toward the dot - drawn after badge so it can overlap the border */}
-                        {getBadgeTip(
-                          location.tipDirection,
-                          badgeWidth,
-                          badgeHeight
-                        )}
-                        {/* City name */}
-                        <text
-                          x={-halfWidth + 8}
-                          y={4}
-                          textAnchor="start"
-                          style={{
-                            fill: "#fff",
-                            fontSize: "14px",
-                            fontWeight: "600",
-                            letterSpacing: "0.01em",
-                            fontFamily: "system-ui",
-                          }}
+                        <div
+                          className={`relative ${containerClass}`}
+                          style={{ pointerEvents: "none" }}
                         >
-                          {location.name}
-                        </text>
-                        {/* Signal bars - pure SVG, positioned with proper spacing from ping text */}
-                        {renderSignalBarSVG(
-                          halfWidth - pingTextWidth - 36, // Position signal bars with enough space from ping text
-                          10,
-                          signalState,
-                          pollingBar
-                        )}
-                        {/* Ping display */}
-                        <text
-                          x={halfWidth - 4}
-                          y={10}
-                          textAnchor="end"
-                          style={{
-                            fill: "#fff",
-                            fontSize: "14px",
-                            fontFamily: "minecraft",
-                            fontWeight: "400",
-                          }}
-                        >
-                          {ping === null
-                            ? "..."
-                            : ping < 0
-                            ? "ERR"
-                            : `${Math.round(ping)}ms`}
-                        </text>
-                      </g>
+                          <div className="relative inline-flex items-center gap-2 px-2 py-1 bg-[#080F2C] border border-[#323953] rounded-[3px] whitespace-nowrap">
+                            {/* Arrow border (outer) - positioned absolutely so it doesn't affect flexbox layout */}
+                            <div
+                              style={{
+                                ...arrowBeforeStyle,
+                                pointerEvents: "none",
+                              }}
+                            />
+                            {/* Arrow fill (inner) - positioned absolutely so it doesn't affect flexbox layout */}
+                            <div
+                              style={{
+                                ...arrowAfterStyle,
+                                pointerEvents: "none",
+                              }}
+                            />
+
+                            <span className="text-white text-sm font-semibold tracking-[0.01em]">
+                              {location.name}
+                            </span>
+                            <SignalBar
+                              state={signalState}
+                              pollingBar={pollingBar}
+                              pixelSize={2.75}
+                            />
+                            <span className="text-white text-sm font-minecraft font-normal">
+                              {pingText}
+                            </span>
+                          </div>
+                        </div>
+                      </foreignObject>
                     </Marker>
                   );
                 })}
