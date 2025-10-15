@@ -29,7 +29,7 @@ const locations: Location[] = [
   {
     name: "Los Angeles",
     coordinates: [-118.2437, 34.0522],
-    arrowCoordinates: [-118.5991, 34.0522], // Arrow tip locked here
+    arrowCoordinates: [-118.2437, 34.0521], // Arrow tip locked here
     tipEdge: "right", // Arrow on right edge of badge
     tipOffset: 0, // Centered on that edge
     websocketUrl: "wss://losangeles.ca.speedtest.frontier.com:8080/ws",
@@ -37,7 +37,7 @@ const locations: Location[] = [
   {
     name: "Dallas",
     coordinates: [-96.8066, 32.7767],
-    arrowCoordinates: [-96.8066, 32.9767], // Arrow tip locked here
+    arrowCoordinates: [-96.8066, 32.7767 + 0.4222], // Arrow tip locked here
     tipEdge: "bottom", // Arrow on bottom edge of badge
     tipOffset: 0, // Centered on that edge
     websocketUrl: "wss://dallas1.cabospeed.com:8080/ws?",
@@ -245,7 +245,7 @@ export function ServerLocationsSection() {
 
       {/* Full-width map container */}
       <div className="w-full">
-        <div className="relative w-full h-[720px] bg-black overflow-hidden border border-gray-800">
+        <div className="relative w-full h-[600px] bg-black overflow-hidden border border-gray-800">
           {/* Map Section - Full Width */}
           <div className="w-full h-full bg-[#080F2C]">
             <ComposableMap
@@ -321,7 +321,7 @@ export function ServerLocationsSection() {
                     <g transform={`scale(${responsiveScale / position.zoom})`}>
                       {/* Pulsing outer circle */}
                       <circle
-                        r={8}
+                        r={12}
                         fill="#3b82f6"
                         fillOpacity={0.3}
                         className="animate-ping"
@@ -330,7 +330,7 @@ export function ServerLocationsSection() {
                         }}
                       />
                       {/* Static inner dot */}
-                      <circle r={4} fill="#60a5fa" />
+                      <circle r={6} fill="#60a5fa" />
                     </g>
                   </Marker>
                 ))}
@@ -357,6 +357,7 @@ export function ServerLocationsSection() {
                   let arrowBeforeStyle: React.CSSProperties = {};
                   let arrowAfterStyle: React.CSSProperties = {};
                   let containerClass = "";
+                  let badgeAlignment = ""; // Controls which direction the badge expands
 
                   const baseArrowStyle = {
                     position: "absolute" as const,
@@ -369,13 +370,18 @@ export function ServerLocationsSection() {
                     case "top":
                       // Arrow tip at top, badge extends downward
                       offsetY = ARROW_SIZE;
-                      offsetX = -estimatedWidth / 2 - location.tipOffset; // Compensate for tipOffset so arrow stays fixed
+                      offsetX = -estimatedWidth / 2; // Always center the container
                       containerClass = "pt-1.5";
+                      badgeAlignment = "center"; // Centered horizontally
                       // Arrow on top edge, positioned at tipOffset pixels from center (pointing up)
+                      // Use percentage-based positioning that's immune to zoom changes
                       arrowBeforeStyle = {
                         ...baseArrowStyle,
                         top: 0,
-                        left: `calc(50% + ${location.tipOffset}px)`,
+                        left:
+                          location.tipOffset === 0
+                            ? "50%"
+                            : `calc(50% + ${location.tipOffset}px)`,
                         transform: "translate(-50%, -100%)",
                         borderLeft: "8px solid transparent",
                         borderRight: "8px solid transparent",
@@ -384,7 +390,10 @@ export function ServerLocationsSection() {
                       arrowAfterStyle = {
                         ...baseArrowStyle,
                         top: "1.5px",
-                        left: `calc(50% + ${location.tipOffset}px)`,
+                        left:
+                          location.tipOffset === 0
+                            ? "50%"
+                            : `calc(50% + ${location.tipOffset}px)`,
                         transform: "translate(-50%, -100%)",
                         borderLeft: "7px solid transparent",
                         borderRight: "7px solid transparent",
@@ -394,13 +403,18 @@ export function ServerLocationsSection() {
                     case "bottom":
                       // Arrow tip at bottom, badge extends upward
                       offsetY = -(badgeHeight + ARROW_SIZE);
-                      offsetX = -estimatedWidth / 2 - location.tipOffset; // Compensate for tipOffset so arrow stays fixed
+                      offsetX = -estimatedWidth / 2; // Always center the container
                       containerClass = "pb-1.5";
+                      badgeAlignment = "center"; // Centered horizontally
                       // Arrow on bottom edge, positioned at tipOffset pixels from center (pointing down)
+                      // Use percentage-based positioning that's immune to zoom changes
                       arrowBeforeStyle = {
                         ...baseArrowStyle,
                         bottom: 0,
-                        left: `calc(50% + ${location.tipOffset}px)`,
+                        left:
+                          location.tipOffset === 0
+                            ? "50%"
+                            : `calc(50% + ${location.tipOffset}px)`,
                         transform: "translate(-50%, 100%)",
                         borderLeft: "8px solid transparent",
                         borderRight: "8px solid transparent",
@@ -409,7 +423,10 @@ export function ServerLocationsSection() {
                       arrowAfterStyle = {
                         ...baseArrowStyle,
                         bottom: "1.5px",
-                        left: `calc(50% + ${location.tipOffset}px)`,
+                        left:
+                          location.tipOffset === 0
+                            ? "50%"
+                            : `calc(50% + ${location.tipOffset}px)`,
                         transform: "translate(-50%, 100%)",
                         borderLeft: "7px solid transparent",
                         borderRight: "7px solid transparent",
@@ -419,13 +436,15 @@ export function ServerLocationsSection() {
                     case "left":
                       // Arrow tip at left, badge extends rightward
                       offsetX = ARROW_SIZE;
-                      offsetY = -badgeHeight / 2 - location.tipOffset; // Compensate for tipOffset so arrow stays fixed
+                      offsetY = -badgeHeight / 2; // Always center the container
                       containerClass = "pl-1.5";
+                      badgeAlignment = "flex-start"; // Badge expands to the right
                       // Arrow on left edge, positioned at tipOffset pixels from center (pointing left)
+                      // Use fixed pixel positioning instead of percentage to prevent movement when badge width changes
                       arrowBeforeStyle = {
                         ...baseArrowStyle,
                         left: 0,
-                        top: `calc(50% + ${location.tipOffset}px)`,
+                        top: `${badgeHeight / 2 + location.tipOffset}px`,
                         transform: "translate(-100%, -50%)",
                         borderTop: "8px solid transparent",
                         borderBottom: "8px solid transparent",
@@ -434,7 +453,7 @@ export function ServerLocationsSection() {
                       arrowAfterStyle = {
                         ...baseArrowStyle,
                         left: "1.5px",
-                        top: `calc(50% + ${location.tipOffset}px)`,
+                        top: `${badgeHeight / 2 + location.tipOffset}px`,
                         transform: "translate(-100%, -50%)",
                         borderTop: "7px solid transparent",
                         borderBottom: "7px solid transparent",
@@ -444,13 +463,15 @@ export function ServerLocationsSection() {
                     case "right":
                       // Arrow tip at right, badge extends leftward
                       offsetX = -(estimatedWidth + ARROW_SIZE);
-                      offsetY = -badgeHeight / 2 - location.tipOffset; // Compensate for tipOffset so arrow stays fixed
+                      offsetY = -badgeHeight / 2; // Always center the container
                       containerClass = "pr-1.5";
+                      badgeAlignment = "flex-end"; // Badge expands to the left
                       // Arrow on right edge, positioned at tipOffset pixels from center (pointing right)
+                      // Use fixed pixel positioning instead of percentage to prevent movement when badge width changes
                       arrowBeforeStyle = {
                         ...baseArrowStyle,
                         right: 0,
-                        top: `calc(50% + ${location.tipOffset}px)`,
+                        top: `${badgeHeight / 2 + location.tipOffset}px`,
                         transform: "translate(100%, -50%)",
                         borderTop: "8px solid transparent",
                         borderBottom: "8px solid transparent",
@@ -459,7 +480,7 @@ export function ServerLocationsSection() {
                       arrowAfterStyle = {
                         ...baseArrowStyle,
                         right: "1.5px",
-                        top: `calc(50% + ${location.tipOffset}px)`,
+                        top: `${badgeHeight / 2 + location.tipOffset}px`,
                         transform: "translate(100%, -50%)",
                         borderTop: "7px solid transparent",
                         borderBottom: "7px solid transparent",
@@ -483,9 +504,22 @@ export function ServerLocationsSection() {
                       >
                         <div
                           className={`relative ${containerClass}`}
-                          style={{ pointerEvents: "none" }}
+                          style={{
+                            pointerEvents: "none",
+                            width: `${estimatedWidth}px`,
+                          }}
                         >
-                          <div className="relative inline-flex items-center gap-2 px-2 py-1 bg-[#080F2C] border border-[#323953] rounded-[3px] whitespace-nowrap">
+                          <div
+                            className="relative inline-flex items-center gap-2 px-2 py-1 bg-[#080F2C] border border-[#323953] rounded-[3px] whitespace-nowrap"
+                            style={{
+                              position: "absolute",
+                              ...(badgeAlignment === "flex-end"
+                                ? { right: 0 }
+                                : badgeAlignment === "center"
+                                ? { left: "50%", transform: "translateX(-50%)" }
+                                : { left: 0 }),
+                            }}
+                          >
                             {/* Arrow border (outer) - positioned absolutely so it doesn't affect flexbox layout */}
                             <div
                               style={{
@@ -522,41 +556,56 @@ export function ServerLocationsSection() {
             </ComposableMap>
           </div>
 
-          {/* Overlay - Floating on top */}
-          <div className="absolute top-0 right-0 h-full w-64 bg-gradient-to-l from-black/80 via-black/60 to-transparent pointer-events-none">
-            <div className="absolute right-0 top-0 h-full w-48 p-6 flex flex-col gap-4 pointer-events-auto">
-              <h3 className="text-white font-semibold text-lg mb-2">
-                Our Locations
-              </h3>
-              {locations.map((location) => {
-                const ping = pings[location.name];
-                const signalState = pingToSignalState(ping);
+          {/* Hero Overlay - Left aligned */}
+          <div className="absolute top-0 left-0 h-full w-full flex items-center pointer-events-none">
+            <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pointer-events-none">
+              <div className="max-w-3xl pointer-events-auto">
+                <div className="bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-8 md:p-12">
+                  {/* Hero Header */}
+                  <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+                    Dedicated servers in 7 global locations with local routing
+                  </h1>
 
-                return (
-                  <button
-                    key={location.name}
-                    onClick={() => handleLocationClick(location)}
-                    className="w-full text-left px-4 py-3 bg-black/50 backdrop-blur-sm border border-gray-700/50 rounded-lg text-white hover:bg-black/70 hover:border-blue-500 transition-all duration-200 font-medium"
-                  >
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="flex-1">{location.name}</span>
-                      <div className="flex items-center gap-2">
-                        <SignalBar
-                          state={signalState}
-                          pollingBar={pollingBar}
-                        />
-                        <span className="text-xs font-mono">
-                          {ping === null
+                  {/* Location Links */}
+                  <div className="space-y-4">
+                    <p className="text-gray-300 text-lg mb-4">
+                      Explore our worldwide infrastructure:
+                    </p>
+                    <div className="flex flex-wrap gap-3">
+                      {locations.map((location) => {
+                        const ping = pings[location.name];
+                        const signalState = pingToSignalState(ping);
+                        const pingText =
+                          ping === null
                             ? "..."
                             : ping < 0
                             ? "ERR"
-                            : `${Math.round(ping)}ms`}
-                        </span>
-                      </div>
+                            : `${Math.round(ping)}ms`;
+
+                        return (
+                          <button
+                            key={location.name}
+                            onClick={() => handleLocationClick(location)}
+                            className="group relative inline-flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-blue-400 rounded-lg text-white transition-all duration-200 font-medium"
+                          >
+                            <span className="text-base">{location.name}</span>
+                            <div className="flex items-center gap-1.5">
+                              <SignalBar
+                                state={signalState}
+                                pollingBar={pollingBar}
+                                pixelSize={2.5}
+                              />
+                              <span className="text-sm font-mono text-gray-400 group-hover:text-white transition-colors">
+                                {pingText}
+                              </span>
+                            </div>
+                          </button>
+                        );
+                      })}
                     </div>
-                  </button>
-                );
-              })}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
