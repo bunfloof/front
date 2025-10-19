@@ -325,7 +325,7 @@ export function HeroSection() {
       {/* Hero Carousel Section */}
       <section
         ref={containerRef}
-        className={`relative overflow-hidden select-none ${
+        className={`relative overflow-hidden select-none shadow-xl rounded-b-2xl ${
           isDragging
             ? "[&_button]:pointer-events-none [&_a]:pointer-events-none"
             : ""
@@ -340,7 +340,7 @@ export function HeroSection() {
       >
         {/* Progress Indicator - Absolute positioned at top left */}
         <div className="absolute top-24 left-0 right-0 z-30 pointer-events-none">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 2xl:px-0">
             <div className="flex gap-2 max-w-5xl pointer-events-auto">
               {Array.from({ length: TOTAL_SLIDES }).map((_, index) => (
                 <button
@@ -394,7 +394,7 @@ export function HeroSection() {
         {/* Pause/Play Button */}
         <button
           onClick={() => setIsPaused(!isPaused)}
-          className="absolute bottom-0 right-0 z-30 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-3 transition-all duration-200 border-t border-l border-white/20"
+          className="absolute bottom-0 right-0 z-30 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-3 transition-all duration-200 border-t border-l border-white/20 rounded-tl-2xl"
           aria-label={isPaused ? "Play autoplay" : "Pause autoplay"}
         >
           {isPaused ? (

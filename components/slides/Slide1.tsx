@@ -30,7 +30,7 @@ export function Slide1() {
 
       {/* Content */}
       <div className="relative z-10 flex-1 flex items-center">
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 2xl:px-0 py-8">
           <div className="text-white max-w-5xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium mb-6 leading-tight">
               Minecraft Server Hosting

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
   ComposableMap,
   Geographies,
@@ -114,6 +114,9 @@ export function ServerLocationsSection() {
   const [pollingBar, setPollingBar] = useState(0);
   const [pollingDirection, setPollingDirection] = useState(1);
 
+  // Store websockets in a ref so we can access them for cleanup and retry
+  const websocketsRef = useRef<Record<string, WebSocket>>({});
+
   // Adjust scale based on screen size to keep elements visible
   useEffect(() => {
     const updateScale = () => {
@@ -142,11 +145,11 @@ export function ServerLocationsSection() {
         const next = prev + pollingDirection;
         if (next >= 5) {
           setPollingDirection(-1);
-          return 4;
+          return 3; // Bounce back immediately to avoid displaying bar 4 twice
         }
         if (next < 0) {
           setPollingDirection(1);
-          return 1;
+          return 1; // Bounce back immediately to avoid skipping bar 0
         }
         return next;
       });
@@ -154,8 +157,25 @@ export function ServerLocationsSection() {
     return () => clearInterval(interval);
   }, [pollingDirection]);
 
-  // WebSocket ping measurement for each location
-  useEffect(() => {
+  // Function to start/restart ping measurements
+  const startPingMeasurements = useCallback(() => {
+    // Reset all pings to null (polling state)
+    const initialPings: Record<string, number | null> = {};
+    locations.forEach((location) => {
+      initialPings[location.name] = null;
+    });
+    setPings(initialPings);
+
+    // Clean up existing websockets if any
+    Object.values(websocketsRef.current).forEach((ws) => {
+      if ((ws as any)._pingInterval) {
+        clearInterval((ws as any)._pingInterval);
+      }
+      ws.close();
+    });
+    websocketsRef.current = {};
+
+    // Create new websockets
     const websockets: Record<string, WebSocket> = {};
 
     locations.forEach((location) => {
@@ -209,16 +229,23 @@ export function ServerLocationsSection() {
       }
     });
 
+    websocketsRef.current = websockets;
+  }, []);
+
+  // WebSocket ping measurement for each location - initialize on mount
+  useEffect(() => {
+    startPingMeasurements();
+
     return () => {
-      // Cleanup websockets
-      Object.values(websockets).forEach((ws) => {
+      // Cleanup websockets on unmount
+      Object.values(websocketsRef.current).forEach((ws) => {
         if ((ws as any)._pingInterval) {
           clearInterval((ws as any)._pingInterval);
         }
         ws.close();
       });
     };
-  }, []);
+  }, [startPingMeasurements]);
 
   const handleLocationClick = (location: Location) => {
     // Offset the coordinates to the right to account for the overlay card on the left
@@ -273,22 +300,7 @@ export function ServerLocationsSection() {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-bluey-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <div className="text-sm text-gray-400 mb-4 tracking-wider uppercase">
-            Server Locations
-          </div>
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-            Global Infrastructure
-          </h2>
-          <p className="text-lg text-gray-400 max-w-3xl mx-auto">
-            Our servers are strategically located across the United States to
-            ensure optimal performance and low latency.
-          </p>
-        </div>
-      </div>
-
+    <section>
       {/* Full-width map container */}
       <div className="w-full">
         <div className="relative w-full h-[600px] bg-black overflow-hidden border border-gray-800 select-none">
@@ -321,6 +333,15 @@ export function ServerLocationsSection() {
                   }
                 }}
               >
+                {/* Transparent rectangle to capture mouse events everywhere on the map */}
+                <rect
+                  x="-1000"
+                  y="-1000"
+                  width="2000"
+                  height="2000"
+                  fill="transparent"
+                  style={{ cursor: "grab" }}
+                />
                 <Geographies geography={geoUrl}>
                   {({ geographies }) =>
                     geographies
@@ -623,18 +644,19 @@ export function ServerLocationsSection() {
 
           {/* Hero Overlay - Left aligned with gradient */}
           <div className="absolute top-0 left-0 h-full w-full flex items-center pointer-events-none bg-gradient-to-r from-[#080F2C] from-20% via-[#080F2C]/60 via-40% to-transparent to-60%">
-            <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pointer-events-none">
-              <div className="max-w-3xl pointer-events-auto">
+            <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 2xl:px-0 pointer-events-none">
+              <div className="max-w-xl pointer-events-auto">
                 <div className="pr-6 md:pr-8 lg:pr-12">
                   {/* Hero Header */}
-                  <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-6 leading-tight">
-                    Dedicated servers in 7 global locations with local routing
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium mb-6 leading-tight text-white mb-6 leading-tight">
+                    7 global server locations
                   </h1>
 
                   {/* Location Links */}
                   <div className="space-y-4">
                     <p className="text-gray-300 text-base md:text-lg mb-4">
-                      Explore our worldwide infrastructure:
+                      Our servers around the world provide the lowest ping for
+                      your players.
                     </p>
                     <div className="flex flex-wrap gap-2 md:gap-3">
                       {locations.map((location) => {
@@ -651,7 +673,7 @@ export function ServerLocationsSection() {
                           <button
                             key={location.name}
                             onClick={() => handleLocationClick(location)}
-                            className="group relative inline-flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-blue-400 rounded-lg text-white transition-all duration-200 font-medium select-none"
+                            className="group relative inline-flex items-center gap-2 px-3 py-1 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-blue-400 rounded-lg text-white transition-all duration-200 font-medium cursor-pointer"
                           >
                             <span className="text-sm md:text-base">
                               {location.name}
@@ -669,6 +691,12 @@ export function ServerLocationsSection() {
                           </button>
                         );
                       })}
+                      <button
+                        onClick={startPingMeasurements}
+                        className="text-sky-400 cursor-pointer hover:text-sky-300 transition-colors"
+                      >
+                        Retry ping
+                      </button>
                     </div>
                   </div>
                 </div>
