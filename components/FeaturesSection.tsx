@@ -11,7 +11,7 @@ import {
 
 export function FeaturesSection() {
   return (
-    <section className="pb-24 pt-14 bg-white">
+    <section className="pb-24 pt-14 bg-[#F6F0E6]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12 items-start">
           <div>
@@ -20,8 +20,7 @@ export function FeaturesSection() {
               DDoS Schutz
             </h3>
             <p className="text-gray-600 leading-relaxed">
-              Delay-free, permanent DDoS protection from market-leading provider
-              Netscout Arbor Sightline
+              Delay-free, in-house permanent DDoS protection up to 40 Gbps / 35 Mpps in less than 1 second response time
             </p>
           </div>
 
@@ -71,7 +70,8 @@ export function FeaturesSection() {
             </h3>
             <p className="text-gray-600 leading-relaxed">
               From the very beginning, you will be assigned a dedicated personal
-              contact on Discord (found on panel) who will be available to assist you at any time
+              contact on Discord (found on panel) who will be available to
+              assist you at any time
             </p>
           </div>
 

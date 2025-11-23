@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 export function ServicesSection() {
   return (
-    <div>
+    <div className="bg-[#F6F0E6]">
       <div className="max-w-7xl px-4 sm:px-6 lg:px-8 2xl:px-0 mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 overflow-hidden xl:rounded-md border border-gray-200 shadow-md">
           {/* Minecraft Servers */}
