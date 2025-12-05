@@ -21,6 +21,10 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         classic:
           "text-white bg-gradient-to-b from-[#0091ff] to-[#0081f1] hover:from-[#0081f1] hover:to-[#006adc] rounded-[4px] border border-[#0080f180] shadow-[inset_0_0.5px_0_0.5px_rgba(255,255,255,0.25),inset_0_-1px_0_0_rgba(0,0,0,0.15),0_1px_2px_0_rgba(0,0,0,0.15)] active:shadow-[inset_0_0.5px_0_0.5px_rgba(255,255,255,0.25),inset_0_-1px_0_0_rgba(0,0,0,0.15)]",
+        berkeley:
+          "text-white bg-[#003262] hover:bg-[#00254a] rounded-md font-semibold shadow-sm hover:shadow-md transition-all",
+        gold:
+          "text-[#003262] bg-[#FDB515] hover:bg-[#e5a313] rounded-md font-semibold shadow-sm hover:shadow-md transition-all",
         grass:
           "text-white bg-gradient-to-b from-[#2e8e40] to-[#1c8033] hover:from-[#1c8033] hover:to-[#1a7f31] rounded-[4px] border border-[#49ff6b86] shadow-[inset_0_0.5px_0_0.5px_rgba(255,255,255,0.25),inset_0_-1px_0_0_rgba(0,0,0,0.15),0_1px_2px_0_rgba(0,0,0,0.15)] active:shadow-[inset_0_0.5px_0_0.5px_rgba(255,255,255,0.25),inset_0_-1px_0_0_rgba(0,0,0,0.15)]",
         minecraft: "minecraft-button rounded-none !transition-none",

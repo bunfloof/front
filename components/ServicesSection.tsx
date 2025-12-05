@@ -1,289 +1,178 @@
+"use client";
+
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-export function ServicesSection() {
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+
+interface ServiceCardProps {
+  title: string;
+  description: string;
+  price: string;
+  priceLabel: string;
+  features: string[];
+  imageSrc: string;
+  imageAlt: string;
+  linkText: string;
+  href?: string;
+}
+
+function ServiceCard({
+  title,
+  description,
+  price,
+  priceLabel,
+  features,
+  imageSrc,
+  imageAlt,
+  linkText,
+  href = "#",
+}: ServiceCardProps) {
   return (
-    <div className="bg-[#F6F0E6]">
-      <div className="max-w-7xl px-4 sm:px-6 lg:px-8 2xl:px-0 mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 overflow-hidden xl:rounded-md border border-gray-200 shadow-md">
-          {/* Minecraft Servers */}
-          <div className="bg-[#1a451f] transition-colors duration-200">
-            <div className="flex flex-col h-full">
-              <div className="flex items-start justify-between mb-2">
-                <div className="pl-4 pt-2 rounded flex-shrink-0">
-                  <Image
-                    src="/minecraftgrass.png"
-                    alt="Minecraft"
-                    width={92}
-                    height={92}
-                  />
-                </div>
-                <div className="text-right">
-                  <div className="flex items-start justify-end pt-4 pr-4">
-                    <span className="text-2xl font-bold text-white">$</span>
-                    <span className="text-4xl font-bold text-white">1</span>
-                    <span className="text-xl font-extrabold text-white align-super">
-                      .00
-                    </span>
-                  </div>
-                  <p className="text-xs text-white/80 uppercase pr-4 pt-1">
-                    Per month
-                  </p>
-                </div>
-              </div>
-              <div className="bg-[#ffffff1a]/100 pt-4 pb-2">
-                <h3 className="text-2xl font-medium text-white mb-1 px-6">
-                  Minecraft Servers
-                </h3>
-                <p className="text-[#a6e1a6] text-md mb-2 px-6">
-                  Game servers managed via Pterodactyl Panel - instantly
-                  deployed.
-                </p>
-              </div>
-              <div className="flex-grow mb-2">
-                <ul className="space-y-1 pl-8 pt-5 pb-4">
-                  <li className="flex items-start text-md">
-                    <span className="text-white mr-1 flex-shrink-0">+</span>
-                    <span className="text-white">Pterodactyl Panel Beta</span>
-                  </li>
-                  <li className="flex items-start text-md">
-                    <span className="text-white mr-1 flex-shrink-0">+</span>
-                    <span className="text-white">Switch Between Games</span>
-                  </li>
-                  <li className="flex items-start text-md">
-                    <span className="text-white mr-1 flex-shrink-0">+</span>
-                    <span className="text-white">
-                      Global Locations Available
-                    </span>
-                  </li>
-                  <li className="flex items-start text-md">
-                    <span className="text-white mr-1 flex-shrink-0">+</span>
-                    <span className="text-white">DDoS Protected Network</span>
-                  </li>
-                  <li className="flex items-start text-md">
-                    <span className="text-white mr-1 flex-shrink-0">+</span>
-                    <span className="text-white">Instant Setup</span>
-                  </li>
-                </ul>
-              </div>
+    <div className="bg-white h-full flex flex-col">
+      {/* Image header */}
+      <div className="relative h-48 bg-[#003262]/5 flex items-center justify-center p-6">
+        <Image
+          src={imageSrc}
+          alt={imageAlt}
+          width={100}
+          height={100}
+          className="object-contain"
+        />
+      </div>
 
-              <div className="mb-8 text-center">
-                <Button variant="minecraft" size="xl" className="text-xl">
-                  See Plans
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          {/* Game/App Servers */}
-          <div className="bg-[#1a3445] transition-colors duration-200">
-            <div className="flex flex-col h-full">
-              <div className="flex items-start justify-between mb-2">
-                <div className="pl-4 pt-2 rounded flex-shrink-0">
-                  <Image
-                    src="/discordbot.png"
-                    alt="Discord+Bot"
-                    width={92}
-                    height={92}
-                  />
-                </div>
-                <div className="text-right">
-                  <div className="flex items-start justify-end pt-4 pr-4">
-                    <span className="text-2xl font-bold text-white">$</span>
-                    <span className="text-4xl font-bold text-white">1</span>
-                    <span className="text-xl font-extrabold text-white align-super">
-                      .00
-                    </span>
-                  </div>
-                  <p className="text-xs text-white/80 uppercase pr-4 pt-1">
-                    Per month
-                  </p>
-                </div>
-              </div>
-              <div className="bg-[#ffffff1a]/100 pt-4 pb-2">
-                <h3 className="text-2xl font-medium text-white mb-1 px-6">
-                  Game/App Servers
-                </h3>
-
-                <p className="text-[#a7cae2] text-md mb-2 px-6">
-                  Game/Application servers managed via Pterodactyl Panel -
-                  instantly deployed.
-                </p>
-              </div>
-              <div className="flex-grow mb-2">
-                <ul className="space-y-1 pl-8 pt-5 pb-4">
-                  <li className="flex items-start text-md">
-                    <span className="text-white mr-1 flex-shrink-0">+</span>
-                    <span className="text-white">Pterodactyl Panel Beta</span>
-                  </li>
-                  <li className="flex items-start text-md">
-                    <span className="text-white mr-1 flex-shrink-0">+</span>
-                    <span className="text-white">Switch Between Games</span>
-                  </li>
-                  <li className="flex items-start text-md">
-                    <span className="text-white mr-1 flex-shrink-0">+</span>
-                    <span className="text-white">
-                      Global Locations Available
-                    </span>
-                  </li>
-                  <li className="flex items-start text-md">
-                    <span className="text-white mr-1 flex-shrink-0">+</span>
-                    <span className="text-white">DDoS Protected Network</span>
-                  </li>
-                  <li className="flex items-start text-md">
-                    <span className="text-white mr-1 flex-shrink-0">+</span>
-                    <span className="text-white">Instant Setup</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="mb-8 text-center">
-                <Button variant="classic" size="xl" className="text-xl">
-                  See Plans
-                </Button>
-              </div>
-            </div>
-          </div>
-          {/* Website Hosting */}
-          <div className="bg-[#45251a] transition-colors duration-200">
-            <div className="flex flex-col h-full">
-              <div className="flex items-start justify-between mb-2">
-                <div className="pl-4 pt-2 rounded flex-shrink-0">
-                  <Image
-                    src="/web.png"
-                    alt="Website Hosting"
-                    width={92}
-                    height={92}
-                    className="p-1"
-                  />
-                </div>
-                <div className="text-right">
-                  <div className="flex items-start justify-end pt-4 pr-4">
-                    <span className="text-2xl font-bold text-white">$</span>
-                    <span className="text-4xl font-bold text-white">1</span>
-                    <span className="text-xl font-extrabold text-white align-super">
-                      .00
-                    </span>
-                  </div>
-                  <p className="text-xs text-white/80 uppercase pr-4 pt-1">
-                    Per month
-                  </p>
-                </div>
-              </div>
-              <div className="bg-[#ffffff1a]/100 pt-4 pb-2">
-                <h3 className="text-2xl font-medium text-white mb-1 px-6">
-                  Website Hosting
-                </h3>
-
-                <p className="text-[#e2b6a7] text-md mb-2 px-6">
-                  Shared hosting that supports WordPress, PHP, Python, NodeJS, Ruby, and
-                  more.
-                </p>
-              </div>
-              <div className="flex-grow mb-2">
-                <ul className="space-y-1 pl-8 pt-5 pb-4">
-                  <li className="flex items-start text-md">
-                    <span className="text-white mr-1 flex-shrink-0">+</span>
-                    <span className="text-white">cPanel control panel</span>
-                  </li>
-                  <li className="flex items-start text-md">
-                    <span className="text-white mr-1 flex-shrink-0">+</span>
-                    <span className="text-white">
-                      NodeJS, Ruby, Python, PHP, and more
-                    </span>
-                  </li>
-                  <li className="flex items-start text-md">
-                    <span className="text-white mr-1 flex-shrink-0">+</span>
-                    <span className="text-white">Wordpress Installer</span>
-                  </li>
-                  <li className="flex items-start text-md">
-                    <span className="text-white mr-1 flex-shrink-0">+</span>
-                    <span className="text-white">
-                      Managed by StylenHost LTD
-                    </span>
-                  </li>
-                  <li className="flex items-start text-md">
-                    <span className="text-white mr-1 flex-shrink-0">+</span>
-                    <span className="text-white">Instant Setup</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="mb-8 text-center">
-                <Button variant="classic" size="xl" className="text-xl">
-                  See Plans
-                </Button>
-              </div>
-            </div>
-          </div>
-          {/* Private Cloud */}
-          <div className="bg-white transition-colors duration-200">
-            <div className="flex flex-col h-full">
-              <div className="flex items-start justify-between mb-2">
-                <div className="pl-4 pt-2 rounded flex-shrink-0">
-                  <Image
-                    src="/cloud.png"
-                    alt="Minecraft"
-                    width={92}
-                    height={92}
-                  />
-                </div>
-                <div className="text-right">
-                  <div className="flex items-start justify-end pt-4 pr-4">
-                    <span className="text-xl font-extrabold text-black align-super">
-                      Custom
-                    </span>
-                  </div>
-                  <p className="text-xs text-gray-500 uppercase pr-4 pt-1">
-                    Per month
-                  </p>
-                </div>
-              </div>
-              <div className="bg-gray-200 pt-4 pb-2">
-                <h3 className="text-2xl font-semibold text-black mb-1 px-6">
-                  Private Cloud
-                </h3>
-
-                <p className="text-gray-600 text-md mb-2 px-6">
-                  Private cloud servers with dedicated resources in our private
-                  cloud, with full root access.
-                </p>
-              </div>
-              <div className="flex-grow mb-2">
-                <ul className="space-y-1 pl-8 pt-5 pb-4">
-                  <li className="flex items-start text-md">
-                    <span className="text-black mr-1 flex-shrink-0">+</span>
-                    <span className="text-gray-700">Install Your Own OS</span>
-                  </li>
-                  <li className="flex items-start text-md">
-                    <span className="text-black mr-1 flex-shrink-0">+</span>
-                    <span className="text-gray-700">Dedicated Resources</span>
-                  </li>
-                  <li className="flex items-start text-md">
-                    <span className="text-black mr-1 flex-shrink-0">+</span>
-                    <span className="text-gray-700">Full Root Access</span>
-                  </li>
-                  <li className="flex items-start text-md">
-                    <span className="text-black mr-1 flex-shrink-0">+</span>
-                    <span className="text-gray-700">
-                      DDoS Protection Available
-                    </span>
-                  </li>
-                  <li className="flex items-start text-md">
-                    <span className="text-black mr-1 flex-shrink-0">+</span>
-                    <span className="text-gray-700">Scalable Resources</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="mb-8 text-center">
-                <Button variant="classic" size="xl" className="text-xl">
-                  Get Quote
-                </Button>
-              </div>
-            </div>
-          </div>
+      {/* Content */}
+      <div className="p-6 flex flex-col flex-grow">
+        {/* Price */}
+        <div className="mb-4">
+          <span className="text-3xl font-bold text-[#003262]">{price}</span>
+          <span className="text-sm text-gray-500 ml-1">/{priceLabel}</span>
         </div>
+
+        {/* Title */}
+        <h3 className="text-xl font-bold text-[#003262] mb-2">{title}</h3>
+
+        {/* Description */}
+        <p className="text-gray-600 text-sm leading-relaxed mb-5">
+          {description}
+        </p>
+
+        {/* Features */}
+        <ul className="space-y-2 mb-6 flex-grow">
+          {features.map((feature, index) => (
+            <li
+              key={index}
+              className="flex items-start gap-2 text-sm text-gray-700"
+            >
+              <span className="text-[#FDB515] mt-1">•</span>
+              {feature}
+            </li>
+          ))}
+        </ul>
+
+        {/* Link */}
+        <a
+          href={href}
+          className="inline-flex items-center gap-1 text-[#003262] font-semibold hover:text-[#FDB515] transition-colors group"
+        >
+          {linkText}
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        </a>
       </div>
     </div>
+  );
+}
+
+const services: ServiceCardProps[] = [
+  {
+    title: "Minecraft Servers",
+    description:
+      "Game servers managed via Pterodactyl Panel — instantly deployed.",
+    price: "$1",
+    priceLabel: "month",
+    features: [
+      "Pterodactyl Panel Beta",
+      "Switch between games",
+      "Global locations",
+      "DDoS protection",
+      "Instant setup",
+    ],
+    imageSrc: "/minecraftgrass.png",
+    imageAlt: "Minecraft",
+    linkText: "View plans",
+  },
+  {
+    title: "Game/App Servers",
+    description: "Game and application servers managed via Pterodactyl Panel.",
+    price: "$1",
+    priceLabel: "month",
+    features: [
+      "Pterodactyl Panel Beta",
+      "Switch between games",
+      "Global locations",
+      "DDoS protection",
+      "Instant setup",
+    ],
+    imageSrc: "/discordbot.png",
+    imageAlt: "Discord Bot",
+    linkText: "View plans",
+  },
+  {
+    title: "Website Hosting",
+    description:
+      "Shared hosting supporting WordPress, PHP, Python, NodeJS, and more.",
+    price: "$1",
+    priceLabel: "month",
+    features: [
+      "cPanel control panel",
+      "Multiple languages supported",
+      "WordPress installer",
+      "Managed service",
+      "Instant setup",
+    ],
+    imageSrc: "/web.png",
+    imageAlt: "Website Hosting",
+    linkText: "View plans",
+  },
+  {
+    title: "Private Cloud",
+    description:
+      "Private cloud servers with dedicated resources and full root access.",
+    price: "Custom",
+    priceLabel: "quote",
+    features: [
+      "Install your own OS",
+      "Dedicated resources",
+      "Full root access",
+      "DDoS protection available",
+      "Scalable resources",
+    ],
+    imageSrc: "/cloud.png",
+    imageAlt: "Private Cloud",
+    linkText: "Get a quote",
+  },
+];
+
+export function ServicesSection() {
+  return (
+    <section className="py-16 md:py-24 bg-[#F8F8F8]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section header */}
+        <div className="max-w-2xl mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#003262] mb-4">
+            Our Services
+          </h2>
+          <p className="text-gray-600 text-lg">
+            High-performance hosting for games, applications, and websites.
+          </p>
+        </div>
+
+        {/* Services grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {services.map((service) => (
+            <ServiceCard key={service.title} {...service} />
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

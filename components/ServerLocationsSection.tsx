@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import {
   ComposableMap,
   Geographies,
@@ -8,6 +8,7 @@ import {
   Marker,
   ZoomableGroup,
 } from "react-simple-maps";
+import { motion, AnimatePresence } from "motion/react";
 import { SignalBar, pingToSignalState } from "./SignalBar";
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
@@ -116,6 +117,9 @@ export function ServerLocationsSection() {
 
   // Store websockets in a ref so we can access them for cleanup and retry
   const websocketsRef = useRef<Record<string, WebSocket>>({});
+
+  // Track if we've already auto-navigated to lowest ping location on initial load
+  const hasAutoNavigated = useRef(false);
 
   // Adjust scale based on screen size to keep elements visible
   useEffect(() => {
@@ -298,6 +302,40 @@ export function ServerLocationsSection() {
 
     requestAnimationFrame(animate);
   };
+
+  // Auto-navigate to lowest ping location on initial load only
+  useEffect(() => {
+    // Skip if we've already auto-navigated
+    if (hasAutoNavigated.current) return;
+
+    // Check if we have at least one valid ping (not null and not error)
+    const validPings = Object.entries(pings).filter(
+      ([_, ping]) => ping !== null && ping >= 0
+    );
+
+    // Wait until we have at least one valid ping
+    if (validPings.length === 0) return;
+
+    // Find the location with the lowest ping
+    const lowestPingEntry = validPings.reduce((lowest, current) => {
+      return current[1]! < lowest[1]! ? current : lowest;
+    });
+
+    const lowestPingLocationName = lowestPingEntry[0];
+    const lowestPingLocation = locations.find(
+      (l) => l.name === lowestPingLocationName
+    );
+
+    if (lowestPingLocation) {
+      // Mark as navigated so we don't do this again
+      hasAutoNavigated.current = true;
+
+      // Small delay to let the UI settle
+      setTimeout(() => {
+        handleLocationClick(lowestPingLocation);
+      }, 500);
+    }
+  }, [pings]);
 
   return (
     <section>
@@ -643,62 +681,197 @@ export function ServerLocationsSection() {
           </div>
 
           {/* Hero Overlay - Left aligned with gradient */}
-          <div className="absolute top-0 left-0 h-full w-full flex items-center pointer-events-none bg-gradient-to-r from-[#080F2C] from-20% via-[#080F2C]/60 via-40% to-transparent to-60%">
+          <div className="absolute top-0 left-0 h-full w-full flex items-center pointer-events-none bg-gradient-to-r from-[#080F2C] from-25% via-[#080F2C]/70 via-50% to-transparent to-70%">
             <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 2xl:px-0 pointer-events-none">
               <div className="max-w-xl pointer-events-auto">
                 <div className="pr-6 md:pr-8 lg:pr-12">
                   {/* Hero Header */}
-                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium mb-6 leading-tight text-white mb-6 leading-tight">
-                    7 global server locations
+                  <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight text-white">
+                    Global Server Locations
                   </h1>
+                  <p className="text-gray-400 text-base mb-8">
+                    Low latency servers worldwide for your players.
+                  </p>
 
-                  {/* Location Links */}
-                  <div className="space-y-4">
-                    <p className="text-gray-300 text-base md:text-lg mb-4">
-                      Our servers around the world provide the lowest ping for
-                      your players.
-                    </p>
-                    <div className="flex flex-wrap gap-2 md:gap-3">
-                      {locations.map((location) => {
-                        const ping = pings[location.name];
-                        const signalState = pingToSignalState(ping);
-                        const pingText =
-                          ping === null
-                            ? "..."
-                            : ping < 0
-                            ? "ERR"
-                            : `${Math.round(ping)}ms`;
+                  {/* Locations by Continent - 2 column grid */}
+                  <div className="grid grid-cols-2 gap-x-8 gap-y-6">
+                    {/* North America */}
+                    <div>
+                      <h3 className="text-[#FDB515] text-xs font-semibold uppercase tracking-wider mb-3">
+                        North America
+                      </h3>
+                      <div className="flex flex-col gap-2">
+                        {locations
+                          .filter((l) =>
+                            [
+                              "Los Angeles",
+                              "Dallas",
+                              "Chicago",
+                              "New York",
+                            ].includes(l.name)
+                          )
+                          .sort((a, b) => {
+                            const pingA = pings[a.name];
+                            const pingB = pings[b.name];
+                            // Put null/error pings at the end
+                            if (pingA === null || pingA < 0) return 1;
+                            if (pingB === null || pingB < 0) return -1;
+                            return pingA - pingB;
+                          })
+                          .map((location) => {
+                            const ping = pings[location.name];
+                            const signalState = pingToSignalState(ping);
+                            const pingText =
+                              ping === null
+                                ? "..."
+                                : ping < 0
+                                ? "—"
+                                : `${Math.round(ping)}ms`;
+                            return (
+                              <motion.button
+                                key={location.name}
+                                layout
+                                transition={{
+                                  type: "spring",
+                                  stiffness: 500,
+                                  damping: 30,
+                                }}
+                                onClick={() => handleLocationClick(location)}
+                                className="flex items-center gap-3 w-full text-left group cursor-pointer"
+                              >
+                                <span className="text-white group-hover:text-[#FDB515] transition-colors text-sm">
+                                  {location.name}
+                                </span>
+                                <SignalBar
+                                  state={signalState}
+                                  pollingBar={pollingBar}
+                                  pixelSize={2}
+                                />
+                                <span className="text-gray-500 text-xs font-mono">
+                                  {pingText}
+                                </span>
+                              </motion.button>
+                            );
+                          })}
+                      </div>
+                    </div>
 
-                        return (
-                          <button
-                            key={location.name}
-                            onClick={() => handleLocationClick(location)}
-                            className="group relative inline-flex items-center gap-2 px-3 py-1 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-blue-400 rounded-lg text-white transition-all duration-200 font-medium cursor-pointer"
-                          >
-                            <span className="text-sm md:text-base">
-                              {location.name}
-                            </span>
-                            <div className="flex items-center gap-1.5">
-                              <SignalBar
-                                state={signalState}
-                                pollingBar={pollingBar}
-                                pixelSize={2.5}
-                              />
-                              <span className="text-xs md:text-sm font-mono text-gray-400 group-hover:text-white transition-colors">
-                                {pingText}
-                              </span>
-                            </div>
-                          </button>
-                        );
-                      })}
-                      <button
-                        onClick={startPingMeasurements}
-                        className="text-sky-400 cursor-pointer hover:text-sky-300 transition-colors"
-                      >
-                        Retry ping
-                      </button>
+                    {/* Europe */}
+                    <div>
+                      <h3 className="text-[#FDB515] text-xs font-semibold uppercase tracking-wider mb-3">
+                        Europe
+                      </h3>
+                      <div className="flex flex-col gap-2">
+                        {locations
+                          .filter((l) =>
+                            ["Frankfurt", "Helsinki"].includes(l.name)
+                          )
+                          .sort((a, b) => {
+                            const pingA = pings[a.name];
+                            const pingB = pings[b.name];
+                            if (pingA === null || pingA < 0) return 1;
+                            if (pingB === null || pingB < 0) return -1;
+                            return pingA - pingB;
+                          })
+                          .map((location) => {
+                            const ping = pings[location.name];
+                            const signalState = pingToSignalState(ping);
+                            const pingText =
+                              ping === null
+                                ? "..."
+                                : ping < 0
+                                ? "—"
+                                : `${Math.round(ping)}ms`;
+                            return (
+                              <motion.button
+                                key={location.name}
+                                layout
+                                transition={{
+                                  type: "spring",
+                                  stiffness: 500,
+                                  damping: 30,
+                                }}
+                                onClick={() => handleLocationClick(location)}
+                                className="flex items-center gap-3 w-full text-left group cursor-pointer"
+                              >
+                                <span className="text-white group-hover:text-[#FDB515] transition-colors text-sm">
+                                  {location.name}
+                                </span>
+                                <SignalBar
+                                  state={signalState}
+                                  pollingBar={pollingBar}
+                                  pixelSize={2}
+                                />
+                                <span className="text-gray-500 text-xs font-mono">
+                                  {pingText}
+                                </span>
+                              </motion.button>
+                            );
+                          })}
+                      </div>
+                    </div>
+
+                    {/* Asia */}
+                    <div>
+                      <h3 className="text-[#FDB515] text-xs font-semibold uppercase tracking-wider mb-3">
+                        Asia
+                      </h3>
+                      <div className="flex flex-col gap-2">
+                        {locations
+                          .filter((l) => ["Ho Chi Minh"].includes(l.name))
+                          .sort((a, b) => {
+                            const pingA = pings[a.name];
+                            const pingB = pings[b.name];
+                            if (pingA === null || pingA < 0) return 1;
+                            if (pingB === null || pingB < 0) return -1;
+                            return pingA - pingB;
+                          })
+                          .map((location) => {
+                            const ping = pings[location.name];
+                            const signalState = pingToSignalState(ping);
+                            const pingText =
+                              ping === null
+                                ? "..."
+                                : ping < 0
+                                ? "—"
+                                : `${Math.round(ping)}ms`;
+                            return (
+                              <motion.button
+                                key={location.name}
+                                layout
+                                transition={{
+                                  type: "spring",
+                                  stiffness: 500,
+                                  damping: 30,
+                                }}
+                                onClick={() => handleLocationClick(location)}
+                                className="flex items-center gap-3 w-full text-left group cursor-pointer"
+                              >
+                                <span className="text-white group-hover:text-[#FDB515] transition-colors text-sm">
+                                  {location.name}
+                                </span>
+                                <SignalBar
+                                  state={signalState}
+                                  pollingBar={pollingBar}
+                                  pixelSize={2}
+                                />
+                                <span className="text-gray-500 text-xs font-mono">
+                                  {pingText}
+                                </span>
+                              </motion.button>
+                            );
+                          })}
+                      </div>
                     </div>
                   </div>
+
+                  {/* Retry link */}
+                  <button
+                    onClick={startPingMeasurements}
+                    className="mt-6 text-sm text-gray-500 hover:text-white transition-colors cursor-pointer"
+                  >
+                    Refresh ping times
+                  </button>
                 </div>
               </div>
             </div>
