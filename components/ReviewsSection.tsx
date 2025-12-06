@@ -55,12 +55,12 @@ const reviews: Review[] = [
 
 function ReviewCard({ review }: { review: Review }) {
   return (
-    <div className="flex-shrink-0 w-[350px] md:w-[400px] bg-white p-6 mr-6">
-      <p className="text-gray-700 leading-relaxed mb-6">
+    <div className="flex-shrink-0 w-[350px] md:w-[400px] bg-[#071F2C] border border-[#1A77AD]/30 p-6 mr-6">
+      <p className="text-[#BDE0F5] leading-relaxed mb-6">
         "{review.text}"
       </p>
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-[#003262]/10 overflow-hidden flex items-center justify-center">
+        <div className="w-10 h-10 bg-[#0D3A54] overflow-hidden flex items-center justify-center">
           {review.avatar ? (
             <Image
               src={review.avatar}
@@ -70,12 +70,12 @@ function ReviewCard({ review }: { review: Review }) {
               className="w-full h-full object-cover"
             />
           ) : (
-            <span className="text-[#003262] font-bold text-sm">
+            <span className="text-[#00c4aa] font-bold text-sm">
               {review.name.charAt(0)}
             </span>
           )}
         </div>
-        <span className="font-semibold text-[#003262]">{review.name}</span>
+        <span className="font-semibold text-green-50">{review.name}</span>
       </div>
     </div>
   );
@@ -89,13 +89,13 @@ export function ReviewsSection() {
   const duplicatedReviews = [...reviews, ...reviews];
 
   return (
-    <section className="py-16 md:py-24 bg-[#F8F8F8] overflow-hidden">
+    <section className="py-16 md:py-24 bg-[#030F16] overflow-hidden">
       {/* Section header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-        <h2 className="text-3xl md:text-4xl font-bold text-[#003262] mb-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-green-50 mb-4">
           What Our Clients Say
         </h2>
-        <p className="text-gray-600 text-lg">
+        <p className="text-[#BDE0F5]/70 text-lg">
           Don't just take our word for it.
         </p>
       </div>
@@ -145,4 +145,3 @@ export function ReviewsSection() {
     </section>
   );
 }
-

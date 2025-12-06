@@ -40,7 +40,7 @@ export const MainNavbar = () => {
           className={`w-full transition duration-200 ${
             isAtTop
               ? "bg-transparent"
-              : "backdrop-blur-2xl bg-black/70 border-b border-white/20"
+              : "backdrop-blur-2xl bg-black/20 border-b border-white/20"
           }`}
         >
           <div

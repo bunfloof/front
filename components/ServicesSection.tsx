@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 interface ServiceCardProps {
@@ -14,6 +13,7 @@ interface ServiceCardProps {
   imageAlt: string;
   linkText: string;
   href?: string;
+  featured?: boolean;
 }
 
 function ServiceCard({
@@ -26,11 +26,34 @@ function ServiceCard({
   imageAlt,
   linkText,
   href = "#",
+  featured = false,
 }: ServiceCardProps) {
   return (
-    <div className="bg-white h-full flex flex-col">
-      {/* Image header */}
-      <div className="relative h-48 bg-[#003262]/5 flex items-center justify-center p-6">
+    <div
+      className={`relative h-full flex flex-col rounded-sm transition-colors ${
+        featured
+          ? "bg-[#071F2C] border-2 border-[#00c4aa] shadow-[0_0_30px_rgba(0,196,170,0.15)]"
+          : "bg-[#071F2C] border border-[#1A77AD]/30 hover:border-[#33A1E0]/50 overflow-hidden"
+      }`}
+    >
+      {/* Featured badge - centered on top border */}
+      {featured && (
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+          <span className="bg-[#00c4aa] text-[#030F16] text-xs font-bold uppercase tracking-wider px-4 py-1.5">
+            Featured
+          </span>
+        </div>
+      )}
+
+      {/* Image header with gradient */}
+      <div
+        className="relative h-48 flex items-center justify-center p-6"
+        style={{
+          backgroundImage: featured
+            ? "linear-gradient(135deg, #0D3A54 0%, #071F2C 50%, rgba(0,196,170,0.1) 100%)"
+            : "linear-gradient(135deg, #0D3A54 0%, #071F2C 100%)",
+        }}
+      >
         <Image
           src={imageSrc}
           alt={imageAlt}
@@ -44,15 +67,15 @@ function ServiceCard({
       <div className="p-6 flex flex-col flex-grow">
         {/* Price */}
         <div className="mb-4">
-          <span className="text-3xl font-bold text-[#003262]">{price}</span>
-          <span className="text-sm text-gray-500 ml-1">/{priceLabel}</span>
+          <span className="text-3xl font-bold text-green-50">{price}</span>
+          <span className="text-sm text-[#7AC2EB]/60 ml-1">/{priceLabel}</span>
         </div>
 
         {/* Title */}
-        <h3 className="text-xl font-bold text-[#003262] mb-2">{title}</h3>
+        <h3 className="text-xl font-bold text-green-50 mb-2">{title}</h3>
 
         {/* Description */}
-        <p className="text-gray-600 text-sm leading-relaxed mb-5">
+        <p className="text-[#BDE0F5]/70 text-sm leading-relaxed mb-5">
           {description}
         </p>
 
@@ -61,9 +84,9 @@ function ServiceCard({
           {features.map((feature, index) => (
             <li
               key={index}
-              className="flex items-start gap-2 text-sm text-gray-700"
+              className="flex items-start gap-2 text-sm text-[#BDE0F5]"
             >
-              <span className="text-[#FDB515] mt-1">•</span>
+              <span className="text-[#00c4aa] mt-1">•</span>
               {feature}
             </li>
           ))}
@@ -72,7 +95,11 @@ function ServiceCard({
         {/* Link */}
         <a
           href={href}
-          className="inline-flex items-center gap-1 text-[#003262] font-semibold hover:text-[#FDB515] transition-colors group"
+          className={`inline-flex items-center gap-1 font-semibold transition-colors group ${
+            featured
+              ? "text-[#00c4aa] hover:text-white"
+              : "text-[#7AC2EB] hover:text-[#00c4aa]"
+          }`}
         >
           {linkText}
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -99,6 +126,7 @@ const services: ServiceCardProps[] = [
     imageSrc: "/minecraftgrass.png",
     imageAlt: "Minecraft",
     linkText: "View plans",
+    featured: true,
   },
   {
     title: "Game/App Servers",
@@ -154,14 +182,39 @@ const services: ServiceCardProps[] = [
 
 export function ServicesSection() {
   return (
-    <section className="py-16 md:py-24 bg-[#F8F8F8]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section
+      className="relative py-16 md:py-24 bg-grid-pattern"
+      style={{
+        backgroundColor: "#030F16",
+      }}
+    >
+      {/* Subtle gradient overlays */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute top-0 left-0 w-1/2 h-1/2 opacity-20"
+          style={{
+            background:
+              "radial-gradient(ellipse at top left, rgba(17,168,169,0.3) 0%, transparent 70%)",
+          }}
+        />
+        <div
+          className="absolute top-0 right-0 w-1/2 h-1/2 opacity-20"
+          style={{
+            background:
+              "radial-gradient(ellipse at top right, rgba(4,129,205,0.3) 0%, transparent 70%)",
+          }}
+        />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section header */}
         <div className="max-w-2xl mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#003262] mb-4">
+          {/* Accent line */}
+          <div className="w-16 h-1 accent-line-gradient mb-6" />
+          <h2 className="text-3xl md:text-4xl font-bold text-green-50 mb-4">
             Our Services
           </h2>
-          <p className="text-gray-600 text-lg">
+          <p className="text-[#BDE0F5]/70 text-lg">
             High-performance hosting for games, applications, and websites.
           </p>
         </div>
@@ -171,6 +224,44 @@ export function ServicesSection() {
           {services.map((service) => (
             <ServiceCard key={service.title} {...service} />
           ))}
+        </div>
+      </div>
+
+      {/* Glowing divider transition - inspired by frontcum */}
+      <div className="absolute bottom-0 left-0 right-0 h-0 pointer-events-none overflow-hidden">
+        {/* Gradient fade from dark to light */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, transparent 0%, #E8F4F8 100%)",
+          }}
+        />
+        {/* Accent line with glow */}
+        <div className="absolute top-0 left-0 right-0">
+          <span
+            className="block h-[1px] w-full opacity-60"
+            style={{
+              backgroundImage:
+                "linear-gradient(90deg, rgba(87,230,170,1), rgba(94,171,194,1) 51%, rgba(26,163,255,1) 100%)",
+            }}
+          />
+          {/* Left glow */}
+          <span
+            className="absolute -top-20 -left-20 w-40 h-40 rounded-full blur-3xl opacity-20"
+            style={{
+              background:
+                "linear-gradient(90deg, rgb(0, 0, 136), rgb(17,168,169))",
+            }}
+          />
+          {/* Right glow */}
+          <span
+            className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-20"
+            style={{
+              background:
+                "linear-gradient(90deg, rgb(0, 67, 136), rgb(4,129,205))",
+            }}
+          />
         </div>
       </div>
     </section>

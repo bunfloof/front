@@ -4,8 +4,8 @@ import { MainNavbar } from "@/components/MainNavbar";
 import { HeroSection } from "@/components/HeroSection";
 import { StatsSection } from "@/components/StatsSection";
 import { SupportSection } from "@/components/SupportSection";
+import { GuaranteeSection } from "@/components/GuaranteeSection";
 import { PowerfulHardwareSection } from "@/components/PowerfulHardwareSection";
-import { TrustSection } from "@/components/TrustSection";
 import { ServicesSection } from "@/components/ServicesSection";
 import { FeaturesSection } from "@/components/FeaturesSection";
 import { ReviewsSection } from "@/components/ReviewsSection";
@@ -26,16 +26,18 @@ export default function Home() {
       <SupportSection />
       {/* Powerful Hardware Section */}
       <PowerfulHardwareSection />
+      {/* Panel Features Section */}
+      <PanelFeaturesSection />
       {/* Features Section */}
       <FeaturesSection />
       {/* Reviews Section */}
       <ReviewsSection />
       {/* Featured Partner Section */}
       <FeaturedPartnerSection />
-      {/* Panel Features Section */}
-      <PanelFeaturesSection />
       {/* Server Locations Section */}
       <ServerLocationsSection />
+      {/* Guarantee Section */}
+      <GuaranteeSection />
     </div>
   );
 }

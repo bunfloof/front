@@ -341,9 +341,9 @@ export function ServerLocationsSection() {
     <section>
       {/* Full-width map container */}
       <div className="w-full">
-        <div className="relative w-full h-[600px] bg-black overflow-hidden border border-gray-800 select-none">
+        <div className="relative w-full h-[600px] bg-[#030F16] overflow-hidden border border-[#1A77AD]/30 select-none">
           {/* Map Section - Full Width */}
-          <div className="w-full h-full bg-[#080F2C] select-none">
+          <div className="w-full h-full bg-[#030F16] select-none">
             <ComposableMap
               projection="geoMercator"
               className="w-full h-full"
@@ -388,13 +388,13 @@ export function ServerLocationsSection() {
                         <Geography
                           key={geo.rsmKey}
                           geography={geo}
-                          fill="#222843"
-                          stroke="#080F2C"
+                          fill="#0D3A54"
+                          stroke="#030F16"
                           strokeWidth={0.5}
                           style={{
                             default: { outline: "none" },
-                            hover: { fill: "#222843", outline: "none" },
-                            pressed: { fill: "#222843", outline: "none" },
+                            hover: { fill: "#0D3A54", outline: "none" },
+                            pressed: { fill: "#0D3A54", outline: "none" },
                           }}
                         />
                       ))
@@ -408,7 +408,7 @@ export function ServerLocationsSection() {
                       <Geography
                         key={geo.rsmKey}
                         geography={geo}
-                        fill="#070e2b"
+                        fill="#030F16"
                         stroke="none"
                         style={{
                           default: { outline: "none" },
@@ -430,7 +430,7 @@ export function ServerLocationsSection() {
                       {/* Pulsing outer circle */}
                       <circle
                         r={12}
-                        fill="#3b82f6"
+                        fill="#00c4aa"
                         fillOpacity={0.3}
                         className="animate-ping"
                         style={{
@@ -438,7 +438,7 @@ export function ServerLocationsSection() {
                         }}
                       />
                       {/* Static inner dot */}
-                      <circle r={6} fill="#60a5fa" />
+                      <circle r={6} fill="#00c4aa" />
                     </g>
                   </Marker>
                 ))}
@@ -493,7 +493,7 @@ export function ServerLocationsSection() {
                         transform: "translate(-50%, -100%)",
                         borderLeft: "8px solid transparent",
                         borderRight: "8px solid transparent",
-                        borderBottom: "8px solid #323953",
+                        borderBottom: "8px solid #1A77AD",
                       };
                       arrowAfterStyle = {
                         ...baseArrowStyle,
@@ -505,7 +505,7 @@ export function ServerLocationsSection() {
                         transform: "translate(-50%, -100%)",
                         borderLeft: "7px solid transparent",
                         borderRight: "7px solid transparent",
-                        borderBottom: "7px solid #080F2C",
+                        borderBottom: "7px solid #071F2C",
                       };
                       break;
                     case "bottom":
@@ -526,7 +526,7 @@ export function ServerLocationsSection() {
                         transform: "translate(-50%, 100%)",
                         borderLeft: "8px solid transparent",
                         borderRight: "8px solid transparent",
-                        borderTop: "8px solid #323953",
+                        borderTop: "8px solid #1A77AD",
                       };
                       arrowAfterStyle = {
                         ...baseArrowStyle,
@@ -538,7 +538,7 @@ export function ServerLocationsSection() {
                         transform: "translate(-50%, 100%)",
                         borderLeft: "7px solid transparent",
                         borderRight: "7px solid transparent",
-                        borderTop: "7px solid #080F2C",
+                        borderTop: "7px solid #071F2C",
                       };
                       break;
                     case "left":
@@ -556,7 +556,7 @@ export function ServerLocationsSection() {
                         transform: "translate(-100%, -50%)",
                         borderTop: "8px solid transparent",
                         borderBottom: "8px solid transparent",
-                        borderRight: "8px solid #323953",
+                        borderRight: "8px solid #1A77AD",
                       };
                       arrowAfterStyle = {
                         ...baseArrowStyle,
@@ -565,7 +565,7 @@ export function ServerLocationsSection() {
                         transform: "translate(-100%, -50%)",
                         borderTop: "7px solid transparent",
                         borderBottom: "7px solid transparent",
-                        borderRight: "7px solid #080F2C",
+                        borderRight: "7px solid #071F2C",
                       };
                       break;
                     case "right":
@@ -583,7 +583,7 @@ export function ServerLocationsSection() {
                         transform: "translate(100%, -50%)",
                         borderTop: "8px solid transparent",
                         borderBottom: "8px solid transparent",
-                        borderLeft: "8px solid #323953",
+                        borderLeft: "8px solid #1A77AD",
                       };
                       arrowAfterStyle = {
                         ...baseArrowStyle,
@@ -592,7 +592,7 @@ export function ServerLocationsSection() {
                         transform: "translate(100%, -50%)",
                         borderTop: "7px solid transparent",
                         borderBottom: "7px solid transparent",
-                        borderLeft: "7px solid #080F2C",
+                        borderLeft: "7px solid #071F2C",
                       };
                       break;
                   }
@@ -618,7 +618,7 @@ export function ServerLocationsSection() {
                           }}
                         >
                           <div
-                            className="relative inline-flex items-center gap-2 px-2 py-1 bg-[#080F2C] border border-[#323953] rounded-[3px] whitespace-nowrap select-none"
+                            className="relative inline-flex items-center gap-2 px-2 py-1 bg-[#071F2C] border border-[#1A77AD] rounded-[3px] whitespace-nowrap select-none"
                             style={{
                               position: "absolute",
                               pointerEvents: "none",
@@ -681,7 +681,7 @@ export function ServerLocationsSection() {
           </div>
 
           {/* Hero Overlay - Left aligned with gradient */}
-          <div className="absolute top-0 left-0 h-full w-full flex items-center pointer-events-none bg-gradient-to-r from-[#080F2C] from-25% via-[#080F2C]/70 via-50% to-transparent to-70%">
+          <div className="absolute top-0 left-0 h-full w-full flex items-center pointer-events-none bg-gradient-to-r from-[#030F16] from-25% via-[#030F16]/70 via-50% to-transparent to-70%">
             <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 2xl:px-0 pointer-events-none">
               <div className="max-w-xl pointer-events-auto">
                 <div className="pr-6 md:pr-8 lg:pr-12">
@@ -689,7 +689,7 @@ export function ServerLocationsSection() {
                   <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight text-white">
                     Global Server Locations
                   </h1>
-                  <p className="text-gray-400 text-base mb-8">
+                  <p className="text-[#BDE0F5]/70 text-base mb-8">
                     Low latency servers worldwide for your players.
                   </p>
 
@@ -697,7 +697,7 @@ export function ServerLocationsSection() {
                   <div className="grid grid-cols-2 gap-x-8 gap-y-6">
                     {/* North America */}
                     <div>
-                      <h3 className="text-[#FDB515] text-xs font-semibold uppercase tracking-wider mb-3">
+                      <h3 className="text-[#00c4aa] text-xs font-semibold uppercase tracking-wider mb-3">
                         North America
                       </h3>
                       <div className="flex flex-col gap-2">
@@ -739,7 +739,7 @@ export function ServerLocationsSection() {
                                 onClick={() => handleLocationClick(location)}
                                 className="flex items-center gap-3 w-full text-left group cursor-pointer"
                               >
-                                <span className="text-white group-hover:text-[#FDB515] transition-colors text-sm">
+                                <span className="text-white group-hover:text-[#00c4aa] transition-colors text-sm">
                                   {location.name}
                                 </span>
                                 <SignalBar
@@ -747,7 +747,7 @@ export function ServerLocationsSection() {
                                   pollingBar={pollingBar}
                                   pixelSize={2}
                                 />
-                                <span className="text-gray-500 text-xs font-mono">
+                                <span className="text-[#7AC2EB]/60 text-xs font-mono">
                                   {pingText}
                                 </span>
                               </motion.button>
@@ -758,7 +758,7 @@ export function ServerLocationsSection() {
 
                     {/* Europe */}
                     <div>
-                      <h3 className="text-[#FDB515] text-xs font-semibold uppercase tracking-wider mb-3">
+                      <h3 className="text-[#00c4aa] text-xs font-semibold uppercase tracking-wider mb-3">
                         Europe
                       </h3>
                       <div className="flex flex-col gap-2">
@@ -794,7 +794,7 @@ export function ServerLocationsSection() {
                                 onClick={() => handleLocationClick(location)}
                                 className="flex items-center gap-3 w-full text-left group cursor-pointer"
                               >
-                                <span className="text-white group-hover:text-[#FDB515] transition-colors text-sm">
+                                <span className="text-white group-hover:text-[#00c4aa] transition-colors text-sm">
                                   {location.name}
                                 </span>
                                 <SignalBar
@@ -802,7 +802,7 @@ export function ServerLocationsSection() {
                                   pollingBar={pollingBar}
                                   pixelSize={2}
                                 />
-                                <span className="text-gray-500 text-xs font-mono">
+                                <span className="text-[#7AC2EB]/60 text-xs font-mono">
                                   {pingText}
                                 </span>
                               </motion.button>
@@ -813,7 +813,7 @@ export function ServerLocationsSection() {
 
                     {/* Asia */}
                     <div>
-                      <h3 className="text-[#FDB515] text-xs font-semibold uppercase tracking-wider mb-3">
+                      <h3 className="text-[#00c4aa] text-xs font-semibold uppercase tracking-wider mb-3">
                         Asia
                       </h3>
                       <div className="flex flex-col gap-2">
@@ -847,7 +847,7 @@ export function ServerLocationsSection() {
                                 onClick={() => handleLocationClick(location)}
                                 className="flex items-center gap-3 w-full text-left group cursor-pointer"
                               >
-                                <span className="text-white group-hover:text-[#FDB515] transition-colors text-sm">
+                                <span className="text-white group-hover:text-[#00c4aa] transition-colors text-sm">
                                   {location.name}
                                 </span>
                                 <SignalBar
@@ -855,7 +855,7 @@ export function ServerLocationsSection() {
                                   pollingBar={pollingBar}
                                   pixelSize={2}
                                 />
-                                <span className="text-gray-500 text-xs font-mono">
+                                <span className="text-[#7AC2EB]/60 text-xs font-mono">
                                   {pingText}
                                 </span>
                               </motion.button>
@@ -868,7 +868,7 @@ export function ServerLocationsSection() {
                   {/* Retry link */}
                   <button
                     onClick={startPingMeasurements}
-                    className="mt-6 text-sm text-gray-500 hover:text-white transition-colors cursor-pointer"
+                    className="mt-6 text-sm text-[#7AC2EB]/60 hover:text-[#00c4aa] transition-colors cursor-pointer"
                   >
                     Refresh ping times
                   </button>

@@ -463,6 +463,79 @@
   }
 }
 
+/* Bluey color palette from frontcum */
+:root {
+  --bluey-50: #DCEFFA;
+  --bluey-100: #BDE0F5;
+  --bluey-200: #7AC2EB;
+  --bluey-300: #33A1E0;
+  --bluey-400: #1A77AD;
+  --bluey-500: #10496A;
+  --bluey-600: #0D3A54;
+  --bluey-700: #092B3E;
+  --bluey-800: #071F2C;
+  --bluey-900: #030F16;
+  --bluey-950: #010609;
+  
+  /* Accent colors */
+  --accent-teal: #00c4aa;
+  --accent-cyan: #11A8A9;
+  --accent-blue: #0481CD;
+}
+
+/* Text selection color */
+::selection {
+  background: var(--accent-teal);
+  color: #ffffff;
+}
+::-moz-selection {
+  background: var(--accent-teal);
+  color: #ffffff;
+}
+
+/* Dot pattern background utility */
+.bg-dot-pattern {
+  background-color: var(--bluey-900);
+  background-image: 
+    radial-gradient(#313131 1px, transparent 0),
+    radial-gradient(#313131 1px, transparent 0);
+  background-size: 30px 30px, 30px 30px;
+  background-position: 0 0, 15px 15px;
+  background-attachment: fixed, fixed;
+}
+
+/* Gradient overlay for hero sections */
+.bg-hero-gradient {
+  background-image:
+    linear-gradient(27deg, rgba(17,168,169,0.24) 10%, rgba(0, 0, 136, 0) 40.5%),
+    linear-gradient(327deg, rgba(4,129,205,0.24) 10%, rgba(0, 67, 136, 0) 40.5%),
+    linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%),
+    radial-gradient(#313131 1px, transparent 0),
+    radial-gradient(#313131 1px, transparent 0);
+  background-position: 0 0, 0 0, 0 0, 0 0, 15px 15px;
+  background-size: 100% 100%, 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+  background-attachment: scroll, scroll, scroll, fixed, fixed;
+}
+
+/* Features section gradient background */
+.bg-features-gradient {
+  background-image: linear-gradient(var(--bluey-900), var(--bluey-950));
+}
+
+/* Grid pattern overlay */
+.bg-grid-pattern {
+  background-image:
+    linear-gradient(to right, #80808012 1px, transparent 1px),
+    linear-gradient(to bottom, #80808012 1px, transparent 1px);
+  background-size: 64px 64px;
+  background-attachment: fixed;
+}
+
+/* Accent divider line gradient */
+.accent-line-gradient {
+  background-image: linear-gradient(27deg, rgba(87,230,170,1), rgba(94,171,194,1) 51%, rgba(26,163,255,1) 100%);
+}
+
 /* Minecraft Fonts */
 @font-face {
   font-family: "Minecraft";
@@ -537,4 +610,26 @@
   border-image-slice: 10% 3%;
   border-image-repeat: contain;
   color: #a8a29e;
+}
+
+/* Map marker pulse animation - opacity only, no scale */
+@keyframes pulse-ring {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+
+.animate-pulse-ring-delayed {
+  animation: pulse-ring 2s ease-in-out infinite;
+  animation-delay: 0.5s;
 }

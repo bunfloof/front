@@ -89,21 +89,25 @@ export function PanelFeaturesSection() {
   const activeData = tabs[activeTab];
 
   return (
-    <section className="py-16 md:py-24 bg-white border-t border-gray-200">
+    <section
+      className="py-16 md:py-24"
+      style={{
+        backgroundColor: "#030F16",
+      }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="max-w-2xl mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#003262] mb-4">
-            Pterodactyl Panel
+        <div className="max-w-4xl mb-12">
+          <h2 className="text-4xl md:text-4xl font-bold text-green-50 mb-4">
+            Pterodactyl Panel but built with NextJS 15
           </h2>
-          <p className="text-gray-600 text-lg">
-            Our custom fork with major improvements developed in-house. No
-            third-party addons.
+          <p className="text-[#BDE0F5]/70 text-lg">
+            Our custom fork with major improvements developed in-house.
           </p>
         </div>
 
         {/* Tabs */}
-        <div className="border-b border-gray-200 mb-10">
+        <div className="border-b border-[#1A77AD]/30 mb-10">
           <div className="flex gap-8 overflow-x-auto">
             {tabs.map((tab, index) => (
               <button
@@ -111,8 +115,8 @@ export function PanelFeaturesSection() {
                 onClick={() => setActiveTab(index)}
                 className={`pb-4 text-sm font-semibold whitespace-nowrap transition-colors border-b-2 -mb-px ${
                   activeTab === index
-                    ? "text-[#003262] border-[#FDB515]"
-                    : "text-gray-500 border-transparent hover:text-[#003262]"
+                    ? "text-green-50 border-[#00c4aa]"
+                    : "text-[#7AC2EB]/60 border-transparent hover:text-green-50"
                 }`}
               >
                 {tab.label}
@@ -124,7 +128,7 @@ export function PanelFeaturesSection() {
         {/* Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Video */}
-          <div className="bg-[#F8F8F8]">
+          <div className="bg-[#071F2C] border border-[#1A77AD]/30">
             <div className="relative aspect-video">
               <video
                 ref={videoRef}
@@ -140,12 +144,12 @@ export function PanelFeaturesSection() {
               />
 
               {isMobile && !isPlaying && (
-                <div className="absolute inset-0 flex items-center justify-center bg-[#003262]/5">
+                <div className="absolute inset-0 flex items-center justify-center bg-[#0D3A54]">
                   <button
                     onClick={handlePlay}
-                    className="w-16 h-16 bg-[#003262] text-white flex items-center justify-center hover:bg-[#002244] transition-colors"
+                    className="w-16 h-16 bg-[#00c4aa] text-[#030F16] flex items-center justify-center hover:bg-[#00d4b8] transition-colors"
                   >
-                    <Play className="w-6 h-6 ml-1" fill="white" />
+                    <Play className="w-6 h-6 ml-1" fill="currentColor" />
                   </button>
                 </div>
               )}
@@ -154,11 +158,11 @@ export function PanelFeaturesSection() {
 
           {/* Details */}
           <div>
-            <h3 className="text-2xl font-bold text-[#003262] mb-4">
+            <h3 className="text-2xl font-bold text-green-50 mb-4">
               {activeData.label}
             </h3>
 
-            <p className="text-gray-600 leading-relaxed mb-8">
+            <p className="text-[#BDE0F5]/70 leading-relaxed mb-8">
               {activeData.description}
             </p>
 
@@ -166,9 +170,9 @@ export function PanelFeaturesSection() {
               {activeData.features.map((feature, index) => (
                 <li
                   key={index}
-                  className="flex items-center gap-3 text-gray-700"
+                  className="flex items-center gap-3 text-[#BDE0F5]"
                 >
-                  <span className="text-[#FDB515]">•</span>
+                  <span className="text-[#00c4aa]">•</span>
                   {feature}
                 </li>
               ))}
@@ -176,7 +180,7 @@ export function PanelFeaturesSection() {
 
             <a
               href="#"
-              className="inline-flex items-center gap-2 text-[#003262] font-semibold hover:text-[#FDB515] transition-colors group"
+              className="inline-flex items-center gap-2 text-[#7AC2EB] font-semibold hover:text-[#00c4aa] transition-colors group"
             >
               Request a demo
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

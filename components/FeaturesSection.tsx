@@ -48,14 +48,19 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section className="py-16 md:py-24 bg-white border-t border-gray-200">
+    <section
+      className="py-16 md:py-24 border-t border-[#1A77AD]/30"
+      style={{
+        backgroundImage: "linear-gradient(#030F16, #010609)",
+      }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <div className="max-w-2xl mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#003262] mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-green-50 mb-4">
             Why Foxomy
           </h2>
-          <p className="text-gray-600 text-lg">
+          <p className="text-[#BDE0F5]/70 text-lg">
             Everything you need for reliable, high-performance hosting.
           </p>
         </div>
@@ -63,15 +68,16 @@ export function FeaturesSection() {
         {/* Features grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-10">
           {features.map((feature) => (
-            <div key={feature.title}>
+            <div key={feature.title} className="flex flex-col">
+              {/* Simple icon */}
               <feature.icon
-                className="w-8 h-8 text-[#003262] mb-4"
+                className="w-8 h-8 text-[#00c4aa] mb-4"
                 strokeWidth={1.5}
               />
-              <h3 className="text-lg font-bold text-[#003262] mb-2">
+              <h3 className="text-xl font-bold text-green-50 mb-2">
                 {feature.title}
               </h3>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-[#BDE0F5]/60 leading-relaxed">
                 {feature.description}
               </p>
             </div>

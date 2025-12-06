@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from "react";
 import { Slide1 } from "@/components/slides/Slide1";
 import { Slide2 } from "@/components/slides/Slide2";
 import { Slide3 } from "@/components/slides/Slide3";
-import { TransitionSection } from "@/components/TransitionSection";
 import { Pause, Play } from "lucide-react";
 
 const TOTAL_SLIDES = 3;
@@ -325,7 +324,7 @@ export function HeroSection() {
       {/* Hero Carousel Section */}
       <section
         ref={containerRef}
-        className={`relative overflow-hidden select-none shadow-xl rounded-b-2xl ${
+        className={`relative overflow-hidden select-none shadow-xl ${
           isDragging
             ? "[&_button]:pointer-events-none [&_a]:pointer-events-none"
             : ""
