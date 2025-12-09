@@ -48,42 +48,29 @@ function TeamMemberCard({
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
+      {/* Image container with glow border */}
       <div
-        className={`relative overflow-hidden rounded-xl border transition-all duration-300 ${
+        className={`relative w-full aspect-square rounded-xl overflow-hidden mb-4 transition-all duration-300 ${
           isSelected
-            ? "border-[#00c4aa] bg-[#0D3A54]/80 shadow-lg shadow-[#00c4aa]/20"
-            : "border-[#1A77AD]/30 bg-[#071F2C]/50 hover:border-[#00c4aa]/50 hover:bg-[#0D3A54]/50"
+            ? "shadow-[0_0_0_3px_rgba(0,196,170,0.6),0_0_20px_rgba(0,196,170,0.3)]"
+            : "shadow-[0_0_0_3px_rgba(26,119,173,0.3)] group-hover:shadow-[0_0_0_3px_rgba(0,196,170,0.4),0_0_15px_rgba(0,196,170,0.15)]"
         }`}
       >
-        <div className="aspect-square relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#00c4aa]/20 to-[#0481CD]/20" />
-          <Image
-            src={member.avatar}
-            alt={member.name}
-            fill
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-[#00c4aa]/0 group-hover:bg-[#00c4aa]/10 transition-colors duration-300" />
-        </div>
+        <Image
+          src={member.avatar}
+          alt={member.name}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 50vw, 25vw"
+        />
+        <div className="absolute inset-0 bg-[#00c4aa]/0 group-hover:bg-[#00c4aa]/10 transition-colors duration-300" />
+      </div>
 
-        <div className="p-4">
-          <h3 className="text-white font-semibold text-lg mb-1">
-            {member.name}
-          </h3>
-          <p className="text-[#00c4aa] text-sm mb-1">{member.role}</p>
-          <p className="text-[#7AC2EB]/60 text-sm">{member.handle}</p>
-        </div>
-
-        {isSelected && (
-          <motion.div
-            className="absolute inset-0 rounded-xl pointer-events-none"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            style={{
-              boxShadow: "inset 0 0 20px rgba(0,196,170,0.3)",
-            }}
-          />
-        )}
+      {/* Text info below image */}
+      <div>
+        <h3 className="text-white font-bold text-xl mb-1">{member.name}</h3>
+        <p className="text-[#7AC2EB]/80 text-sm mb-1">{member.role}</p>
+        <p className="text-[#1A77AD]/60 text-sm">{member.handle}</p>
       </div>
     </motion.button>
   );
@@ -143,7 +130,7 @@ function CrackWithPortfolio({
         {/* Close button - floats on top */}
         <button
           onClick={onClose}
-          className="absolute top-6 right-4 z-20 p-2 text-white/60 hover:text-white transition-colors rounded-lg hover:bg-white/10"
+          className="absolute top-10 right-4 z-20 p-2 text-white/60 hover:text-white transition-colors rounded-lg hover:bg-white/10"
         >
           <X className="w-6 h-6" />
         </button>
@@ -305,13 +292,13 @@ export function TeamSection() {
 
       <div className="relative z-10 py-20 md:py-28">
         {/* Header */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-[3px] accent-line-gradient" />
             <span className="text-[#00c4aa] text-sm font-semibold tracking-wide uppercase">
               Our Team
             </span>
-            <div className="w-10 h-[3px] accent-line-gradient" />
+            {/* <div className="w-10 h-[3px] accent-line-gradient" /> */}
           </div>
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
@@ -329,7 +316,7 @@ export function TeamSection() {
           {rows.map((rowMembers, rowIndex) => (
             <div key={rowIndex}>
               {/* Row of cards */}
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   {rowMembers.map((member, indexInRow) => {
                     const globalIndex = rowIndex * columnsPerRow + indexInRow;
