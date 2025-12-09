@@ -5,51 +5,20 @@ import { Button } from "./ui/button";
 
 export function SupportSection() {
   return (
-    <section className="relative py-20 md:py-28 bg-[#E8F4F8] overflow-hidden">
-      {/* Grid pattern background */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(13,58,84,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(13,58,84,0.03) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-      />
+    <section className="relative py-20 md:py-28 bg-[#030F16] overflow-hidden">
+      {/* Continue the grid pattern from ServicesSection */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-100" />
 
-      {/* Decorative circles */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Large decorative ring - top right */}
-        <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full border border-[#0D3A54]/5" />
-        <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full border border-[#00c4aa]/10" />
-
-        {/* Smaller ring - bottom left */}
-        <div className="absolute -bottom-16 -left-16 w-64 h-64 rounded-full border border-[#0481CD]/8" />
-
-        {/* Gradient glows */}
+      {/* Subtle gradient overlays for depth */}
+      <div className="absolute inset-0 pointer-events-none">
         <div
-          className="absolute -left-32 top-1/3 w-[500px] h-[500px] rounded-full blur-3xl opacity-[0.12]"
+          className="absolute top-0 left-0 w-2/3 h-full opacity-30"
           style={{
             background:
-              "radial-gradient(circle, rgba(17,168,169,0.8) 0%, transparent 60%)",
-          }}
-        />
-        <div
-          className="absolute -right-32 bottom-0 w-[400px] h-[400px] rounded-full blur-3xl opacity-[0.10]"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(4,129,205,0.8) 0%, transparent 60%)",
+              "radial-gradient(ellipse at left center, rgba(17,168,169,0.15) 0%, transparent 60%)",
           }}
         />
       </div>
-
-      {/* Diagonal accent line */}
-      <div
-        className="absolute top-0 right-0 w-1/3 h-full pointer-events-none opacity-30"
-        style={{
-          background:
-            "linear-gradient(135deg, transparent 40%, rgba(0,196,170,0.05) 50%, transparent 60%)",
-        }}
-      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -70,17 +39,17 @@ export function SupportSection() {
             {/* Eyebrow with accent line */}
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-[3px] accent-line-gradient" />
-              <span className="text-[#0D3A54] text-sm font-semibold tracking-wide uppercase">
+              <span className="text-[#00c4aa] text-sm font-semibold tracking-wide uppercase">
                 Support
               </span>
             </div>
 
-            <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-bold text-[#071F2C] leading-tight mb-6">
+            <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-bold text-white leading-tight mb-6">
               World-Class Support & Hospitality
             </h2>
 
-            <div className="space-y-5 text-[#0D3A54]/80 text-lg leading-relaxed">
-              <p className="text-xl font-medium text-[#071F2C]">
+            <div className="space-y-5 text-[#BDE0F5]/70 text-lg leading-relaxed">
+              <p className="text-xl font-medium text-white">
                 We're here to help, not lecture.
               </p>
               <p>
@@ -93,7 +62,7 @@ export function SupportSection() {
 
             {/* Quote block */}
             <blockquote className="mt-8 pl-5 border-l-4 border-[#00c4aa]">
-              <p className="text-[#0D3A54] text-lg italic">
+              <p className="text-[#BDE0F5]/80 text-lg italic">
                 "Let us show you what world-class service truly means."
               </p>
             </blockquote>
@@ -103,7 +72,7 @@ export function SupportSection() {
               <Button
                 variant="default"
                 size="xl"
-                className="text-base bg-[#0D3A54] hover:bg-[#071F2C]"
+                className="text-base bg-[#00c4aa] hover:bg-[#00d4b8] text-[#030F16]"
                 asChild
               >
                 <a

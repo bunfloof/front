@@ -40,7 +40,7 @@ export function Slide1() {
             </p>
             <div className="pt-4 mb-8">
               <Button variant="minecraft" size="xl" className="text-xl">
-                Create Server
+                <a href="/game">Create Server</a>
               </Button>
             </div>
             {/* Features in 2 columns */}

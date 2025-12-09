@@ -484,13 +484,32 @@ export default function GameHostingPage() {
                   layout
                   transition={{ type: "spring", stiffness: 500, damping: 30 }}
                 >
-                  {/* Tier Badge */}
-                  <div className="absolute top-0 right-3 -translate-y-1/2">
+                  {/* Tier & Price Badges */}
+                  <div className="absolute top-0 right-3 -translate-y-1/2 flex gap-1.5">
+                    {/* Tier Badge */}
                     <span
-                      className={`text-xs font-medium px-2 py-0.5 rounded ${
+                      className={`text-xs font-medium px-2 py-0.5 rounded transition-all border ${
                         location.tier === "premium"
-                          ? "bg-[#00c4aa]/20 text-[#00c4aa] border border-[#00c4aa]/30"
-                          : "bg-[#7AC2EB]/20 text-[#7AC2EB] border border-[#7AC2EB]/30"
+                          ? "bg-[#00c4aa]/20 text-[#00c4aa]"
+                          : "bg-[#7AC2EB]/20 text-[#7AC2EB]"
+                      } ${
+                        isSelected
+                          ? "backdrop-blur-xl border-[#00c4aa]/60 shadow-[0_0_8px_rgba(0,196,170,0.3)]"
+                          : "backdrop-blur-sm border-[#1A77AD]/30"
+                      }`}
+                    >
+                      {location.tier === "premium" ? "Premium" : "Budget"}
+                    </span>
+                    {/* Price Badge */}
+                    <span
+                      className={`text-xs font-medium px-2 py-0.5 rounded transition-all border ${
+                        location.tier === "premium"
+                          ? "bg-[#00c4aa]/20 text-[#00c4aa]"
+                          : "bg-[#7AC2EB]/20 text-[#7AC2EB]"
+                      } ${
+                        isSelected
+                          ? "backdrop-blur-xl border-[#00c4aa]/60 shadow-[0_0_8px_rgba(0,196,170,0.3)]"
+                          : "backdrop-blur-sm border-[#1A77AD]/30"
                       }`}
                     >
                       ${location.pricePerGb}/GB

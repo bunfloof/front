@@ -126,6 +126,7 @@ const services: ServiceCardProps[] = [
     imageSrc: "/minecraftgrass.png",
     imageAlt: "Minecraft",
     linkText: "View plans",
+    href: "/game",
     featured: true,
   },
   {
@@ -224,44 +225,6 @@ export function ServicesSection() {
           {services.map((service) => (
             <ServiceCard key={service.title} {...service} />
           ))}
-        </div>
-      </div>
-
-      {/* Glowing divider transition - inspired by frontcum */}
-      <div className="absolute bottom-0 left-0 right-0 h-0 pointer-events-none overflow-hidden">
-        {/* Gradient fade from dark to light */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to bottom, transparent 0%, #E8F4F8 100%)",
-          }}
-        />
-        {/* Accent line with glow */}
-        <div className="absolute top-0 left-0 right-0">
-          <span
-            className="block h-[1px] w-full opacity-60"
-            style={{
-              backgroundImage:
-                "linear-gradient(90deg, rgba(87,230,170,1), rgba(94,171,194,1) 51%, rgba(26,163,255,1) 100%)",
-            }}
-          />
-          {/* Left glow */}
-          <span
-            className="absolute -top-20 -left-20 w-40 h-40 rounded-full blur-3xl opacity-20"
-            style={{
-              background:
-                "linear-gradient(90deg, rgb(0, 0, 136), rgb(17,168,169))",
-            }}
-          />
-          {/* Right glow */}
-          <span
-            className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-20"
-            style={{
-              background:
-                "linear-gradient(90deg, rgb(0, 67, 136), rgb(4,129,205))",
-            }}
-          />
         </div>
       </div>
     </section>

@@ -403,8 +403,6 @@ export function HeroSection() {
           )}
         </button>
       </section>
-
-      
     </>
   );
 }
