@@ -39,18 +39,21 @@ function TeamMemberCard({
       data-team-card
       data-index={index}
       onClick={(e) => onClick(e.currentTarget)}
-      className={`group relative text-left ${isSelected ? "z-20" : "z-10"}`}
+      className={`group relative text-left transition-all duration-300 ${
+        isSelected ? "z-20" : "z-10"
+      }`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1, duration: 0.4 }}
       whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
     >
       {/* Image container with glow border */}
       <div
-        className={`relative w-full aspect-square rounded-xl overflow-hidden mb-4 ${
+        className={`relative w-full aspect-square rounded-xl overflow-hidden mb-4 transition-all duration-300 ${
           isSelected
-            ? "ring-[3px] ring-[#00c4aa]/60"
-            : "ring-[3px] ring-[#1A77AD]/30 group-hover:ring-[#00c4aa]/40"
+            ? "shadow-[0_0_0_3px_rgba(0,196,170,0.6),0_0_20px_rgba(0,196,170,0.3)]"
+            : "shadow-[0_0_0_3px_rgba(26,119,173,0.3)] group-hover:shadow-[0_0_0_3px_rgba(0,196,170,0.4),0_0_15px_rgba(0,196,170,0.15)]"
         }`}
       >
         <Image
@@ -101,65 +104,71 @@ function CrackWithPortfolio({
 
   return (
     <motion.div
-      className="w-full overflow-visible relative grid"
-      initial={{ gridTemplateRows: "0fr", opacity: 0 }}
-      animate={{ gridTemplateRows: "1fr", opacity: 1 }}
-      exit={{ gridTemplateRows: "0fr", opacity: 0 }}
-      transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+      className="w-full overflow-visible relative"
+      initial={{ height: 0, opacity: 0 }}
+      animate={{ height: "auto", opacity: 1 }}
+      exit={{ height: 0, opacity: 0 }}
+      transition={{
+        type: "spring",
+        stiffness: 200,
+        damping: 25,
+        opacity: { duration: 0.2 },
+      }}
     >
-      {/* Wrapper for grid animation - must have overflow hidden and min-h-0 */}
-      <div className="overflow-hidden min-h-0">
-        {/* Single unified shadow - covers entire crack opening (triangle + horizontal edges) */}
+      {/* Single unified shadow - covers entire crack opening (triangle + horizontal edges) */}
+      <div
+        className="absolute left-0 right-0 pointer-events-none"
+        style={{
+          top: 0,
+          height: triangleSize + 40,
+          zIndex: 5,
+          background: "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.3) 40%, transparent 100%)",
+          clipPath: `polygon(
+            0% ${triangleSize}px,
+            ${notchPositionX - triangleSize}px ${triangleSize}px,
+            ${notchPositionX}px 0%,
+            ${notchPositionX + triangleSize}px ${triangleSize}px,
+            100% ${triangleSize}px,
+            100% 100%,
+            0% 100%
+          )`,
+        }}
+      />
+
+      {/* Portfolio content area with clip-path triangle - background shows through triangle */}
+      <motion.div
+        className={`relative w-full ${member.portfolioBg || "bg-[#071F2C]"}`}
+        style={{
+          clipPath,
+          paddingTop: triangleSize,
+        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ delay: 0.15, duration: 0.3 }}
+      >
+
+        {/* Bottom shadow - creates depth at the bottom edge */}
         <div
-          className="absolute left-0 right-0 pointer-events-none"
+          className="absolute left-0 right-0 bottom-0 pointer-events-none z-10"
           style={{
-            top: 0,
-            height: triangleSize + 40,
-            zIndex: 5,
+            height: 40,
             background:
-              "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.3) 40%, transparent 100%)",
-            clipPath: `polygon(
-              0% ${triangleSize}px,
-              ${notchPositionX - triangleSize}px ${triangleSize}px,
-              ${notchPositionX}px 0%,
-              ${notchPositionX + triangleSize}px ${triangleSize}px,
-              100% ${triangleSize}px,
-              100% 100%,
-              0% 100%
-            )`,
+              "linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.15) 50%, transparent 100%)",
           }}
         />
 
-        {/* Portfolio content area with clip-path triangle - background shows through triangle */}
-        <div
-          className={`relative w-full ${member.portfolioBg || "bg-[#071F2C]"}`}
-          style={{
-            clipPath,
-            paddingTop: triangleSize,
-          }}
+        {/* Close button - floats on top */}
+        <button
+          onClick={onClose}
+          className="absolute top-10 right-4 z-20 p-2 text-white/60 hover:text-white transition-colors rounded-lg hover:bg-white/10"
         >
-          {/* Bottom shadow - creates depth at the bottom edge */}
-          <div
-            className="absolute left-0 right-0 bottom-0 pointer-events-none z-10"
-            style={{
-              height: 40,
-              background:
-                "linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.15) 50%, transparent 100%)",
-            }}
-          />
+          <X className="w-6 h-6" />
+        </button>
 
-          {/* Close button - floats on top */}
-          <button
-            onClick={onClose}
-            className="absolute top-10 right-4 z-20 p-2 text-white/60 hover:text-white transition-colors rounded-lg hover:bg-white/10"
-          >
-            <X className="w-6 h-6" />
-          </button>
-
-          {/* Portfolio component has full control over its own layout */}
-          {PortfolioComponent && <PortfolioComponent member={member} />}
-        </div>
-      </div>
+        {/* Portfolio component has full control over its own layout */}
+        {PortfolioComponent && <PortfolioComponent member={member} />}
+      </motion.div>
     </motion.div>
   );
 }
