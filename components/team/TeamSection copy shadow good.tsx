@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
 import { teamMembers, TeamMember } from "./teamMembers";
-import { BunnyPortfolio } from "./portfolios/BunnyPortfolio";
+import { BunnyPortfolio } from "./portfolios/BunPortfolio";
 import { FelixPortfolio } from "./portfolios/FelixPortfolio";
 import { NovaPortfolio } from "./portfolios/NovaPortfolio";
 import { AshPortfolio } from "./portfolios/AshPortfolio";
@@ -122,7 +122,8 @@ function CrackWithPortfolio({
           top: 0,
           height: triangleSize + 40,
           zIndex: 5,
-          background: "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.3) 40%, transparent 100%)",
+          background:
+            "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.3) 40%, transparent 100%)",
           clipPath: `polygon(
             0% ${triangleSize}px,
             ${notchPositionX - triangleSize}px ${triangleSize}px,
@@ -147,7 +148,6 @@ function CrackWithPortfolio({
         exit={{ opacity: 0 }}
         transition={{ delay: 0.15, duration: 0.3 }}
       >
-
         {/* Bottom shadow - creates depth at the bottom edge */}
         <div
           className="absolute left-0 right-0 bottom-0 pointer-events-none z-10"

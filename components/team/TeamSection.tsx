@@ -1,49 +1,113 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
-import { teamMembers, TeamMember } from "./teamMembers";
-import { BunnyPortfolio } from "./portfolios/BunnyPortfolio";
-import { FelixPortfolio } from "./portfolios/FelixPortfolio";
-import { NovaPortfolio } from "./portfolios/NovaPortfolio";
-import { AshPortfolio } from "./portfolios/AshPortfolio";
+
+// Import portfolios and their data
+import { BunPortfolio, memberData as bunData } from "./portfolios/BunPortfolio";
+import {
+  FelixPortfolio,
+  memberData as felixData,
+} from "./portfolios/FelixPortfolio";
+import {
+  NovaPortfolio,
+  memberData as novaData,
+} from "./portfolios/NovaPortfolio";
+import { AshPortfolio, memberData as ashData } from "./portfolios/AshPortfolio";
+import { CozmoPortfolio, memberData as cozmoData } from "./portfolios/CozmoPortfolio";
+
+// Types
+interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  handle: string;
+  avatar: string;
+  portfolioBg?: string;
+}
+
+interface Department {
+  id: string;
+  name: string;
+  members: TeamMember[];
+}
 
 // Map member IDs to their portfolio components
-const portfolioComponents: Record<
-  string,
-  React.ComponentType<{ member: TeamMember }>
-> = {
-  bunny: BunnyPortfolio,
+const portfolioComponents: Record<string, React.ComponentType> = {
+  bun: BunPortfolio,
   felix: FelixPortfolio,
   nova: NovaPortfolio,
   ash: AshPortfolio,
+  cozmo: CozmoPortfolio,
 };
+
+// Map member IDs to their background colors
+const portfolioBackgrounds: Record<string, string> = {
+  bun: bunData.portfolioBg,
+  felix: felixData.portfolioBg,
+  nova: novaData.portfolioBg,
+  ash: ashData.portfolioBg,
+  cozmo: cozmoData.portfolioBg,
+};
+
+// Define departments and their members
+const departments: Department[] = [
+  {
+    id: "support-team",
+    name: "Support Team",
+    members: [bunData, cozmoData, felixData, novaData, ashData],
+  },
+  {
+    id: "communications",
+    name: "Communications Team",
+    members: [novaData, ashData, bunData, felixData],
+  },
+  {
+    id: "support",
+    name: "Support Team",
+    members: [ashData],
+  },
+  // Add more departments as needed:
+  // {
+  //   id: "social-media",
+  //   name: "Social Media Team",
+  //   description: "Managing our presence across social platforms.",
+  //   members: [],
+  // },
+  // {
+  //   id: "translation",
+  //   name: "Translation Team",
+  //   description: "Making Foxomy accessible to everyone around the world.",
+  //   members: [],
+  // },
+];
 
 interface TeamMemberCardProps {
   member: TeamMember;
   isSelected: boolean;
   onClick: (cardElement: HTMLButtonElement) => void;
-  index: number;
+  globalIndex: number;
 }
 
 function TeamMemberCard({
   member,
   isSelected,
   onClick,
-  index,
+  globalIndex,
 }: TeamMemberCardProps) {
   return (
     <motion.button
       data-team-card
-      data-index={index}
+      data-index={globalIndex}
       onClick={(e) => onClick(e.currentTarget)}
       className={`group relative text-left ${isSelected ? "z-20" : "z-10"}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.4 }}
+      transition={{ delay: globalIndex * 0.05, duration: 0.4 }}
       whileHover={{ scale: 1.02 }}
+      style={{ cursor: "pointer" }}
     >
       {/* Image container with glow border */}
       <div
@@ -74,21 +138,22 @@ function TeamMemberCard({
 }
 
 interface CrackWithPortfolioProps {
-  member: TeamMember;
+  memberId: string;
+  portfolioBg: string;
   notchPositionX: number;
   onClose: () => void;
 }
 
 function CrackWithPortfolio({
-  member,
+  memberId,
+  portfolioBg,
   notchPositionX,
   onClose,
 }: CrackWithPortfolioProps) {
-  const PortfolioComponent = portfolioComponents[member.id];
+  const PortfolioComponent = portfolioComponents[memberId];
   const triangleSize = 20;
 
   // Create clip-path that includes the triangle notch at the top
-  // The triangle points UP, so the portfolio "peeks through" with its own background
   const clipPath = `polygon(
     0% ${triangleSize}px,
     ${notchPositionX - triangleSize}px ${triangleSize}px,
@@ -107,9 +172,9 @@ function CrackWithPortfolio({
       exit={{ gridTemplateRows: "0fr", opacity: 0 }}
       transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
     >
-      {/* Wrapper for grid animation - must have overflow hidden and min-h-0 */}
+      {/* Wrapper for grid animation */}
       <div className="overflow-hidden min-h-0">
-        {/* Single unified shadow - covers entire crack opening (triangle + horizontal edges) */}
+        {/* Top shadow */}
         <div
           className="absolute left-0 right-0 pointer-events-none"
           style={{
@@ -130,15 +195,15 @@ function CrackWithPortfolio({
           }}
         />
 
-        {/* Portfolio content area with clip-path triangle - background shows through triangle */}
+        {/* Portfolio content area */}
         <div
-          className={`relative w-full ${member.portfolioBg || "bg-[#071F2C]"}`}
+          className={`relative w-full ${portfolioBg || "bg-[#071F2C]"}`}
           style={{
             clipPath,
             paddingTop: triangleSize,
           }}
         >
-          {/* Bottom shadow - creates depth at the bottom edge */}
+          {/* Bottom shadow */}
           <div
             className="absolute left-0 right-0 bottom-0 pointer-events-none z-10"
             style={{
@@ -148,7 +213,7 @@ function CrackWithPortfolio({
             }}
           />
 
-          {/* Close button - floats on top */}
+          {/* Close button */}
           <button
             onClick={onClose}
             className="absolute top-10 right-4 z-20 p-2 text-white/60 hover:text-white transition-colors rounded-lg hover:bg-white/10"
@@ -156,33 +221,154 @@ function CrackWithPortfolio({
             <X className="w-6 h-6" />
           </button>
 
-          {/* Portfolio component has full control over its own layout */}
-          {PortfolioComponent && <PortfolioComponent member={member} />}
+          {/* Portfolio component */}
+          {PortfolioComponent && <PortfolioComponent />}
         </div>
       </div>
     </motion.div>
   );
 }
 
+interface DepartmentSectionProps {
+  department: Department;
+  globalIndexStart: number;
+  selectedMemberId: string | null;
+  selectedGlobalIndex: number;
+  notchPositionX: number;
+  columnsPerRow: number;
+  onSelectMember: (
+    member: TeamMember,
+    globalIndex: number,
+    cardEl: HTMLButtonElement
+  ) => void;
+  onClose: () => void;
+  gridRef: React.RefObject<HTMLDivElement | null>;
+}
+
+function DepartmentSection({
+  department,
+  globalIndexStart,
+  selectedMemberId,
+  selectedGlobalIndex,
+  notchPositionX,
+  columnsPerRow,
+  onSelectMember,
+  onClose,
+  gridRef,
+}: DepartmentSectionProps) {
+  // Don't render empty departments
+  if (department.members.length === 0) return null;
+
+  // Split members into rows
+  const rows: TeamMember[][] = [];
+  for (let i = 0; i < department.members.length; i += columnsPerRow) {
+    rows.push(department.members.slice(i, i + columnsPerRow));
+  }
+
+  // Calculate which row the selected member is in (if in this department)
+  const getLocalRow = (globalIndex: number) => {
+    const localIndex = globalIndex - globalIndexStart;
+    if (localIndex < 0 || localIndex >= department.members.length) return -1;
+    return Math.floor(localIndex / columnsPerRow);
+  };
+
+  const selectedLocalRow =
+    selectedGlobalIndex >= 0 ? getLocalRow(selectedGlobalIndex) : -1;
+  const selectedMember = department.members.find(
+    (m) => m.id === selectedMemberId
+  );
+
+  return (
+    <div className="mb-16">
+      {/* Department Header */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-6 h-[2px] bg-gradient-to-r from-[#00c4aa] to-[#1A77AD]" />
+          <h2 className="text-2xl md:text-3xl font-bold text-white">
+            {department.name}
+          </h2>
+        </div>
+      </div>
+
+      {/* Members Grid */}
+      <div ref={gridRef}>
+        {rows.map((rowMembers, rowIndex) => {
+          const rowStartIndex = globalIndexStart + rowIndex * columnsPerRow;
+
+          return (
+            <div key={rowIndex}>
+              {/* Row of cards */}
+              <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  {rowMembers.map((member, indexInRow) => {
+                    const globalIndex = rowStartIndex + indexInRow;
+                    return (
+                      <TeamMemberCard
+                        key={member.id}
+                        member={member}
+                        isSelected={selectedMemberId === member.id}
+                        onClick={(cardEl) =>
+                          onSelectMember(member, globalIndex, cardEl)
+                        }
+                        globalIndex={globalIndex}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Crack appears after this row if a member from this row is selected */}
+              <AnimatePresence>
+                {selectedLocalRow === rowIndex && selectedMember && (
+                  <div className="mt-2 mb-6">
+                    <CrackWithPortfolio
+                      memberId={selectedMember.id}
+                      portfolioBg={portfolioBackgrounds[selectedMember.id]}
+                      notchPositionX={notchPositionX}
+                      onClose={onClose}
+                    />
+                  </div>
+                )}
+              </AnimatePresence>
+
+              {/* Spacing between rows */}
+              {selectedLocalRow !== rowIndex && rowIndex < rows.length - 1 && (
+                <div className="h-6" />
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export function TeamSection() {
-  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
-  const [selectedIndex, setSelectedIndex] = useState<number>(-1);
+  const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
+  const [selectedGlobalIndex, setSelectedGlobalIndex] = useState<number>(-1);
   const [notchPositionX, setNotchPositionX] = useState<number>(0);
   const [columnsPerRow, setColumnsPerRow] = useState<number>(4);
   const gridRef = useRef<HTMLDivElement>(null);
   const pendingSelectionRef = useRef<{
-    member: TeamMember;
-    index: number;
+    memberId: string;
+    globalIndex: number;
   } | null>(null);
+
+  // Calculate global index ranges for each department
+  const departmentRanges = departments.reduce<{ start: number; end: number }[]>(
+    (acc, dept) => {
+      const start = acc.length > 0 ? acc[acc.length - 1].end : 0;
+      const end = start + dept.members.length;
+      acc.push({ start, end });
+      return acc;
+    },
+    []
+  );
 
   // Detect columns per row based on screen size
   useEffect(() => {
     const updateColumns = () => {
-      if (window.innerWidth >= 768) {
-        setColumnsPerRow(4);
-      } else {
-        setColumnsPerRow(2);
-      }
+      setColumnsPerRow(window.innerWidth >= 768 ? 4 : 2);
     };
 
     updateColumns();
@@ -190,30 +376,26 @@ export function TeamSection() {
     return () => window.removeEventListener("resize", updateColumns);
   }, []);
 
-  // Recalculate notch position on resize for currently selected member
+  // Recalculate notch position on resize
   useEffect(() => {
     const handleResize = () => {
-      if (selectedIndex >= 0 && gridRef.current) {
-        // Use data attribute to find only team member cards, not close buttons
+      if (selectedGlobalIndex >= 0 && gridRef.current) {
         const card = gridRef.current.querySelector(
-          `[data-team-card][data-index="${selectedIndex}"]`
+          `[data-team-card][data-index="${selectedGlobalIndex}"]`
         );
         if (card) {
           const cardRect = card.getBoundingClientRect();
-          const cardCenterX = cardRect.left + cardRect.width / 2;
-          setNotchPositionX(cardCenterX);
+          setNotchPositionX(cardRect.left + cardRect.width / 2);
         }
       }
     };
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [selectedIndex]);
+  }, [selectedGlobalIndex]);
 
-  // Helper to get card position by index
   const getCardPositionX = (index: number): number => {
     if (gridRef.current) {
-      // Use data attribute to find the specific team member card
       const card = gridRef.current.querySelector(
         `[data-team-card][data-index="${index}"]`
       );
@@ -225,69 +407,72 @@ export function TeamSection() {
     return 0;
   };
 
+  // Find which department and row a global index belongs to
+  const getDepartmentAndRow = (globalIndex: number) => {
+    for (let i = 0; i < departments.length; i++) {
+      const { start, end } = departmentRanges[i];
+      if (globalIndex >= start && globalIndex < end) {
+        const localIndex = globalIndex - start;
+        return { deptIndex: i, row: Math.floor(localIndex / columnsPerRow) };
+      }
+    }
+    return { deptIndex: -1, row: -1 };
+  };
+
   const handleSelectMember = (
     member: TeamMember,
-    index: number,
+    globalIndex: number,
     cardElement: HTMLButtonElement
   ) => {
-    if (selectedMember?.id === member.id) {
+    if (selectedMemberId === member.id) {
       // Clicking same member - close
-      setSelectedMember(null);
-      setSelectedIndex(-1);
+      setSelectedMemberId(null);
+      setSelectedGlobalIndex(-1);
       return;
     }
 
-    const newRow = getRowForIndex(index);
-    const currentRow = selectedIndex >= 0 ? getRowForIndex(selectedIndex) : -1;
+    const newPos = getDepartmentAndRow(globalIndex);
+    const currentPos =
+      selectedGlobalIndex >= 0
+        ? getDepartmentAndRow(selectedGlobalIndex)
+        : { deptIndex: -1, row: -1 };
 
-    if (currentRow !== -1 && currentRow !== newRow) {
-      // Switching to a different row - close first, then open after animation
-      pendingSelectionRef.current = { member, index };
+    const isSameRow =
+      currentPos.deptIndex === newPos.deptIndex &&
+      currentPos.row === newPos.row;
 
-      setSelectedMember(null);
-      setSelectedIndex(-1);
+    if (currentPos.deptIndex !== -1 && !isSameRow) {
+      // Switching to a different row/department - close first, then open
+      pendingSelectionRef.current = { memberId: member.id, globalIndex };
 
-      // Single timer: wait for close animation, then measure and open
+      setSelectedMemberId(null);
+      setSelectedGlobalIndex(-1);
+
       setTimeout(() => {
         if (pendingSelectionRef.current) {
-          const { member: pendingMember, index: pendingIndex } =
-            pendingSelectionRef.current;
+          const { memberId, globalIndex: idx } = pendingSelectionRef.current;
+          const positionX = getCardPositionX(idx);
 
-          // Now measure - DOM should be settled
-          const positionX = getCardPositionX(pendingIndex);
-
-          setSelectedMember(pendingMember);
-          setSelectedIndex(pendingIndex);
+          setSelectedMemberId(memberId);
+          setSelectedGlobalIndex(idx);
           setNotchPositionX(positionX);
 
           pendingSelectionRef.current = null;
         }
-      }, 400); // Wait for close animation to fully complete
+      }, 400);
     } else {
-      // Same row or no portfolio open - immediate position from clicked card
+      // Same row or no portfolio open
       const cardRect = cardElement.getBoundingClientRect();
-      const cardCenterX = cardRect.left + cardRect.width / 2;
-
-      setSelectedMember(member);
-      setSelectedIndex(index);
-      setNotchPositionX(cardCenterX);
+      setSelectedMemberId(member.id);
+      setSelectedGlobalIndex(globalIndex);
+      setNotchPositionX(cardRect.left + cardRect.width / 2);
     }
   };
 
   const handleClose = () => {
-    setSelectedMember(null);
-    setSelectedIndex(-1);
+    setSelectedMemberId(null);
+    setSelectedGlobalIndex(-1);
   };
-
-  // Group members into rows based on columns per row
-  const getRowForIndex = (index: number) => Math.floor(index / columnsPerRow);
-  const selectedRow = selectedIndex >= 0 ? getRowForIndex(selectedIndex) : -1;
-
-  // Split members into rows
-  const rows: TeamMember[][] = [];
-  for (let i = 0; i < teamMembers.length; i += columnsPerRow) {
-    rows.push(teamMembers.slice(i, i + columnsPerRow));
-  }
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#030F16]">
@@ -320,7 +505,6 @@ export function TeamSection() {
             <span className="text-[#00c4aa] text-sm font-semibold tracking-wide uppercase">
               Our Team
             </span>
-            {/* <div className="w-10 h-[3px] accent-line-gradient" /> */}
           </div>
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
@@ -333,48 +517,21 @@ export function TeamSection() {
           </p>
         </div>
 
-        {/* Team Grid with rows and inline crack insertion */}
+        {/* Team Departments */}
         <div ref={gridRef}>
-          {rows.map((rowMembers, rowIndex) => (
-            <div key={rowIndex}>
-              {/* Row of cards */}
-              <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                  {rowMembers.map((member, indexInRow) => {
-                    const globalIndex = rowIndex * columnsPerRow + indexInRow;
-                    return (
-                      <TeamMemberCard
-                        key={member.id}
-                        member={member}
-                        isSelected={selectedMember?.id === member.id}
-                        onClick={(cardEl) =>
-                          handleSelectMember(member, globalIndex, cardEl)
-                        }
-                        index={globalIndex}
-                      />
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Crack appears right after this row if a member from this row is selected */}
-              <AnimatePresence>
-                {selectedRow === rowIndex && selectedMember && (
-                  <div className="mt-6">
-                    <CrackWithPortfolio
-                      member={selectedMember}
-                      notchPositionX={notchPositionX}
-                      onClose={handleClose}
-                    />
-                  </div>
-                )}
-              </AnimatePresence>
-
-              {/* Spacing between rows (only if no crack is showing after this row) */}
-              {selectedRow !== rowIndex && rowIndex < rows.length - 1 && (
-                <div className="h-6" />
-              )}
-            </div>
+          {departments.map((department, deptIndex) => (
+            <DepartmentSection
+              key={department.id}
+              department={department}
+              globalIndexStart={departmentRanges[deptIndex].start}
+              selectedMemberId={selectedMemberId}
+              selectedGlobalIndex={selectedGlobalIndex}
+              notchPositionX={notchPositionX}
+              columnsPerRow={columnsPerRow}
+              onSelectMember={handleSelectMember}
+              onClose={handleClose}
+              gridRef={gridRef}
+            />
           ))}
         </div>
       </div>
