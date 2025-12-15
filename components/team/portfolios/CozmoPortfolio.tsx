@@ -6,7 +6,7 @@ import Image from "next/image";
 export const memberData = {
   id: "cozmo",
   name: "Cozmo",
-  role: "Support Specialist",
+  role: "Chink",
   handle: "@CozmoFPS",
   avatar: "/imgs/cozmo/cd5b90be-add9-4e2c-b44a-97ab882580d5.jpeg",
   portfolioBg: "bg-[#06040F]",
@@ -105,7 +105,7 @@ export function CozmoPortfolio() {
                         title="Steam"
                       >
                         <img
-                          src="/imgs/cozmo/steam-svgrepo-com.svg"
+                          src="/imgs/portfolios/cozmo/steam-svgrepo-com.svg"
                           alt="Steam"
                           className="w-5 h-5"
                         />
@@ -117,7 +117,7 @@ export function CozmoPortfolio() {
                         title="SoundCloud"
                       >
                         <img
-                          src="/imgs/cozmo/soundcloud-svgrepo-com.svg"
+                          src="/imgs/portfolios/cozmo/soundcloud-svgrepo-com.svg"
                           alt="SoundCloud"
                           className="w-5 h-5"
                         />
@@ -129,7 +129,7 @@ export function CozmoPortfolio() {
                         title="YouTube"
                       >
                         <img
-                          src="/imgs/cozmo/youtube-168-svgrepo-com.svg"
+                          src="/imgs/portfolios/cozmo/youtube-168-svgrepo-com.svg"
                           alt="YouTube"
                           className="w-5 h-5"
                         />

@@ -160,6 +160,7 @@ const services: ServiceCardProps[] = [
     ],
     imageSrc: "/web.png",
     imageAlt: "Website Hosting",
+    href: "/web",
     linkText: "View plans",
   },
   {
@@ -176,6 +177,7 @@ const services: ServiceCardProps[] = [
       "Scalable resources",
     ],
     imageSrc: "/cloud.png",
+    href: "https://foxomy.com/billing/submitticket.php?step=2&deptid=2",
     imageAlt: "Private Cloud",
     linkText: "Get a quote",
   },

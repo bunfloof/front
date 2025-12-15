@@ -1,38 +1,115 @@
 "use client";
 
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import { ChevronDown, HelpCircle } from "lucide-react";
 
-const faqs = [
+interface FAQ {
+  question: string;
+  answer: ReactNode;
+}
+
+const faqs: FAQ[] = [
   {
     question: "How long will I receive my server?",
-    answer:
-      "Your server will be set up instantly after payment confirmation. Most servers are ready within minutes, though some custom configurations may take up to a few hours during peak times.",
+    answer: (
+      <p>
+        Your server will provisioned automatically and immediately after payment
+        confirmation.
+      </p>
+    ),
   },
   {
     question: "What is your refund policy?",
-    answer:
-      "We offer a generous 180-day money-back guarantee. If you're not satisfied with our service for any reason, simply open a support ticket and we'll process your refund—no questions asked. We've never denied a refund request.",
+    answer: (
+      <p>
+        We offer a generous 180-day money-back guarantee. If you're not
+        satisfied with our service for any reason, please contact us. We have a
+        perfect track record of never denying a refund request because we're
+        confident in our services.
+      </p>
+    ),
   },
   {
     question: "Can I upgrade or downgrade my server?",
-    answer:
-      "Absolutely! You can upgrade or downgrade your server plan at any time through your client panel. Upgrades are applied instantly, and for downgrades, the remaining credit will be applied to your account balance.",
+    answer: (
+      <p>
+        Yes, you can upgrade or downgrade your server plan at any time through
+        your client panel. Upgrades are applied instantly, and for downgrades,
+        the remaining credit will be applied to your account balance.
+      </p>
+    ),
+  },
+  ,
+  {
+    question: "Is Foxomy run by a pedophile?",
+    answer: (
+      <p>
+        No, Bun is not a pedophile or zoophile. Those are unsubstantiated
+        allegations made by competitors such as Brandon from SpringRacks Hosting
+        and XandarYT.
+      </p>
+    ),
+  },
+  {
+    question: "Is Foxomy racist against white people?",
+    answer: (
+      <p>
+        No, Foxomy is not racist against any race, including white people. We
+        are anti-racist, anti-fascist, and intentionally centered on people of
+        color, which means we actively fight to dismantle white supremacy and
+        white privilege.
+        <br />
+        <br />
+        Foxomy is a left leaning hosting company based in California and run by
+        LGBTQ+ furries. Our viewpoints are common in California activist and
+        academic spaces, such as UC Berkeley and UCLA. We are misunderstood by
+        ignorant people unfamiliar with systemic analyses of race. If any of
+        this offends you, then we don't think we're the right company for you.
+      </p>
+    ),
   },
   {
     question: "What are your server specifications?",
-    answer:
-      "Our servers run on enterprise-grade AMD EPYC and Intel Xeon processors with NVMe SSD storage and DDR5 ECC RAM. We use premium network providers to ensure low latency and high throughput for your applications.",
+    answer: (
+      <p>
+        Our premium servers run on Intel Core i9-14900KS/Ultra 9 285K
+        processors. Our budget servers run on Ryzen 9 9950X3D processors. All
+        servers have DDR5 RAM and NVMe SSD storage.
+      </p>
+    ),
   },
   {
     question: "Do you offer DDoS protection?",
-    answer:
-      "Yes! All our servers come with built-in DDoS protection at no extra cost. Our in-house mitigation system can handle attacks up to 40 Gbps / 35 Mpps with less than 1 second response time.",
+    answer: (
+      <p>
+        Yes, all our servers come with DDoS protection. Our in-house mitigation
+        system can withstand bandwidths of up to 40 Gbps / 35 Mpps at minimum
+        with less than 1 second response time. For attacks that exceed our
+        capacity and filters, we will temporarily route traffic to protected
+        upstream partners such as Voxility. Please note, however, that it is not
+        only the bandwidth that matters in DDoS attacks but also the type of
+        attack.
+      </p>
+    ),
   },
   {
     question: "How do I contact support?",
-    answer:
-      "Our support team is available 24/7. You can reach us through our ticket system for general inquiries, or use the emergency contact for urgent issues. We also offer personal Discord support for direct assistance.",
+    answer: (
+      <p>
+        Our support team is available 24/7. You can reach us through our{" "}
+        <a
+          href="https://foxomy.com/billing/submitticket.php?step=2&deptid=2"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[#00c4aa] hover:text-[#00d4b8]"
+        >
+          ticket{" "}
+        </a>
+        system for general inquiries, or use the emergency contact for urgent
+        issues. We also offer personal Discord support on your panel for direct
+        assistance.
+      </p>
+    ),
   },
 ];
 
@@ -43,7 +120,7 @@ function FAQItem({
   onToggle,
 }: {
   question: string;
-  answer: string;
+  answer: ReactNode;
   isOpen: boolean;
   onToggle: () => void;
 }) {
@@ -55,7 +132,7 @@ function FAQItem({
     >
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between py-5 px-6 text-left group"
+        className="w-full flex items-center justify-between py-5 px-6 text-left group cursor-pointer"
       >
         <span
           className={`text-lg font-medium transition-colors duration-200 ${
@@ -75,7 +152,9 @@ function FAQItem({
           isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <p className="px-6 pb-5 text-[#BDE0F5]/70 leading-relaxed">{answer}</p>
+        <div className="px-6 pb-5 text-[#BDE0F5]/70 leading-relaxed faq-content">
+          {answer}
+        </div>
       </div>
     </div>
   );
@@ -123,13 +202,13 @@ export function FAQSection() {
         {/* Section header */}
         <div className="text-center mb-12">
           {/* Eyebrow */}
-          <div className="flex items-center justify-center gap-3 mb-6">
+          {/* <div className="flex items-center justify-center gap-3 mb-6">
             <div className="w-10 h-[3px] accent-line-gradient" />
             <span className="text-[#00c4aa] text-sm font-semibold tracking-wide uppercase">
               FAQ
             </span>
             <div className="w-10 h-[3px] accent-line-gradient" />
-          </div>
+          </div> */}
 
           <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-bold text-white mb-4">
             Frequently Asked Questions
@@ -182,4 +261,3 @@ export function FAQSection() {
     </section>
   );
 }
-

@@ -62,7 +62,7 @@ export function GuaranteeSection() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Request a Refund
+              Contact Support
             </a>
           </Button>
         </div>

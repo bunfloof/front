@@ -15,6 +15,7 @@
   --font-minecraft: "Minecraft", "Arial", sans-serif;
   --font-caveat: "Caveat", cursive;
   --font-commissioner: "Commissioner", sans-serif;
+  --font-berkeley-mono: "Berkeley Mono", monospace;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -469,22 +470,22 @@
 
 /* Bluey color palette from frontcum */
 :root {
-  --bluey-50: #DCEFFA;
-  --bluey-100: #BDE0F5;
-  --bluey-200: #7AC2EB;
-  --bluey-300: #33A1E0;
-  --bluey-400: #1A77AD;
-  --bluey-500: #10496A;
-  --bluey-600: #0D3A54;
-  --bluey-700: #092B3E;
-  --bluey-800: #071F2C;
-  --bluey-900: #030F16;
+  --bluey-50: #dceffa;
+  --bluey-100: #bde0f5;
+  --bluey-200: #7ac2eb;
+  --bluey-300: #33a1e0;
+  --bluey-400: #1a77ad;
+  --bluey-500: #10496a;
+  --bluey-600: #0d3a54;
+  --bluey-700: #092b3e;
+  --bluey-800: #071f2c;
+  --bluey-900: #030f16;
   --bluey-950: #010609;
-  
+
   /* Accent colors */
   --accent-teal: #00c4aa;
-  --accent-cyan: #11A8A9;
-  --accent-blue: #0481CD;
+  --accent-cyan: #11a8a9;
+  --accent-blue: #0481cd;
 }
 
 /* Text selection color */
@@ -500,8 +501,7 @@
 /* Dot pattern background utility */
 .bg-dot-pattern {
   background-color: var(--bluey-900);
-  background-image: 
-    radial-gradient(#313131 1px, transparent 0),
+  background-image: radial-gradient(#313131 1px, transparent 0),
     radial-gradient(#313131 1px, transparent 0);
   background-size: 30px 30px, 30px 30px;
   background-position: 0 0, 15px 15px;
@@ -510,10 +510,17 @@
 
 /* Gradient overlay for hero sections */
 .bg-hero-gradient {
-  background-image:
-    linear-gradient(27deg, rgba(17,168,169,0.24) 10%, rgba(0, 0, 136, 0) 40.5%),
-    linear-gradient(327deg, rgba(4,129,205,0.24) 10%, rgba(0, 67, 136, 0) 40.5%),
-    linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%),
+  background-image: linear-gradient(
+      27deg,
+      rgba(17, 168, 169, 0.24) 10%,
+      rgba(0, 0, 136, 0) 40.5%
+    ),
+    linear-gradient(
+      327deg,
+      rgba(4, 129, 205, 0.24) 10%,
+      rgba(0, 67, 136, 0) 40.5%
+    ),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%),
     radial-gradient(#313131 1px, transparent 0),
     radial-gradient(#313131 1px, transparent 0);
   background-position: 0 0, 0 0, 0 0, 0 0, 15px 15px;
@@ -528,8 +535,7 @@
 
 /* Grid pattern overlay */
 .bg-grid-pattern {
-  background-image:
-    linear-gradient(to right, #80808012 1px, transparent 1px),
+  background-image: linear-gradient(to right, #80808012 1px, transparent 1px),
     linear-gradient(to bottom, #80808012 1px, transparent 1px);
   background-size: 64px 64px;
   background-attachment: fixed;
@@ -537,7 +543,21 @@
 
 /* Accent divider line gradient */
 .accent-line-gradient {
-  background-image: linear-gradient(27deg, rgba(87,230,170,1), rgba(94,171,194,1) 51%, rgba(26,163,255,1) 100%);
+  background-image: linear-gradient(
+    27deg,
+    rgba(87, 230, 170, 1),
+    rgba(94, 171, 194, 1) 51%,
+    rgba(26, 163, 255, 1) 100%
+  );
+}
+
+/* Berkeley Mono Font */
+@font-face {
+  font-family: "Berkeley Mono";
+  src: url("/fonts/BerkeleyMono-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 /* Minecraft Fonts */
@@ -640,13 +660,27 @@
 
 /* Scrambled Font for anti-scraping */
 @font-face {
-  font-family: 'Geist-Regular-scrambled';
-  src: url('/fonts/Geist-Regular-scrambled.woff2') format('woff2');
+  font-family: "Geist-Regular-scrambled";
+  src: url("/fonts/Geist-Regular-scrambled.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 .scrambled-font {
-  font-family: 'Geist-Regular-scrambled', sans-serif;
+  font-family: "Geist-Regular-scrambled", sans-serif;
+}
+
+/* Infinite scroll animation for staff carousel */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 30s linear infinite;
 }

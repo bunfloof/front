@@ -42,13 +42,14 @@ export default function Home() {
       {/* Server Locations Section */}
       <ServerLocationsSection />
       {/* Haters Section */}
-      <HatersSection />
-      {/* Guarantee Section */}
-      <GuaranteeSection />
+      {/* <HatersSection /> */}
+
       {/* FAQ Section */}
       <FAQSection />
       {/* About Us Section */}
       <AboutUsSection />
+      {/* Guarantee Section */}
+      <GuaranteeSection />
       {/* Footer */}
       <Footer />
     </div>

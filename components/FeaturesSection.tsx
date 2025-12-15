@@ -12,7 +12,7 @@ const features = [
     icon: Shield,
     title: "DDoS Protection",
     description:
-      "Delay-free, in-house permanent DDoS protection up to 40 Gbps / 35 Mpps in less than 1 second response time.",
+      "Delay-free, in-house permanent DDoS protection up to 40 Gbps / 35 Mpps at minimum with less than 1 second response time.",
   },
   {
     icon: Users,

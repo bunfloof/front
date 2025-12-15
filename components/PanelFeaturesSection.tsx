@@ -99,10 +99,10 @@ export function PanelFeaturesSection() {
         {/* Header */}
         <div className="max-w-4xl mb-12">
           <h2 className="text-4xl md:text-4xl font-bold text-green-50 mb-4">
-            Pterodactyl Panel but built with NextJS 15
+            Pterodactyl Panel but better
           </h2>
           <p className="text-[#BDE0F5]/70 text-lg">
-            Our custom fork with major improvements developed in-house.
+            Our refactor in NextJS 15 with major improvements developed in-house, built by our lovely bun.
           </p>
         </div>
 
@@ -179,10 +179,12 @@ export function PanelFeaturesSection() {
             </ul>
 
             <a
-              href="#"
+              href="https://foxomy.com/billing/submitticket.php?step=2&deptid=2"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-[#7AC2EB] font-semibold hover:text-[#00c4aa] transition-colors group"
             >
-              Request a demo
+              Request a demo for your hosting company
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
           </div>

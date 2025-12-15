@@ -93,7 +93,7 @@ export function Footer() {
           <div className="col-span-2 md:col-span-3 lg:col-span-2">
             <div className="flex items-center gap-3 mb-4">
               <Image
-                src="/foxomy.svg"
+                src="/logotail.svg"
                 alt="Foxomy"
                 width={40}
                 height={40}
@@ -102,7 +102,7 @@ export function Footer() {
               <span className="text-white text-xl font-semibold">Foxomy</span>
             </div>
             <p className="text-[#7AC2EB]/50 text-sm mb-6">
-              © 2025 Foxomy. All rights reserved.
+              ©  {new Date().getFullYear()} Foxomy. All rights reserved.
             </p>
 
             {/* Social icons */}
@@ -126,7 +126,7 @@ export function Footer() {
           {footerSections.map((section) => (
             <div key={section.title}>
               <h3
-                className="text-[#40ffe6] text-xl font-medium mb-4"
+                className="text-[#d6fff9] text-xl font-medium mb-4"
                 style={{ fontFamily: "var(--font-caveat)" }}
               >
                 {section.title}

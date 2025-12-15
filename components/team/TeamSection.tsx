@@ -7,16 +7,198 @@ import { X } from "lucide-react";
 
 // Import portfolios and their data
 import { BunPortfolio, memberData as bunData } from "./portfolios/BunPortfolio";
+
 import {
-  FelixPortfolio,
-  memberData as felixData,
-} from "./portfolios/FelixPortfolio";
+  CozmoPortfolio,
+  memberData as cozmoData,
+} from "./portfolios/CozmoPortfolio";
+
+// Backend Team
 import {
-  NovaPortfolio,
-  memberData as novaData,
-} from "./portfolios/NovaPortfolio";
-import { AshPortfolio, memberData as ashData } from "./portfolios/AshPortfolio";
-import { CozmoPortfolio, memberData as cozmoData } from "./portfolios/CozmoPortfolio";
+  CrabPortfolio,
+  memberData as crabData,
+} from "./portfolios/CrabPortfolio";
+import {
+  EnochPortfolio,
+  memberData as enochData,
+} from "./portfolios/EnochPortfolio";
+import {
+  HaloPortfolio,
+  memberData as haloData,
+} from "./portfolios/HaloPortfolio";
+import {
+  KobiPortfolio,
+  memberData as kobiData,
+} from "./portfolios/KobiPortfolio";
+import {
+  MrW4vePortfolio,
+  memberData as mrw4veData,
+} from "./portfolios/MrW4vePortfolio";
+import {
+  NxifyPortfolio,
+  memberData as nxifyData,
+} from "./portfolios/NxifyPortfolio";
+
+// Business Team
+import {
+  CheesePortfolio,
+  memberData as cheeseData,
+} from "./portfolios/CheesePortfolio";
+import {
+  DavidTuckerPortfolio,
+  memberData as davidtuckerData,
+} from "./portfolios/DavidTuckerPortfolio";
+import {
+  IlomantisPortfolio,
+  memberData as ilomantisData,
+} from "./portfolios/IlomantisPortfolio";
+
+// Communications Team
+import {
+  ZolomightPortfolio,
+  memberData as zolomightData,
+} from "./portfolios/ZolomightPortfolio";
+
+// Creative Team
+import {
+  BrokenSunPortfolio,
+  memberData as brokensunData,
+} from "./portfolios/BrokenSunPortfolio";
+import {
+  DovesongPortfolio,
+  memberData as dovesongData,
+} from "./portfolios/DovesongPortfolio";
+import {
+  FeliixPortfolio,
+  memberData as feliixData,
+} from "./portfolios/FeliixPortfolio";
+
+import {
+  RealakimPortfolio,
+  memberData as realakimData,
+} from "./portfolios/RealakimPortfolio";
+import {
+  VicMcPheronPortfolio,
+  memberData as vicmcpheronData,
+} from "./portfolios/VicMcPheronPortfolio";
+
+// Development Team
+import {
+  LemonPortfolio,
+  memberData as lemonData,
+} from "./portfolios/LemonPortfolio";
+
+// Finance Team
+import {
+  TiteiikoPortfolio,
+  memberData as titeiikoData,
+} from "./portfolios/TiteiikoPortfolio";
+import {
+  TofuPortfolio,
+  memberData as tofuData,
+} from "./portfolios/TofuPortfolio";
+
+// Frontend Team
+import {
+  TaiNgoPortfolio,
+  memberData as taingoData,
+} from "./portfolios/TaiNgoPortfolio";
+import {
+  LittlemadhatterPortfolio,
+  memberData as littlemadhatterData,
+} from "./portfolios/LittlemadhatterPortfolio";
+
+// Graphics Team
+import {
+  DekuPortfolio,
+  memberData as dekuData,
+} from "./portfolios/DekuPortfolio";
+import {
+  GrayDay78Portfolio,
+  memberData as grayday78Data,
+} from "./portfolios/GrayDay78Portfolio";
+
+// HR Team
+import {
+  KaylaPortfolio,
+  memberData as kaylaData,
+} from "./portfolios/KaylaPortfolio";
+import {
+  NoahPortfolio,
+  memberData as noahData,
+} from "./portfolios/NoahPortfolio";
+import {
+  PapatonydeepPortfolio,
+  memberData as papatonydeepData,
+} from "./portfolios/PapatonydeepPortfolio";
+
+// Local Team
+import {
+  BenjaminCarterPortfolio,
+  memberData as benjamincarterData,
+} from "./portfolios/BenjaminCarterPortfolio";
+import {
+  FlyingDraegonPortfolio,
+  memberData as flyingdraegonData,
+} from "./portfolios/FlyingDraegonPortfolio";
+import {
+  GuruduruPortfolio,
+  memberData as guruduruData,
+} from "./portfolios/GuruduruPortfolio";
+import { PooPortfolio, memberData as pooData } from "./portfolios/PooPortfolio";
+
+// Marketing Team
+import {
+  SolidSMMPortfolio,
+  memberData as solidsmmData,
+} from "./portfolios/SolidSMMPortfolio";
+import {
+  GraysonGorneyPortfolio,
+  memberData as graysongorneyData,
+} from "./portfolios/GraysonGorneyPortfolio";
+
+// Moderation Team
+import {
+  DanielPortfolio,
+  memberData as danielData,
+} from "./portfolios/DanielPortfolio";
+import {
+  SkylerAcerPortfolio,
+  memberData as skyleracerData,
+} from "./portfolios/SkylerAcerPortfolio";
+
+// Partners Team
+import {
+  CuyoyaPortfolio,
+  memberData as cuyoyaData,
+} from "./portfolios/CuyoyaPortfolio";
+import { ShyPortfolio, memberData as shyData } from "./portfolios/ShyPortfolio";
+import {
+  ThatKyrgyzPortfolio,
+  memberData as thatkyrgyzData,
+} from "./portfolios/ThatKyrgyzPortfolio";
+
+// PR Team
+import {
+  AllitariPortfolio,
+  memberData as allitariData,
+} from "./portfolios/AllitariPortfolio";
+import {
+  GoldiePortfolio,
+  memberData as goldieData,
+} from "./portfolios/GoldiePortfolio";
+
+// Social Media Team
+import {
+  AyasuPortfolio,
+  memberData as ayasuData,
+} from "./portfolios/AyasuPortfolio";
+
+// Support Team
+import {
+  TrishPortfolio,
+  memberData as trishData,
+} from "./portfolios/TrishPortfolio";
 
 // Types
 interface TeamMember {
@@ -37,51 +219,221 @@ interface Department {
 // Map member IDs to their portfolio components
 const portfolioComponents: Record<string, React.ComponentType> = {
   bun: BunPortfolio,
-  felix: FelixPortfolio,
-  nova: NovaPortfolio,
-  ash: AshPortfolio,
+  feliix: FeliixPortfolio,
   cozmo: CozmoPortfolio,
+  // Backend Team
+  crab: CrabPortfolio,
+  enoch: EnochPortfolio,
+  kobi: KobiPortfolio,
+  halo: HaloPortfolio,
+  mrw4ve: MrW4vePortfolio,
+  nxify: NxifyPortfolio,
+  // Business Team
+  cheese: CheesePortfolio,
+  davidtucker: DavidTuckerPortfolio,
+  ilomantis: IlomantisPortfolio,
+  // Communications Team
+  zolomight: ZolomightPortfolio,
+  // Creative Team
+  brokensun: BrokenSunPortfolio,
+  dovesong: DovesongPortfolio,
+  realakim: RealakimPortfolio,
+  vicmcpheron: VicMcPheronPortfolio,
+  // Development Team
+  lemon: LemonPortfolio,
+  // Finance Team
+  titeiiko: TiteiikoPortfolio,
+  tofu: TofuPortfolio,
+  // Frontend Team
+  taingo: TaiNgoPortfolio,
+  littlemadhatter: LittlemadhatterPortfolio,
+  // Graphics Team
+  deku: DekuPortfolio,
+  grayday78: GrayDay78Portfolio,
+  // HR Team
+  kayla: KaylaPortfolio,
+  noah: NoahPortfolio,
+  papatonydeep: PapatonydeepPortfolio,
+  // Local Team
+  benjamincarter: BenjaminCarterPortfolio,
+  flyingdraegon: FlyingDraegonPortfolio,
+  guruduru: GuruduruPortfolio,
+  poo: PooPortfolio,
+  // Marketing Team
+  solidsmm: SolidSMMPortfolio,
+  graysongorney: GraysonGorneyPortfolio,
+  // Moderation Team
+  daniel: DanielPortfolio,
+  skyleracer: SkylerAcerPortfolio,
+  // Partners Team
+  cuyoya: CuyoyaPortfolio,
+  shy: ShyPortfolio,
+  thatkyrgyz: ThatKyrgyzPortfolio,
+  // PR Team
+  allitari: AllitariPortfolio,
+  goldie: GoldiePortfolio,
+  // Social Media Team
+  ayasu: AyasuPortfolio,
+  // Support Team
+  trish: TrishPortfolio,
 };
 
 // Map member IDs to their background colors
 const portfolioBackgrounds: Record<string, string> = {
   bun: bunData.portfolioBg,
-  felix: felixData.portfolioBg,
-  nova: novaData.portfolioBg,
-  ash: ashData.portfolioBg,
   cozmo: cozmoData.portfolioBg,
+  // Backend Team
+  crab: crabData.portfolioBg,
+  enoch: enochData.portfolioBg,
+  halo: haloData.portfolioBg,
+  kobi: kobiData.portfolioBg,
+  mrw4ve: mrw4veData.portfolioBg,
+  nxify: nxifyData.portfolioBg,
+  // Business Team
+  cheese: cheeseData.portfolioBg,
+  ilomantis: ilomantisData.portfolioBg,
+  // Communications Team
+  zolomight: zolomightData.portfolioBg,
+  // Creative Team
+  brokensun: brokensunData.portfolioBg,
+  dovesong: dovesongData.portfolioBg,
+  feliix: feliixData.portfolioBg,
+  realakim: realakimData.portfolioBg,
+  vicmcpheron: vicmcpheronData.portfolioBg,
+  // Development Team
+  lemon: lemonData.portfolioBg,
+  // Finance Team
+  titeiiko: titeiikoData.portfolioBg,
+  tofu: tofuData.portfolioBg,
+  // Frontend Team
+  taingo: taingoData.portfolioBg,
+  littlemadhatter: littlemadhatterData.portfolioBg,
+  // Graphics Team
+  deku: dekuData.portfolioBg,
+  grayday78: grayday78Data.portfolioBg,
+  // HR Team
+  kayla: kaylaData.portfolioBg,
+  noah: noahData.portfolioBg,
+  papatonydeep: papatonydeepData.portfolioBg,
+  // Local Team
+  benjamincarter: benjamincarterData.portfolioBg,
+  flyingdraegon: flyingdraegonData.portfolioBg,
+  guruduru: guruduruData.portfolioBg,
+  poo: pooData.portfolioBg,
+  // Marketing Team
+  solidsmm: solidsmmData.portfolioBg,
+  graysongorney: graysongorneyData.portfolioBg,
+  // Moderation Team
+  daniel: danielData.portfolioBg,
+  skyleracer: skyleracerData.portfolioBg,
+  // Partners Team
+  cuyoya: cuyoyaData.portfolioBg,
+  shy: shyData.portfolioBg,
+  thatkyrgyz: thatkyrgyzData.portfolioBg,
+  // PR Team
+  allitari: allitariData.portfolioBg,
+  goldie: goldieData.portfolioBg,
+  // Social Media Team
+  ayasu: ayasuData.portfolioBg,
+  // Support Team
+  trish: trishData.portfolioBg,
 };
 
 // Define departments and their members
 const departments: Department[] = [
   {
-    id: "support-team",
-    name: "Support Team",
-    members: [bunData, cozmoData, felixData, novaData, ashData],
+    id: "backend",
+    name: "Backend Team",
+    members: [crabData, enochData, haloData, kobiData, mrw4veData, nxifyData],
+  },
+  {
+    id: "business",
+    name: "Business Team",
+    members: [cheeseData, davidtuckerData, ilomantisData],
   },
   {
     id: "communications",
     name: "Communications Team",
-    members: [novaData, ashData, bunData, felixData],
+    members: [zolomightData],
+  },
+  {
+    id: "creative",
+    name: "Creative Team",
+    members: [
+      brokensunData,
+      dovesongData,
+      feliixData,
+      realakimData,
+      vicmcpheronData,
+    ],
+  },
+  {
+    id: "development",
+    name: "Development Team",
+    members: [lemonData],
+  },
+  {
+    id: "finance",
+    name: "Finance Team",
+    members: [titeiikoData, tofuData],
+  },
+  {
+    id: "frontend",
+    name: "Frontend Team",
+    members: [taingoData, littlemadhatterData],
+  },
+  {
+    id: "graphics",
+    name: "Graphics Team",
+    members: [dekuData, grayday78Data],
+  },
+  {
+    id: "hr",
+    name: "HR Team",
+    members: [kaylaData, noahData, papatonydeepData],
+  },
+  {
+    id: "local",
+    name: "Local Team",
+    members: [
+      benjamincarterData,
+      bunData,
+      cozmoData,
+      flyingdraegonData,
+      guruduruData,
+      pooData,
+    ],
+  },
+  {
+    id: "marketing",
+    name: "Marketing Team",
+    members: [solidsmmData, graysongorneyData],
+  },
+  {
+    id: "moderation",
+    name: "Discord Moderation Team",
+    members: [danielData, skyleracerData],
+  },
+  {
+    id: "partners",
+    name: "Partners Team",
+    members: [cuyoyaData, shyData, thatkyrgyzData],
+  },
+  {
+    id: "pr",
+    name: "PR Team",
+    members: [allitariData, goldieData],
+  },
+  {
+    id: "social-media",
+    name: "Social Media Team",
+    members: [ayasuData],
   },
   {
     id: "support",
     name: "Support Team",
-    members: [ashData],
+    members: [trishData],
   },
-  // Add more departments as needed:
-  // {
-  //   id: "social-media",
-  //   name: "Social Media Team",
-  //   description: "Managing our presence across social platforms.",
-  //   members: [],
-  // },
-  // {
-  //   id: "translation",
-  //   name: "Translation Team",
-  //   description: "Making Foxomy accessible to everyone around the world.",
-  //   members: [],
-  // },
 ];
 
 interface TeamMemberCardProps {
@@ -511,9 +863,9 @@ export function TeamSection() {
             Meet the Pack
           </h1>
           <p className="text-[#BDE0F5]/70 text-lg max-w-3xl">
-            Foxomy is run by a group of passionate volunteers who try their best
-            to keep the service up and running. Join us to make Foxomy even more
-            awesome!
+            Foxomy is run by a small group of passionate volunteers who try
+            their best to keep the service up and running. If you're interested
+            in contributing, please contact us.
           </p>
         </div>
 

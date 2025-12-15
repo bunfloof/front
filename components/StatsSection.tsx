@@ -63,7 +63,7 @@ export function StatsSection() {
     },
     {
       value: "5 Years",
-      label: "Of Excellence Since 2020",
+      label: "Of Business Since 2020",
       isApi: false,
     },
     {

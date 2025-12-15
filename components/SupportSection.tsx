@@ -55,17 +55,16 @@ export function SupportSection() {
               <p>
                 Our support team is available 24/7 with fast response times. We
                 believe extraordinary hospitality means treating each guest as
-                the most important person in the world—every time, no
-                exceptions.
+                the most important person in the world every time.
               </p>
             </div>
 
             {/* Quote block */}
-            <blockquote className="mt-8 pl-5 border-l-4 border-[#00c4aa]">
+            {/* <blockquote className="mt-8 pl-5 border-l-4 border-[#00c4aa]">
               <p className="text-[#BDE0F5]/80 text-lg italic">
                 "Let us show you what world-class service truly means."
               </p>
-            </blockquote>
+            </blockquote> */}
 
             {/* CTA */}
             <div className="mt-10">
