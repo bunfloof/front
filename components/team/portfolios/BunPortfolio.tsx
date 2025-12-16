@@ -54,8 +54,8 @@ export function BunPortfolio() {
               hosting services through Google Cloud. Eventually, I founded
               Foxomy in September 2020 while I was still in high school. I went
               on to earn my Bachelor's degree in Computer Engineering in 2024 at
-              the University of California, Santa Cruz, and am currently
-              pursuing a Master's in Physics.
+              the University of California and am currently pursuing a Master's
+              in Computer Science.
             </p>
           </div>
 

@@ -106,10 +106,11 @@ export function BrandonDoanModal3({ isOpen, onClose }: BaseReviewerModalProps) {
           offended you. White people can and do use our services, but the focus
           for Foxomy is providing a safe and supportive environment for people
           of color. Regarding Lunes Hosting, Foxomy operates independently and
-          is not responsible for the actions of other hosting companies.
-          Regarding our comparison chart, we included various data points that
-          some users found interesting. We're sorry if you feel offended by our
-          TOS or comparison chart.
+          is not responsible for the actions of other hosting companies,
+          including Lunes Hosting. We've never attacked your host either because
+          you're a small fry not worth our time. Regarding our comparison chart,
+          we included various data points that some users found interesting.
+          We're sorry if you feel offended by our TOS or comparison chart.
         </p>
       </div>
     </ModalWrapper>

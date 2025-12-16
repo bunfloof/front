@@ -7,16 +7,13 @@ const footerSections = [
     title: "Services",
     links: [
       { label: "Game Hosting", href: "/game" },
-      { label: "Minecraft Hosting", href: "/minecraft" },
+      { label: "Minecraft Hosting", href: "/game" },
       { label: "Web Hosting", href: "/web" },
     ],
   },
   {
     title: "Company",
-    links: [
-      { label: "About us", href: "/about" },
-      { label: "Blog", href: "/blog" },
-    ],
+    links: [{ label: "Team", href: "/team" }],
   },
   {
     title: "Resources",
@@ -24,18 +21,17 @@ const footerSections = [
       {
         label: "Open Ticket",
         href: "https://foxomy.com/billing/submitticket.php",
-      },
-      { label: "Minecraft Server Status", href: "/tools/minecraft-status" },
-      { label: "IP Location Lookup", href: "/tools/ip-lookup" },
+      }
     ],
   },
   {
     title: "Legal",
     links: [
-      { label: "Acceptable Usage Policy", href: "/legal/aup" },
-      { label: "Privacy", href: "/legal/privacy" },
-      { label: "Service License Agreement", href: "/legal/sla" },
-      { label: "Terms of Service", href: "/legal/tos" },
+      { label: "Terms of Service", href: "/terms" },
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Service License Agreement", href: "/sla" },
+      { label: "Acceptable Usage Policy", href: "/aup" },
+      { label: "The Akogeno Act", href: "/akogeno" },
     ],
   },
 ];

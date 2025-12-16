@@ -53,9 +53,9 @@ export function SupportSection() {
                 We're here to help, not lecture.
               </p>
               <p>
-                Our support team is available 24/7 with fast response times. We
-                believe extraordinary hospitality means treating each guest as
-                the most important person in the world every time.
+                Tired of feeling like you're "just a number" at your provider?
+                With Foxomy, you can even chat with the owner on Discord if you
+                need assistance. We love getting to know our customers.
               </p>
             </div>
 

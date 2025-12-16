@@ -22,7 +22,7 @@ const faqs: FAQ[] = [
     question: "What is your refund policy?",
     answer: (
       <p>
-        We offer a generous 180-day money-back guarantee. If you're not
+        We offer a generous 180-day money-back and 100% satisfaction guarantee. If you're not
         satisfied with our service for any reason, please contact us. We have a
         perfect track record of never denying a refund request because we're
         confident in our services.

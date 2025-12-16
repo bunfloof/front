@@ -51,7 +51,7 @@ export default function Home() {
       {/* Guarantee Section */}
       <GuaranteeSection />
       {/* Footer */}
-      <Footer />
+      
     </div>
   );
 }

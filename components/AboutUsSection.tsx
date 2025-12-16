@@ -143,9 +143,7 @@ export function AboutUsSection() {
             </h2>
 
             <p className="text-[#BDE0F5] text-lg leading-relaxed mb-6">
-              Tired of feeling like you're "just a number" at your provider?
-              With Foxomy, you can even chat with the owner on Skype if you need
-              assistance. We love getting to know our customers.
+              For the past 5 years, Foxomy has been a leading provider of hosting services for the furry community. We've helped thousands of furries build their dream servers and create unforgettable experiences.
             </p>
 
             <p className="text-[#7AC2EB]/60 text-base leading-relaxed mb-8">

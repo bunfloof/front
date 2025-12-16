@@ -5,11 +5,10 @@ import { motion, AnimatePresence } from "motion/react";
 import React from "react";
 
 const menuItems = [
-  { name: "Products", href: "#link" },
-  { name: "Features", href: "#link" },
-  { name: "Solution", href: "#link" },
-  { name: "Pricing", href: "#link" },
-  { name: "About", href: "#link" },
+  { name: "Minecraft", href: "/game" },
+  { name: "Game", href: "/game" },
+  { name: "Web", href: "/web" },
+  { name: "Team", href: "/team" },
 ];
 
 export const MainNavbar = () => {

@@ -1,0 +1,352 @@
+"use client";
+
+import { MainNavbar } from "@/components/MainNavbar";
+import { ScrambledText } from "@/components/ScrambledText";
+import Link from "next/link";
+import { Link2, Check, Shield } from "lucide-react";
+import { useState } from "react";
+
+// Table of contents sections
+const sections = [
+  { id: "overview", title: "Overview" },
+  { id: "core-principles", title: "Core Principles" },
+  { id: "discord-policy", title: "Discord & Social Media" },
+  { id: "what-we-do-not-act-on", title: "What We Do Not Act On" },
+  { id: "why-this-matters", title: "Why This Matters" },
+  { id: "our-commitment", title: "Our Commitment" },
+  { id: "contact", title: "Contact Information" },
+];
+
+// Section heading component with copy link functionality
+function SectionHeading({ id, title }: { id: string; title: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const copyLink = () => {
+    const url = `${window.location.origin}${window.location.pathname}#${id}`;
+    navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <h2 className="group flex items-center gap-3 text-xl font-semibold text-white mb-4 pb-2 border-b border-[#1A77AD]/20">
+      <span>{title}</span>
+      <button
+        onClick={copyLink}
+        className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-[#1A77AD]/20"
+        title="Copy link to section"
+      >
+        {copied ? (
+          <Check className="w-4 h-4 text-[#00c4aa]" />
+        ) : (
+          <Link2 className="w-4 h-4 text-[#7AC2EB]" />
+        )}
+      </button>
+    </h2>
+  );
+}
+
+export default function AkogenoActPage() {
+  return (
+    <div className="font-sans bg-[#030F16] min-h-screen">
+      <MainNavbar />
+
+      {/* Header */}
+      <header className="pt-32 pb-12 border-b border-[#1A77AD]/20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-4 mb-4">
+            <h1 className="text-3xl md:text-4xl font-bold text-white">
+              The Akogeno Sovereignty Act
+            </h1>
+          </div>
+          <p className="text-[#BDE0F5]/60">
+            Also known as The Akogeno Act
+          </p>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="py-12">
+        <div className="flex justify-center">
+          {/* Sticky Table of Contents - Left Side */}
+          <div className="hidden xl:block w-52 flex-shrink-0 mr-8">
+            <nav className="sticky top-12 max-h-[calc(100vh-4rem)] overflow-y-auto">
+              <h2 className="text-sm font-semibold text-[#BDE0F5]/40 uppercase tracking-wider mb-4">
+                Contents
+              </h2>
+              <ul className="space-y-2">
+                {sections.map((section) => (
+                  <li key={section.id}>
+                    <Link
+                      href={`#${section.id}`}
+                      className="text-sm text-[#BDE0F5]/50 hover:text-[#00c4aa] transition-colors block py-0.5"
+                    >
+                      {section.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+
+          {/* Main Content */}
+          <div className="max-w-4xl w-full px-4 sm:px-6 lg:px-8">
+            {/* Introduction */}
+            <section id="overview" className="mb-12 scroll-mt-24">
+              <div className="text-[#BDE0F5]/80 leading-relaxed space-y-4">
+                <p>
+                  We firmly believe that every user deserves the right to
+                  privacy, freedom, and fairness. The Akogeno Sovereignty Act
+                  establishes Foxomy&apos;s commitment to protecting our users
+                  from external third parties and ensuring that moderation
+                  decisions are made solely based on conduct within our own
+                  platforms and services.
+                </p>
+                <p>
+                  Per The Akogeno Sovereignty Act, Foxomy staff team does not
+                  investigate, mediate, or take action on disputes originating
+                  from other platforms or servers. We are not responsible for
+                  anything that is considered rule-breaking outside of our
+                  platforms and services, nor do we take enforcement actions
+                  based on external rumors, personal disputes, or allegations
+                  that happened outside of our community.
+                </p>
+              </div>
+            </section>
+
+            {/* Sections */}
+            <div className="space-y-12">
+              {/* Core Principles */}
+              <section id="core-principles" className="scroll-mt-24">
+                <SectionHeading id="core-principles" title="Core Principles" />
+                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                  <p>
+                    We do not recognize or act upon demands, requests, or claims
+                    made by external parties seeking to influence our moderation
+                    decisions. Our moderation is based on what happens within
+                    our community, not what others say happened elsewhere.
+                  </p>
+                  <p>
+                    If a user approaches our staff team with claims that another
+                    user has broken rules elsewhere, this remains an external
+                    matter that falls outside of our jurisdiction, and we will
+                    not act on such requests.
+                  </p>
+                  <p>
+                    If you have any concerns about content or behavior you see
+                    within our platforms, please report it through the
+                    appropriate channels. For issues on Discord, please report
+                    it to Discord directly.
+                  </p>
+                </div>
+              </section>
+
+              {/* Discord & Social Media */}
+              <section id="discord-policy" className="scroll-mt-24">
+                <SectionHeading
+                  id="discord-policy"
+                  title="Discord & Social Media"
+                />
+                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                  <p>
+                    This act also applies to our Discord server. We do not own
+                    Discord as a platform.
+                  </p>
+
+                  <p>
+                    We are not in a position to police every interaction that
+                    occurs on third-party platforms, even those where we
+                    maintain a community presence. Discord has its own terms of
+                    service, Trust &amp; Safety team, and reporting procedures
+                    specifically designed to handle these matters. If you have
+                    any concerns about anything you see, please report it to
+                    Discord directly.
+                  </p>
+                </div>
+              </section>
+
+              {/* What We Do Not Act On */}
+              <section id="what-we-do-not-act-on" className="scroll-mt-24">
+                <SectionHeading
+                  id="what-we-do-not-act-on"
+                  title="What We Do Not Act On"
+                />
+                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                  <p>This policy covers, but is not limited to:</p>
+                  <ul className="list-disc list-inside space-y-2 ml-4">
+                    <li>
+                      Allegations of misconduct occurring on third-party
+                      platforms
+                    </li>
+                    <li>
+                      Personal disputes that originate outside of our services
+                    </li>
+                    <li>
+                      Unverified accusations that cannot be verified within our
+                      systems
+                    </li>
+                    <li>
+                      Requests made on behalf of individuals or groups with no
+                      standing within our community
+                    </li>
+                    <li>
+                      Screenshots or evidence from external platforms without
+                      corresponding violations on our services
+                    </li>
+                    <li>
+                      Secondhand reports or hearsay about a user&apos;s behavior
+                      elsewhere
+                    </li>
+                  </ul>
+                </div>
+              </section>
+
+              {/* Why This Matters */}
+              <section id="why-this-matters" className="scroll-mt-24">
+                <SectionHeading
+                  id="why-this-matters"
+                  title="Why This Matters"
+                />
+                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                  <p>
+                    This policy serves to uphold our strong commitment to
+                    sovereignty by protecting our users from unauthorized
+                    requests and demands from third parties. Without this
+                    protection, any user could be targeted by:
+                  </p>
+                  <ul className="list-disc list-inside space-y-2 ml-4">
+                    <li>Ian Kim Pham / Akogeno</li>
+                    <li>
+                      Individuals with personal vendettas seeking to weaponize
+                      moderation against them
+                    </li>
+                    <li>
+                      Coordinated harassment campaigns originating from other
+                      communities
+                    </li>
+                    <li>
+                      Manipulation through one-sided narratives about external
+                      disputes
+                    </li>
+                    <li>
+                      Violations of privacy through the spread of personal
+                      information shared in confidence
+                    </li>
+                  </ul>
+                  <p>
+                    We believe that users should be judged by their actions
+                    within our community, not by allegations from outside
+                    parties who may have their own motives.
+                  </p>
+                </div>
+              </section>
+
+              {/* Our Commitment */}
+              <section id="our-commitment" className="scroll-mt-24">
+                <SectionHeading id="our-commitment" title="Our Commitment" />
+                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                  <p>Foxomy commits to:</p>
+                  <ul className="list-disc list-inside space-y-2 ml-4">
+                    <li>
+                      Making moderation decisions based solely on conduct within
+                      our platforms
+                    </li>
+                    <li>
+                      Reaching 40/42 consensus of our staff team before taking action
+                    </li>
+                    <li>
+                      Protecting user privacy from external inquiries and
+                      demands
+                    </li>
+                    <li>
+                      Refusing to act as a tool for personal disputes between
+                      users
+                    </li>
+                    <li>
+                      Treating all users fairly regardless of their reputation
+                      elsewhere
+                    </li>
+                    <li>
+                      Giving every user a fair chance within our community
+                    </li>
+                  </ul>
+                </div>
+              </section>
+
+              {/* Origin Story */}
+              <section id="origin-story" className="scroll-mt-24">
+                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                  <div className="bg-[#1A77AD]/10 border border-[#1A77AD]/20 rounded-lg p-6">
+                    <h3 className="text-lg font-medium text-[#00c4aa] mb-3">
+                      Did you know?
+                    </h3>
+                    <p>
+                      The Akogeno Sovereignty Act was created because our
+                      founder Bun was banned from over 109 clubs and communities
+                      over a personal dispute. The moderators of those
+                      communities took one person&apos;s manipulative words and
+                      acted on it without question.
+                    </p>
+                    <p className="mt-4">
+                      This was a violation of Bun&apos;s right to privacy and
+                      fair treatment. Since then, Bun made a commitment to
+                      ensure no user in our community ever faces the same petty
+                      treatment as she did.
+                    </p>
+                    <p className="mt-4 text-sm">
+                      Listen to our speech at UCLA (00:42:04):{" "}
+                      <a
+                        href="https://www.youtube.com/watch?v=p4KHxFzwYaM&t=6124"
+                        className="text-[#00c4aa] hover:underline"
+                      >
+                        https://www.youtube.com/watch?v=p4KHxFzwYaM&t=6124
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </section>
+
+              {/* Contact */}
+              <section id="contact" className="scroll-mt-24">
+                <SectionHeading id="contact" title="Contact Information" />
+                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                  <p>
+                    If you have any questions about The Akogeno Sovereignty Act
+                    or our moderation policies, please contact us:
+                  </p>
+                  <ul className="space-y-2">
+                    <li>
+                      <span className="text-[#BDE0F5]/50">Email:</span>{" "}
+                      <a
+                        href="mailto:"
+                        className="text-[#00c4aa] hover:underline"
+                      >
+                        <ScrambledText>legal@foxomy.com</ScrambledText>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </section>
+            </div>
+
+            {/* Back to top */}
+            <div className="mt-16 pt-8 border-t border-[#1A77AD]/20">
+              <Link
+                href="#"
+                className="text-[#7AC2EB] hover:text-[#00c4aa] transition-colors text-sm"
+              >
+                ↑ Back to top
+              </Link>
+            </div>
+          </div>
+
+          {/* Right spacer to balance TOC and keep content centered */}
+          <div className="hidden xl:block w-52 flex-shrink-0 ml-8" />
+        </div>
+      </main>
+
+      {/* Footer spacer */}
+      <div className="h-24" />
+    </div>
+  );
+}
