@@ -8,8 +8,10 @@ import {
   addons,
   getPlansForLocation,
   generateCartUrl,
+  getAddonsForLocation,
   type Location,
   type Plan,
+  type Addon,
 } from "@/lib/gameData";
 import { motion, AnimatePresence } from "motion/react";
 import {
@@ -26,6 +28,14 @@ import {
   Package,
   ShoppingCart,
   RefreshCw,
+  Cpu,
+  HardDrive,
+  Archive,
+  Layers,
+  Info,
+  Globe,
+  Headphones,
+  AlertTriangle,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -39,6 +49,72 @@ const INITIAL_POSITION = {
   zoom: 1,
 };
 
+// Dedicated IP availability response type
+interface DedicatedIPResponse {
+  success: boolean;
+  location?: string;
+  port?: number;
+  available: boolean;
+  quantity?: number;
+  error?: string;
+}
+
+// Dedicated IP availability state
+interface DedicatedIPState {
+  available: boolean;
+  quantity: number;
+}
+
+// Hook to check dedicated IP availability for locations
+function useDedicatedIPAvailability(selectedLocation: Location | null) {
+  const [availability, setAvailability] = useState<
+    Record<string, DedicatedIPState>
+  >({});
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!selectedLocation) return;
+
+    const checkAvailability = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `https://fur1.foxomy.com/rustapps/checkdedicatedips?location=${selectedLocation.apiKey}&port=25565`
+        );
+        const data: DedicatedIPResponse = await response.json();
+
+        setAvailability((prev) => ({
+          ...prev,
+          [selectedLocation.apiKey]: {
+            available: data.success && data.available,
+            quantity: data.quantity ?? 0,
+          },
+        }));
+      } catch {
+        setAvailability((prev) => ({
+          ...prev,
+          [selectedLocation.apiKey]: {
+            available: false,
+            quantity: 0,
+          },
+        }));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAvailability();
+  }, [selectedLocation]);
+
+  return { availability, loading };
+}
+
+// Icon mapping for addons
+const addonIcons: Record<string, React.ReactNode> = {
+  "dedicated-ip": <Globe className="w-5 h-5 text-[#00c4aa]" />,
+  "managed-support": <Headphones className="w-5 h-5 text-[#00c4aa]" />,
+};
+
 export default function GameHostingPage() {
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(
     null
@@ -48,12 +124,19 @@ export default function GameHostingPage() {
   const [pings, setPings] = useState<Record<string, number | null>>({});
   const [pollingBar, setPollingBar] = useState(0);
   const [pollingDirection, setPollingDirection] = useState(1);
+  const [showStorageTooltip, setShowStorageTooltip] = useState<string | null>(
+    null
+  );
 
   // Map position state
   const [mapPosition, setMapPosition] = useState(INITIAL_POSITION);
   const [isMapTransitioning, setIsMapTransitioning] = useState(false);
 
   const websocketsRef = useRef<Record<string, WebSocket>>({});
+
+  // Check dedicated IP availability
+  const { availability: dedicatedIPAvailability, loading: dedicatedIPLoading } =
+    useDedicatedIPAvailability(selectedLocation);
 
   // Polling bar animation
   useEffect(() => {
@@ -155,7 +238,20 @@ export default function GameHostingPage() {
     };
   }, [startPingMeasurements]);
 
-  const toggleAddon = (addonId: string) => {
+  // Clear selected addons when location changes (some addons may not be available)
+  useEffect(() => {
+    if (selectedLocation) {
+      const availableAddonIds = getAddonsForLocation(
+        selectedLocation.apiKey
+      ).map((a) => a.id);
+      setSelectedAddons((prev) =>
+        prev.filter((id) => availableAddonIds.includes(id))
+      );
+    }
+  }, [selectedLocation]);
+
+  const toggleAddon = (addonId: string, isDisabled: boolean) => {
+    if (isDisabled) return;
     setSelectedAddons((prev) =>
       prev.includes(addonId)
         ? prev.filter((id) => id !== addonId)
@@ -222,6 +318,11 @@ export default function GameHostingPage() {
     ? getPlansForLocation(selectedLocation.codename)
     : [];
 
+  // Get addons available for the selected location
+  const locationAddons = selectedLocation
+    ? getAddonsForLocation(selectedLocation.apiKey)
+    : [];
+
   const getTotalPrice = (): string => {
     if (!selectedPlan) return "$0";
 
@@ -230,22 +331,24 @@ export default function GameHostingPage() {
     selectedAddons.forEach((addonId) => {
       const addon = addons.find((a) => a.id === addonId);
       if (addon) {
-        const addonPrice = parseInt(addon.price.replace(/[^0-9]/g, ""));
-        total += addonPrice;
+        total += addon.price;
       }
     });
 
     return `$${total}`;
   };
 
-  const handleCheckout = () => {
-    if (!selectedPlan || !selectedLocation) return;
-    const url = generateCartUrl(selectedPlan, selectedAddons);
-    window.open(url, "_self");
+  const getCheckoutUrl = (): string => {
+    if (!selectedPlan || !selectedLocation) return "#";
+    return generateCartUrl(selectedPlan, selectedAddons);
   };
 
-  // Sort locations by ping
+  // Sort locations by ping, with out-of-stock locations last
   const sortedLocations = [...locations].sort((a, b) => {
+    // Out-of-stock locations go to the end
+    if (a.outOfStock && !b.outOfStock) return 1;
+    if (!a.outOfStock && b.outOfStock) return -1;
+
     const pingA = pings[a.codename];
     const pingB = pings[b.codename];
     if (pingA === null || pingA < 0) return 1;
@@ -253,8 +356,35 @@ export default function GameHostingPage() {
     return pingA - pingB;
   });
 
+  // Check if dedicated IP addon is disabled for current location
+  const isDedicatedIPDisabled = (addon: Addon): boolean => {
+    if (addon.id !== "dedicated-ip" || !selectedLocation) return false;
+    const state = dedicatedIPAvailability[selectedLocation.apiKey];
+    return state?.available === false;
+  };
+
+  // Get dedicated IP quantity for current location
+  const getDedicatedIPQuantity = (): number => {
+    if (!selectedLocation) return 0;
+    return dedicatedIPAvailability[selectedLocation.apiKey]?.quantity ?? 0;
+  };
+
+  // Sort addons with out-of-stock ones last
+  const sortedLocationAddons = [...locationAddons].sort((a, b) => {
+    const aDisabled = isDedicatedIPDisabled(a);
+    const bDisabled = isDedicatedIPDisabled(b);
+    if (aDisabled && !bDisabled) return 1;
+    if (!aDisabled && bDisabled) return -1;
+    return 0;
+  });
+
+  // Format addon price (for order summary)
+  const formatAddonPrice = (price: number): string => {
+    return price === 0 ? "Free per month" : `$${price} per month`;
+  };
+
   return (
-    <div className="font-sans bg-bluey-950 min-h-screen">
+    <div className="font-sans bg-bluey-950">
       <MainNavbar />
 
       {/* Hero Section */}
@@ -287,6 +417,21 @@ export default function GameHostingPage() {
           </div>
         </div>
       </section>
+
+      {/* Report Bug/Pricing Error Link */}
+      <div className="" style={{ backgroundColor: "#030F16" }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <a
+            href="https://foxomy.com/billing/submitticket.php"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-[#F59E0B] hover:text-[#FBBF24] transition-colors text-sm justify-end w-full"
+          >
+            <AlertTriangle className="w-4 h-4" />
+            <span>Report a bug or pricing error</span>
+          </a>
+        </div>
+      </div>
 
       {/* Step 1: Location Selection with Map Background */}
       <section
@@ -517,7 +662,7 @@ export default function GameHostingPage() {
                   </div>
 
                   {/* Checkbox */}
-                  <div className="flex items-start gap-3">
+                  <div className="flex items-center gap-3">
                     <div
                       className={`flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center mt-0.5 ${
                         isSelected
@@ -533,7 +678,13 @@ export default function GameHostingPage() {
                     <div className="flex-grow min-w-0">
                       {/* Location Name & Flag */}
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-lg">{location.flag}</span>
+                        <Image
+                          src={location.flagIcon}
+                          alt=""
+                          width={20}
+                          height={14}
+                          className="object-contain"
+                        />
                         <span className="text-white font-semibold truncate">
                           {location.name}
                         </span>
@@ -600,6 +751,9 @@ export default function GameHostingPage() {
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                 {locationPlans.map((plan) => {
                   const isSelected = selectedPlan?.id === plan.id;
+                  const hasUnlimitedStorage = plan.storage
+                    .toLowerCase()
+                    .includes("unlimited");
 
                   return (
                     <motion.button
@@ -611,13 +765,16 @@ export default function GameHostingPage() {
                           : "border-[#1A77AD]/30 bg-[#071F2C] hover:border-[#33A1E0]/50"
                       }`}
                       layout
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 500,
+                        damping: 30,
+                      }}
                     >
                       {/* Checkbox */}
-                      <div className="flex items-start gap-3">
+                      <div className="flex items-center gap-3">
                         <div
-                          className={`flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center mt-0.5 ${
+                          className={`flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center ${
                             isSelected
                               ? "bg-[#00c4aa]/20 border-[#00c4aa]"
                               : "border-[#1A77AD]/50"
@@ -630,34 +787,85 @@ export default function GameHostingPage() {
 
                         <div className="flex-grow">
                           {/* RAM */}
-                          <div className="mb-1">
-                            <span className="text-xl font-bold text-white">
+                          <div className="">
+                            <span className="text-lg font-bold text-white">
                               {plan.ram} GB
                             </span>
-                            <span className="text-[#7AC2EB]/60 text-sm ml-1">
-                              RAM
+                            <span className="text-[#7AC2EB]/60 text-sm ml-1 font-medium">
+                              of RAM
                             </span>
                           </div>
 
                           {/* Price */}
-                          <div className="mb-3">
-                            <span className="text-[#00c4aa] font-bold">
+                          <div className="mb-1">
+                            <span className="text-[#00c4aa] font-semibold">
                               ${plan.price}
                             </span>
-                            <span className="text-[#7AC2EB]/60 text-xs">
-                              /mo
+                            <span className="text-[#7AC2EB]/60 text-xs font-medium">
+                              {" "}
+                              per month
                             </span>
                           </div>
 
                           {/* Specs */}
-                          <div className="space-y-1 text-xs text-[#7AC2EB]/60">
-                            <p>{plan.vCores} vCores</p>
-                            <p>{plan.storage}</p>
-                            <p>{plan.backupSlots} Backups</p>
-                            <p>
-                              {plan.containerSplits} Split
-                              {plan.containerSplits > 1 ? "s" : ""}
-                            </p>
+                          <div className="space-y-1 text-xs font-medium text-[#7AC2EB]/60">
+                            <div className="flex items-center gap-1.5">
+                              <Cpu className="w-3 h-3" />
+                              <span>{plan.vCores} vCores</span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              <HardDrive className="w-3 h-3" />
+                              <span>{plan.storage}</span>
+                              {hasUnlimitedStorage && (
+                                <div className="relative">
+                                  <span
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setShowStorageTooltip(
+                                        showStorageTooltip === plan.id
+                                          ? null
+                                          : plan.id
+                                      );
+                                    }}
+                                    onMouseEnter={() =>
+                                      setShowStorageTooltip(plan.id)
+                                    }
+                                    onMouseLeave={() =>
+                                      setShowStorageTooltip(null)
+                                    }
+                                    className="text-[#7AC2EB]/40 hover:text-[#00c4aa] transition-colors inline-flex translate-y-[1.4px] -translate-x-0.5"
+                                  >
+                                    <Info className="w-3 h-3" />
+                                  </span>
+                                  <AnimatePresence>
+                                    {showStorageTooltip === plan.id && (
+                                      <motion.div
+                                        initial={{ opacity: 0, y: 5 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: 5 }}
+                                        className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-[#0A2A3D]/80 backdrop-blur-md border border-[#1A77AD]/50 rounded text-xs text-[#BDE0F5]/80 shadow-lg"
+                                      >
+                                        Soft limit in place and can be raised
+                                        for free. Unlimited specifications goes
+                                        towards the fair usage policy.
+                                        <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[#1A77AD]/50" />
+                                      </motion.div>
+                                    )}
+                                  </AnimatePresence>
+                                </div>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              <Archive className="w-3 h-3" />
+                              <span>{plan.backupSlots} Backups</span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              <Layers className="w-3 h-3" />
+                              <span>
+                                {plan.containerSplits} Split
+                                {plan.containerSplits > 1 ? "s" : ""}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -667,8 +875,11 @@ export default function GameHostingPage() {
               </div>
 
               <p className="text-[#7AC2EB]/40 text-sm mt-4">
-                All plans include DDoS protection, instant setup, and access to
-                Pterodactyl Panel.
+                <span className="inline-flex items-center gap-1">
+                  <Info className="w-3 h-3" /> Soft limit in place and can be
+                  raised for free. Unlimited or unmetered specifications goes
+                  towards the fair usage policy.{" "}
+                </span>
               </p>
             </div>
           </motion.section>
@@ -677,7 +888,7 @@ export default function GameHostingPage() {
 
       {/* Step 3: Addons Selection */}
       <AnimatePresence>
-        {selectedLocation && selectedPlan && (
+        {selectedLocation && selectedPlan && locationAddons.length > 0 && (
           <motion.section
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -696,54 +907,92 @@ export default function GameHostingPage() {
                     Optional Addons
                   </h2>
                   <p className="text-[#BDE0F5]/60 text-sm">
-                    Enhance your server with these optional addons
+                    These addons are optional
                   </p>
                 </div>
               </div>
 
               {/* Addons Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {addons.map((addon) => {
+                {sortedLocationAddons.map((addon) => {
                   const isSelected = selectedAddons.includes(addon.id);
+                  const isDisabled = isDedicatedIPDisabled(addon);
+                  const isOutOfStock =
+                    addon.id === "dedicated-ip" && isDisabled;
 
                   return (
                     <motion.button
                       key={addon.id}
-                      onClick={() => toggleAddon(addon.id)}
-                      className={`relative p-4 rounded-sm border transition-all text-left cursor-pointer ${
-                        isSelected
-                          ? "border-[#00c4aa] bg-[#071F2C] shadow-[0_0_20px_rgba(0,196,170,0.15)]"
-                          : "border-[#1A77AD]/30 bg-[#071F2C] hover:border-[#33A1E0]/50"
+                      onClick={() => toggleAddon(addon.id, isDisabled)}
+                      disabled={isDisabled}
+                      className={`relative p-4 rounded-sm border transition-all text-left ${
+                        isDisabled
+                          ? "opacity-50 cursor-not-allowed border-[#1A77AD]/20 bg-[#071F2C]"
+                          : isSelected
+                          ? "border-[#00c4aa] bg-[#071F2C] shadow-[0_0_20px_rgba(0,196,170,0.15)] cursor-pointer"
+                          : "border-[#1A77AD]/30 bg-[#071F2C] hover:border-[#33A1E0]/50 cursor-pointer"
                       }`}
                       layout
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 500,
+                        damping: 30,
+                      }}
                     >
-                      <div className="flex items-start gap-3">
+                      <div className="flex items-center gap-3">
                         <div
                           className={`flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center mt-0.5 ${
-                            isSelected
+                            isDisabled
+                              ? "border-[#1A77AD]/30"
+                              : isSelected
                               ? "bg-[#00c4aa]/20 border-[#00c4aa]"
                               : "border-[#1A77AD]/50"
                           }`}
                         >
-                          {isSelected && (
+                          {isSelected && !isDisabled && (
                             <Check className="w-3 h-3 text-[#00c4aa]" />
                           )}
                         </div>
 
                         <div className="flex-grow">
-                          <div className="flex items-center justify-between mb-1">
+                          <div className="flex items-center gap-2">
                             <span className="text-white font-semibold">
                               {addon.name}
                             </span>
-                            <span className="text-[#00c4aa] font-bold">
-                              {addon.price}/mo
+                          </div>
+                          <div className="mb-1">
+                            <span className="text-[#00c4aa] font-semibold">
+                              {addon.price === 0 ? "Free" : `$${addon.price}`}
+                            </span>
+                            <span className="text-[#7AC2EB]/60 text-xs font-medium">
+                              {" "}
+                              per month
                             </span>
                           </div>
                           <p className="text-[#7AC2EB]/60 text-sm">
                             {addon.description}
+                            {addon.id === "dedicated-ip" &&
+                              !isDisabled &&
+                              !dedicatedIPLoading &&
+                              getDedicatedIPQuantity() > 0 && (
+                                <span className="text-[#00c4aa]">
+                                  {" "}
+                                  ({getDedicatedIPQuantity()} available in{" "}
+                                  {selectedLocation?.name})
+                                </span>
+                              )}
                           </p>
+                          {isOutOfStock && (
+                            <p className="text-red-400 text-xs mt-2">
+                              Out of stock in this location
+                            </p>
+                          )}
+                          {dedicatedIPLoading &&
+                            addon.id === "dedicated-ip" && (
+                              <p className="text-[#7AC2EB]/40 text-xs mt-2">
+                                Checking availability...
+                              </p>
+                            )}
                         </div>
                       </div>
                     </motion.button>
@@ -793,9 +1042,15 @@ export default function GameHostingPage() {
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
+                      <span className="text-[#BDE0F5]/70">CPU</span>
+                      <span className="text-white font-medium">
+                        {selectedLocation.cpu}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
                       <span className="text-[#BDE0F5]/70">Plan</span>
                       <span className="text-white font-medium">
-                        {selectedPlan.ram} GB RAM
+                        {selectedPlan.ram} GB of RAM
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
@@ -804,16 +1059,26 @@ export default function GameHostingPage() {
                         {selectedPlan.vCores} shared vCores
                       </span>
                     </div>
+
                     <div className="flex justify-between items-center">
                       <span className="text-[#BDE0F5]/70">Storage</span>
                       <span className="text-white font-medium">
                         {selectedPlan.storage}
                       </span>
                     </div>
+
                     <div className="flex justify-between items-center">
-                      <span className="text-[#BDE0F5]/70">CPU</span>
+                      <span className="text-[#BDE0F5]/70">Backups</span>
                       <span className="text-white font-medium">
-                        {selectedLocation.cpu}
+                        {selectedPlan.backupSlots} backups
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#BDE0F5]/70">
+                        Container Splits
+                      </span>
+                      <span className="text-white font-medium">
+                        {selectedPlan.containerSplits} splits
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
@@ -841,7 +1106,7 @@ export default function GameHostingPage() {
                                 {addon.name}
                               </span>
                               <span className="text-white font-medium">
-                                {addon.price}/mo
+                                {formatAddonPrice(addon.price)}
                               </span>
                             </div>
                           );
@@ -857,29 +1122,30 @@ export default function GameHostingPage() {
                         Total
                       </span>
                       <span className="text-[#00c4aa] font-bold text-2xl">
-                        {getTotalPrice()}/mo
+                        {getTotalPrice()}/month
                       </span>
                     </div>
                   </div>
 
                   {/* Checkout Button */}
-                  <button
-                    onClick={handleCheckout}
-                    disabled={selectedLocation.outOfStock}
-                    className={`w-full mt-6 py-3 px-6 rounded-sm font-semibold transition-all ${
+                  <a
+                    href={
+                      selectedLocation.outOfStock ? undefined : getCheckoutUrl()
+                    }
+                    className={`block w-full mt-6 py-3 px-6 rounded-sm font-semibold transition-all text-center cursor-pointer ${
                       selectedLocation.outOfStock
-                        ? "bg-red-500/20 text-red-400 border border-red-500/30 cursor-not-allowed"
+                        ? "bg-red-500/20 text-red-400 border border-red-500/30 cursor-not-allowed pointer-events-none"
                         : "bg-[#00c4aa] text-[#030F16] hover:bg-[#00d4b8] hover:shadow-[0_0_20px_rgba(0,196,170,0.3)]"
                     }`}
                   >
                     {selectedLocation.outOfStock
                       ? "Out of Stock"
                       : "Continue to Checkout"}
-                  </button>
+                  </a>
 
                   <p className="text-[#7AC2EB]/40 text-xs text-center mt-4">
-                    You&apos;ll be redirected to our billing portal to complete
-                    your order.
+                    You&apos;ll be redirected to our WHMCS billing panel to
+                    complete your order.
                   </p>
                 </div>
               </div>

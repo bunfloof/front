@@ -3,8 +3,9 @@
 
 export interface Location {
   codename: string;
+  apiKey: string; // Location key for the dedicated IP API (e.g., "dfw", "eseg", "nyc")
   name: string;
-  flag: string; // Placeholder flag emoji or path to flag image
+  flagIcon: string; // Path to SVG flag icon
   wsUrl: string;
   outOfStock: boolean;
   tier: "premium" | "budget";
@@ -28,17 +29,19 @@ export interface Plan {
 export interface Addon {
   id: string;
   name: string;
-  price: string;
+  price: number; // Price in dollars (0 = free)
   description: string;
   urlParams: string;
+  locations: string[]; // Array of location apiKeys where this addon is available (empty = all locations)
 }
 
 // Locations available for game hosting
 export const locations: Location[] = [
   {
     codename: "dfw-premium",
+    apiKey: "dfw",
     name: "Dallas, Texas",
-    flag: "🇺🇸",
+    flagIcon: "/imgs/flags/usflag.svg",
     wsUrl: "wss://dallas1.cabospeed.com:8080/ws",
     outOfStock: false,
     tier: "premium",
@@ -48,8 +51,9 @@ export const locations: Location[] = [
   },
   {
     codename: "chi-premium",
+    apiKey: "chi",
     name: "Chicago, Illinois",
-    flag: "🇺🇸",
+    flagIcon: "/imgs/flags/usflag.svg",
     wsUrl: "wss://speedtest.chi.gigenet.com.prod.hosts.ooklaserver.net:8080/ws",
     outOfStock: false,
     tier: "premium",
@@ -58,9 +62,10 @@ export const locations: Location[] = [
     coordinates: [-87.6298, 41.8781],
   },
   {
-    codename: "lax-premium",
+    codename: "elsegundo-premium",
+    apiKey: "eseg",
     name: "Los Angeles, California",
-    flag: "🇺🇸",
+    flagIcon: "/imgs/flags/usflag.svg",
     wsUrl: "wss://losangeles.ca.speedtest.frontier.com:8080/ws",
     outOfStock: false,
     tier: "premium",
@@ -70,8 +75,9 @@ export const locations: Location[] = [
   },
   {
     codename: "nyc-premium",
+    apiKey: "nyc",
     name: "New York, New York",
-    flag: "🇺🇸",
+    flagIcon: "/imgs/flags/usflag.svg",
     wsUrl: "wss://speedtest.is.cc.prod.hosts.ooklaserver.net:8080/ws",
     outOfStock: false,
     tier: "premium",
@@ -81,8 +87,9 @@ export const locations: Location[] = [
   },
   {
     codename: "fra-premium",
+    apiKey: "fra",
     name: "Frankfurt, Germany",
-    flag: "🇩🇪",
+    flagIcon: "/imgs/flags/deflag.svg",
     wsUrl: "wss://speedtest1.synlinq.de.prod.hosts.ooklaserver.net:8080/ws",
     outOfStock: false,
     tier: "premium",
@@ -92,8 +99,9 @@ export const locations: Location[] = [
   },
   {
     codename: "hel-premium",
+    apiKey: "hel",
     name: "Helsinki, Finland",
-    flag: "🇫🇮",
+    flagIcon: "/imgs/flags/fiflag.svg",
     wsUrl: "wss://speedtest-hki.retn.net.prod.hosts.ooklaserver.net:8080/ws",
     outOfStock: false,
     tier: "premium",
@@ -103,8 +111,9 @@ export const locations: Location[] = [
   },
   {
     codename: "hcm-premium",
+    apiKey: "hcm",
     name: "Ho Chi Minh, Vietnam",
-    flag: "🇻🇳",
+    flagIcon: "/imgs/flags/vnflag.svg",
     wsUrl: "wss://speedtest.fpt.vn.prod.hosts.ooklaserver.net:8080/ws",
     outOfStock: true,
     tier: "premium",
@@ -236,11 +245,11 @@ export const plans: Plan[] = [
   },
 
   // ============================================
-  // Los Angeles, California - Premium ($2/GB)
+  // El Segundo, California - Premium ($2/GB)
   // ============================================
   {
-    id: "lax1gb",
-    locationCode: "lax-premium",
+    id: "eseg1gb",
+    locationCode: "elsegundo-premium",
     ram: 1,
     price: 2,
     vCores: 10,
@@ -250,8 +259,8 @@ export const plans: Plan[] = [
     whmcsPid: "83",
   },
   {
-    id: "lax2gb",
-    locationCode: "lax-premium",
+    id: "eseg2gb",
+    locationCode: "elsegundo-premium",
     ram: 2,
     price: 4,
     vCores: 10,
@@ -261,8 +270,8 @@ export const plans: Plan[] = [
     whmcsPid: "84",
   },
   {
-    id: "lax4gb",
-    locationCode: "lax-premium",
+    id: "eseg4gb",
+    locationCode: "elsegundo-premium",
     ram: 4,
     price: 8,
     vCores: 10,
@@ -272,8 +281,8 @@ export const plans: Plan[] = [
     whmcsPid: "86",
   },
   {
-    id: "lax8gb",
-    locationCode: "lax-premium",
+    id: "eseg8gb",
+    locationCode: "elsegundo-premium",
     ram: 8,
     price: 16,
     vCores: 10,
@@ -283,8 +292,8 @@ export const plans: Plan[] = [
     whmcsPid: "90",
   },
   {
-    id: "lax16gb",
-    locationCode: "lax-premium",
+    id: "eseg16gb",
+    locationCode: "elsegundo-premium",
     ram: 16,
     price: 32,
     vCores: 10,
@@ -532,21 +541,34 @@ export const plans: Plan[] = [
 ];
 
 // Addons available for game hosting
+// locations: array of location apiKeys where addon is available (empty array = all locations)
 export const addons: Addon[] = [
   {
     id: "dedicated-ip",
     name: "Dedicated IP Address",
-    price: "$3",
+    price: 3,
     description:
-      "Get a dedicated IP address for your server for easier connections.",
+      "A reserved IP address with the default port (25565) and ability to open any port (1024-65535).",
     urlParams: "&configoption[1]=1",
+    locations: ["dfw", "chi", "nyc", "fra", "hel", "eseg"],
   },
   {
-    id: "priority-support",
-    name: "Priority Support",
-    price: "$5",
-    description: "Get priority support with faster response times.",
-    urlParams: "&configoption[2]=1",
+    id: "free-webhosting",
+    name: "Web Hosting",
+    price: 0,
+    description:
+      "Use the promo code 'WEB' at checkout when you order website hosting to receive free webhosting for the duration of your game server service.",
+    urlParams: "&addons[1]=1",
+    locations: [], // Available in all locations
+  },
+  {
+    id: "managed-support",
+    name: "Managed Support",
+    price: 0,
+    description:
+      "Free managed support for your server setup and mods/plugins configuration. We offer premium treatment for free for everyone.",
+    urlParams: "",
+    locations: [], // Available in all locations
   },
 ];
 
@@ -571,4 +593,21 @@ export function generateCartUrl(plan: Plan, selectedAddons: string[]): string {
 // Helper to get location by codename
 export function getLocationByCode(codename: string): Location | undefined {
   return locations.find((l) => l.codename === codename);
+}
+
+// Helper to check if addon is available for a location
+export function isAddonAvailableForLocation(
+  addon: Addon,
+  locationApiKey: string
+): boolean {
+  // If locations array is empty, addon is available everywhere
+  if (addon.locations.length === 0) return true;
+  return addon.locations.includes(locationApiKey);
+}
+
+// Helper to get addons available for a specific location
+export function getAddonsForLocation(locationApiKey: string): Addon[] {
+  return addons.filter((addon) =>
+    isAddonAvailableForLocation(addon, locationApiKey)
+  );
 }

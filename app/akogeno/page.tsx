@@ -59,9 +59,7 @@ export default function AkogenoActPage() {
               The Akogeno Sovereignty Act
             </h1>
           </div>
-          <p className="text-[#BDE0F5]/60">
-            Also known as The Akogeno Act
-          </p>
+          <p className="text-[#BDE0F5]/60">Also known as The Akogeno Act</p>
         </div>
       </header>
 
@@ -156,11 +154,18 @@ export default function AkogenoActPage() {
                   <p>
                     We are not in a position to police every interaction that
                     occurs on third-party platforms, even those where we
-                    maintain a community presence. Discord has its own terms of
+              bac      maintain a community presence. Discord has its own terms of
                     service, Trust &amp; Safety team, and reporting procedures
                     specifically designed to handle these matters. If you have
                     any concerns about anything you see, please report it to
-                    Discord directly.
+                    their respective platforms or in this case, Discord directly{" "}
+                    <a
+                      href="https://support.discord.com/hc/en-us/requests/new"
+                      className="text-[#00c4aa] hover:underline"
+                    >
+                      here
+                    </a>
+                    .
                   </p>
                 </div>
               </section>
@@ -252,7 +257,8 @@ export default function AkogenoActPage() {
                       our platforms
                     </li>
                     <li>
-                      Reaching 40/42 consensus of our staff team before taking action
+                      Reaching 40/42 consensus of our staff team before taking
+                      action
                     </li>
                     <li>
                       Protecting user privacy from external inquiries and
