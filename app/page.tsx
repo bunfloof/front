@@ -15,7 +15,6 @@ import { HatersSection } from "@/components/HatersSection";
 import { FeaturedPartnerSection } from "@/components/FeaturedPartnerSection";
 import { PanelFeaturesSection } from "@/components/PanelFeaturesSection";
 import { ServerLocationsSection } from "@/components/ServerLocationsSection";
-import { Footer } from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -50,8 +49,6 @@ export default function Home() {
       <AboutUsSection />
       {/* Guarantee Section */}
       <GuaranteeSection />
-      {/* Footer */}
-      
     </div>
   );
 }

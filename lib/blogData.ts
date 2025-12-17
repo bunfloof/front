@@ -15,33 +15,33 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
-    slug: "introducing-foxomy-next-gen-hosting",
-    title: "Introducing Foxomy: Next-Generation Game Server Hosting",
+    slug: "foxomy-code-of-conduct",
+    title: "Foxomy Code of Conduct",
     excerpt: "We're excited to announce the launch of Foxomy, a revolutionary hosting platform built from the ground up with performance, reliability, and developer experience in mind.",
-    date: "December 5, 2025",
+    date: "December 17, 2025",
     author: "Foxomy Team",
-    readTime: "5 min read",
+    readTime: "1 min read",
     category: "Announcements",
-    featured: true,
+    featured: false,
   },
-  {
-    slug: "optimizing-minecraft-server-performance",
-    title: "Optimizing Your Minecraft Server for Maximum Performance",
-    excerpt: "Learn the best practices and configuration tweaks to get the most out of your Minecraft server, from JVM flags to plugin optimization and world management.",
-    date: "December 3, 2025",
-    author: "Technical Team",
-    readTime: "8 min read",
-    category: "Tutorials",
-  },
-  {
-    slug: "understanding-ddos-protection",
-    title: "Understanding DDoS Protection: How We Keep Your Servers Safe",
-    excerpt: "A deep dive into how modern DDoS protection works and the measures we take to ensure your game servers stay online even under attack.",
-    date: "November 28, 2025",
-    author: "Security Team",
-    readTime: "6 min read",
-    category: "Security",
-  },
+  // {
+  //   slug: "optimizing-minecraft-server-performance",
+  //   title: "Optimizing Your Minecraft Server for Maximum Performance",
+  //   excerpt: "Learn the best practices and configuration tweaks to get the most out of your Minecraft server, from JVM flags to plugin optimization and world management.",
+  //   date: "December 3, 2025",
+  //   author: "Technical Team",
+  //   readTime: "8 min read",
+  //   category: "Tutorials",
+  // },
+  // {
+  //   slug: "understanding-ddos-protection",
+  //   title: "Understanding DDoS Protection: How We Keep Your Servers Safe",
+  //   excerpt: "A deep dive into how modern DDoS protection works and the measures we take to ensure your game servers stay online even under attack.",
+  //   date: "November 28, 2025",
+  //   author: "Security Team",
+  //   readTime: "6 min read",
+  //   category: "Security",
+  // },
 ];
 
 // Helper to get a single post by slug

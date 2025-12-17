@@ -498,6 +498,19 @@
   color: #ffffff;
 }
 
+/* Blog page selection color */
+.blog-selection ::selection {
+  background: rgba(56, 189, 248, 0.3);
+}
+.blog-selection ::-moz-selection {
+  background: rgba(56, 189, 248, 0.3);
+}
+
+/* Hide global footer on blog pages (they have their own themed footer) */
+.hide-global-footer ~ footer {
+  display: none;
+}
+
 /* Dot pattern background utility */
 .bg-dot-pattern {
   background-color: var(--bluey-900);
