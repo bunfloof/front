@@ -9,6 +9,7 @@ export interface BlogPost {
   author: string;
   readTime: string;
   category: string;
+  emoji: string;
   featured?: boolean;
   coverImage?: string;
 }
@@ -16,12 +17,14 @@ export interface BlogPost {
 export const blogPosts: BlogPost[] = [
   {
     slug: "foxomy-code-of-conduct",
-    title: "Foxomy Code of Conduct",
-    excerpt: "We're excited to announce the launch of Foxomy, a revolutionary hosting platform built from the ground up with performance, reliability, and developer experience in mind.",
+    title: "Code of Conduct",
+    excerpt:
+      "We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size,",
     date: "December 17, 2025",
     author: "Foxomy Team",
     readTime: "1 min read",
-    category: "Announcements",
+    category: "Policy",
+    emoji: "📜",
     featured: false,
   },
   // {
@@ -63,10 +66,3 @@ export function getPostsByCategory(category: string): BlogPost[] {
 export function getAllCategories(): string[] {
   return [...new Set(blogPosts.map((post) => post.category))];
 }
-
-
-
-
-
-
-

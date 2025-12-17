@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@/contexts/ThemeContext";
 
-export default function BlogLayout({
+export default function TermsLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -13,3 +13,4 @@ export default function BlogLayout({
     </ThemeProvider>
   );
 }
+

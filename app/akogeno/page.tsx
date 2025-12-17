@@ -1,9 +1,10 @@
 "use client";
 
-import { MainNavbar } from "@/components/MainNavbar";
+import { ThemedNavbar } from "@/components/ThemedNavbar";
+import { ThemedFooter } from "@/components/ThemedFooter";
 import { ScrambledText } from "@/components/ScrambledText";
 import Link from "next/link";
-import { Link2, Check, Shield } from "lucide-react";
+import { Link2, Check } from "lucide-react";
 import { useState } from "react";
 
 // Table of contents sections
@@ -21,25 +22,45 @@ const sections = [
 function SectionHeading({ id, title }: { id: string; title: string }) {
   const [copied, setCopied] = useState(false);
 
-  const copyLink = () => {
+  const copyLink = async () => {
     const url = `${window.location.origin}${window.location.pathname}#${id}`;
-    navigator.clipboard.writeText(url);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
   };
 
   return (
-    <h2 className="group flex items-center gap-3 text-xl font-semibold text-white mb-4 pb-2 border-b border-[#1A77AD]/20">
+    <h2
+      className="group flex items-center gap-3 text-xl font-semibold mb-4 pb-2 border-b transition-colors duration-300"
+      style={{
+        color: "var(--themed-heading)",
+        borderColor: "var(--themed-border)",
+      }}
+    >
       <span>{title}</span>
       <button
         onClick={copyLink}
-        className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-[#1A77AD]/20"
+        className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded"
+        style={{ backgroundColor: "transparent" }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = "var(--themed-nav-hover)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = "transparent";
+        }}
         title="Copy link to section"
       >
         {copied ? (
-          <Check className="w-4 h-4 text-[#00c4aa]" />
+          <Check
+            className="w-4 h-4"
+            style={{ color: "var(--themed-accent)" }}
+          />
         ) : (
-          <Link2 className="w-4 h-4 text-[#7AC2EB]" />
+          <Link2 className="w-4 h-4" style={{ color: "var(--themed-link)" }} />
         )}
       </button>
     </h2>
@@ -48,18 +69,29 @@ function SectionHeading({ id, title }: { id: string; title: string }) {
 
 export default function AkogenoActPage() {
   return (
-    <div className="font-sans bg-[#030F16] min-h-screen">
-      <MainNavbar />
+    <div
+      className="font-sans min-h-screen transition-colors duration-300"
+      style={{ backgroundColor: "var(--themed-bg)" }}
+    >
+      <ThemedNavbar />
 
       {/* Header */}
-      <header className="pt-32 pb-12 border-b border-[#1A77AD]/20">
+      <header
+        className="pt-32 pb-12 border-b transition-colors duration-300"
+        style={{ borderColor: "var(--themed-border)" }}
+      >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-4 mb-4">
-            <h1 className="text-3xl md:text-4xl font-bold text-white">
+            <h1
+              className="text-3xl md:text-4xl font-bold transition-colors duration-300"
+              style={{ color: "var(--themed-heading)" }}
+            >
               The Akogeno Sovereignty Act
             </h1>
           </div>
-          <p className="text-[#BDE0F5]/60">Also known as The Akogeno Act</p>
+          <p style={{ color: "var(--themed-text-muted)" }}>
+            Also known as The Akogeno Act
+          </p>
         </div>
       </header>
 
@@ -67,9 +99,12 @@ export default function AkogenoActPage() {
       <main className="py-12">
         <div className="flex justify-center">
           {/* Sticky Table of Contents - Left Side */}
-          <div className="hidden xl:block w-52 flex-shrink-0 mr-8">
+          <div className="hidden xl:block w-52 flex-shrink-0 mr-8 ml-8 2xl:ml-0">
             <nav className="sticky top-12 max-h-[calc(100vh-4rem)] overflow-y-auto">
-              <h2 className="text-sm font-semibold text-[#BDE0F5]/40 uppercase tracking-wider mb-4">
+              <h2
+                className="text-sm font-semibold uppercase tracking-wider mb-4 transition-colors duration-300"
+                style={{ color: "var(--themed-text-muted)" }}
+              >
                 Contents
               </h2>
               <ul className="space-y-2">
@@ -77,7 +112,15 @@ export default function AkogenoActPage() {
                   <li key={section.id}>
                     <Link
                       href={`#${section.id}`}
-                      className="text-sm text-[#BDE0F5]/50 hover:text-[#00c4aa] transition-colors block py-0.5"
+                      className="text-sm transition-colors block py-0.5"
+                      style={{ color: "var(--themed-text-muted)" }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = "var(--themed-accent)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color =
+                          "var(--themed-text-muted)";
+                      }}
                     >
                       {section.title}
                     </Link>
@@ -91,7 +134,10 @@ export default function AkogenoActPage() {
           <div className="max-w-4xl w-full px-4 sm:px-6 lg:px-8">
             {/* Introduction */}
             <section id="overview" className="mb-12 scroll-mt-24">
-              <div className="text-[#BDE0F5]/80 leading-relaxed space-y-4">
+              <div
+                className="leading-relaxed space-y-4 transition-colors duration-300"
+                style={{ color: "var(--themed-text)" }}
+              >
                 <p>
                   We firmly believe that every user deserves the right to
                   privacy, freedom, and fairness. The Akogeno Sovereignty Act
@@ -117,7 +163,10 @@ export default function AkogenoActPage() {
               {/* Core Principles */}
               <section id="core-principles" className="scroll-mt-24">
                 <SectionHeading id="core-principles" title="Core Principles" />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     We do not recognize or act upon demands, requests, or claims
                     made by external parties seeking to influence our moderation
@@ -145,7 +194,10 @@ export default function AkogenoActPage() {
                   id="discord-policy"
                   title="Our Discord & Social Media"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     This act also applies to our Discord server. We do not own
                     Discord as a platform.
@@ -161,7 +213,8 @@ export default function AkogenoActPage() {
                     their respective platforms or in this case, Discord directly{" "}
                     <a
                       href="https://support.discord.com/hc/en-us/requests/new"
-                      className="text-[#00c4aa] hover:underline"
+                      className="hover:underline"
+                      style={{ color: "var(--themed-accent)" }}
                     >
                       here
                     </a>
@@ -176,7 +229,10 @@ export default function AkogenoActPage() {
                   id="what-we-do-not-act-on"
                   title="What We Do Not Act On"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>This policy covers, but is not limited to:</p>
                   <ul className="list-disc list-inside space-y-2 ml-4">
                     <li>
@@ -212,7 +268,10 @@ export default function AkogenoActPage() {
                   id="why-this-matters"
                   title="Why This Matters"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     This policy serves to uphold our strong commitment to
                     sovereignty by protecting our users from unauthorized
@@ -249,7 +308,10 @@ export default function AkogenoActPage() {
               {/* Our Commitment */}
               <section id="our-commitment" className="scroll-mt-24">
                 <SectionHeading id="our-commitment" title="Our Commitment" />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>Foxomy commits to:</p>
                   <ul className="list-disc list-inside space-y-2 ml-4">
                     <li>
@@ -281,9 +343,23 @@ export default function AkogenoActPage() {
 
               {/* Origin Story */}
               <section id="origin-story" className="scroll-mt-24">
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
-                  <div className="bg-[#1A77AD]/10 border border-[#1A77AD]/20 rounded-lg p-6">
-                    <h3 className="text-lg font-medium text-[#00c4aa] mb-3">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
+                  <div
+                    className="rounded-lg p-6 transition-colors duration-300"
+                    style={{
+                      backgroundColor: "var(--themed-bg-secondary)",
+                      borderWidth: "1px",
+                      borderStyle: "solid",
+                      borderColor: "var(--themed-border)",
+                    }}
+                  >
+                    <h3
+                      className="text-lg font-medium mb-3"
+                      style={{ color: "var(--themed-accent)" }}
+                    >
                       Did you know?
                     </h3>
                     <p>
@@ -303,7 +379,8 @@ export default function AkogenoActPage() {
                       Listen to our speech at UCLA (00:42:04):{" "}
                       <a
                         href="https://www.youtube.com/watch?v=p4KHxFzwYaM&t=6124"
-                        className="text-[#00c4aa] hover:underline"
+                        className="hover:underline"
+                        style={{ color: "var(--themed-accent)" }}
                       >
                         https://www.youtube.com/watch?v=p4KHxFzwYaM&t=6124
                       </a>
@@ -315,17 +392,23 @@ export default function AkogenoActPage() {
               {/* Contact */}
               <section id="contact" className="scroll-mt-24">
                 <SectionHeading id="contact" title="Contact Information" />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     If you have any questions about The Akogeno Sovereignty Act
                     or our moderation policies, please contact us:
                   </p>
                   <ul className="space-y-2">
                     <li>
-                      <span className="text-[#BDE0F5]/50">Email:</span>{" "}
+                      <span style={{ color: "var(--themed-text-muted)" }}>
+                        Email:
+                      </span>{" "}
                       <a
                         href="mailto:"
-                        className="text-[#00c4aa] hover:underline"
+                        className="hover:underline"
+                        style={{ color: "var(--themed-accent)" }}
                       >
                         <ScrambledText>legal@foxomy.com</ScrambledText>
                       </a>
@@ -336,10 +419,20 @@ export default function AkogenoActPage() {
             </div>
 
             {/* Back to top */}
-            <div className="mt-16 pt-8 border-t border-[#1A77AD]/20">
+            <div
+              className="mt-16 pt-8 border-t transition-colors duration-300"
+              style={{ borderColor: "var(--themed-border)" }}
+            >
               <Link
                 href="#"
-                className="text-[#7AC2EB] hover:text-[#00c4aa] transition-colors text-sm"
+                className="text-sm transition-colors"
+                style={{ color: "var(--themed-link)" }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = "var(--themed-accent)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "var(--themed-link)";
+                }}
               >
                 ↑ Back to top
               </Link>
@@ -351,8 +444,7 @@ export default function AkogenoActPage() {
         </div>
       </main>
 
-      {/* Footer spacer */}
-      <div className="h-24" />
+      <ThemedFooter />
     </div>
   );
 }

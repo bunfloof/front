@@ -1,13 +1,20 @@
 "use client";
 
-import { MainNavbar } from "@/components/MainNavbar";
+import { ThemedNavbar } from "@/components/ThemedNavbar";
+import { ThemedFooter } from "@/components/ThemedFooter";
+import { useTheme } from "@/contexts/ThemeContext";
 import { blogPosts } from "@/lib/blogData";
 import Link from "next/link";
 
 export default function BlogPage() {
+  const { isDark } = useTheme();
+
   return (
-    <div className="font-sans bg-[#030F16] min-h-screen">
-      <MainNavbar />
+    <div
+      className="font-sans min-h-screen transition-colors duration-300"
+      style={{ backgroundColor: "var(--themed-bg)" }}
+    >
+      <ThemedNavbar />
 
       {/* Banner - positioned behind content */}
       <div
@@ -17,7 +24,14 @@ export default function BlogPage() {
         }}
       >
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#030F16]/60 via-[#030F16]/40 to-[#030F16]" />
+        <div
+          className="absolute inset-0 transition-colors duration-300"
+          style={{
+            background: isDark
+              ? "linear-gradient(to bottom, rgba(3, 15, 22, 0.6), rgba(3, 15, 22, 0.4), rgb(3, 15, 22))"
+              : "linear-gradient(to bottom, rgba(248, 250, 252, 0.6), rgba(248, 250, 252, 0.4), rgb(248, 250, 252))",
+          }}
+        />
       </div>
 
       {/* Content - overlaps the banner */}
@@ -25,7 +39,12 @@ export default function BlogPage() {
         {/* Header */}
         <header className="pt-32 pb-12">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl font-bold text-white">Articles</h1>
+            <h1
+              className="text-4xl font-bold transition-colors duration-300"
+              style={{ color: "var(--themed-heading)" }}
+            >
+              Articles
+            </h1>
           </div>
         </header>
 
@@ -39,25 +58,49 @@ export default function BlogPage() {
                   href={`/blog/${post.slug}`}
                   className="group block"
                 >
-                  <article className="border border-[#1A77AD]/30 rounded overflow-hidden transition-all duration-150 hover:opacity-80 hover:shadow-lg hover:shadow-[#1A77AD]/10">
+                  <article
+                    className="rounded overflow-hidden transition-all duration-150 hover:opacity-80 hover:shadow-lg border"
+                    style={{
+                      borderColor: "var(--themed-border-strong)",
+                      boxShadow: isDark
+                        ? "0 4px 6px -1px rgba(26, 119, 173, 0.1)"
+                        : "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+                    }}
+                  >
                     {/* Top section - Title */}
-                    <div className="relative p-4 bg-[#071F2C] border-b border-[#1A77AD]/30">
-                      <span className="font-bold text-lg text-white">
+                    <div
+                      className="relative p-4 border-b transition-colors duration-300"
+                      style={{
+                        backgroundColor: "var(--themed-bg-secondary)",
+                        borderColor: "var(--themed-border-strong)",
+                      }}
+                    >
+                      <span
+                        className="font-bold text-lg transition-colors duration-300"
+                        style={{ color: "var(--themed-heading)" }}
+                      >
                         {post.title}
                       </span>
                       <div className="absolute right-4 -bottom-4 text-2xl">
-                        {post.category === "Announcements" && "📢"}
-                        {post.category === "Tutorials" && "📚"}
-                        {post.category === "Security" && "🛡️"}
+                        {post.emoji}
                       </div>
                     </div>
 
                     {/* Bottom section - Description & Meta */}
-                    <div className="bg-[#0a1a24] p-4">
-                      <div className="text-[#BDE0F5] text-sm truncate">
+                    <div
+                      className="p-4 transition-colors duration-300"
+                      style={{ backgroundColor: "var(--themed-bg)" }}
+                    >
+                      <div
+                        className="text-sm truncate transition-colors duration-300"
+                        style={{ color: "var(--themed-text)" }}
+                      >
                         {post.excerpt}
                       </div>
-                      <div className="text-[#BDE0F5]/50 flex flex-wrap items-center gap-x-2 text-sm mt-2">
+                      <div
+                        className="flex flex-wrap items-center gap-x-2 text-sm mt-2 transition-colors duration-300"
+                        style={{ color: "var(--themed-text-muted)" }}
+                      >
                         <span>{post.date}</span>
                         <span>·</span>
                         <span>{post.author}</span>
@@ -72,6 +115,8 @@ export default function BlogPage() {
           </div>
         </main>
       </div>
+
+      <ThemedFooter />
     </div>
   );
 }

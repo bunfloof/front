@@ -1,6 +1,7 @@
 "use client";
 
-import { MainNavbar } from "@/components/MainNavbar";
+import { ThemedNavbar } from "@/components/ThemedNavbar";
+import { ThemedFooter } from "@/components/ThemedFooter";
 import { ScrambledText } from "@/components/ScrambledText";
 import Link from "next/link";
 import { Link2, Check } from "lucide-react";
@@ -37,7 +38,6 @@ function SectionHeading({ id, title }: { id: string; title: string }) {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(url);
       } else {
-        // Fallback for older browsers or non-HTTPS contexts
         const textArea = document.createElement("textarea");
         textArea.value = url;
         textArea.style.position = "fixed";
@@ -55,17 +55,33 @@ function SectionHeading({ id, title }: { id: string; title: string }) {
   };
 
   return (
-    <h2 className="group flex items-center gap-3 text-xl font-semibold text-white mb-4 pb-2 border-b border-[#1A77AD]/20">
+    <h2
+      className="group flex items-center gap-3 text-xl font-semibold mb-4 pb-2 border-b transition-colors duration-300"
+      style={{
+        color: "var(--themed-heading)",
+        borderColor: "var(--themed-border)",
+      }}
+    >
       <span>{title}</span>
       <button
         onClick={copyLink}
-        className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-[#1A77AD]/20"
+        className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded"
+        style={{ backgroundColor: "transparent" }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = "var(--themed-nav-hover)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = "transparent";
+        }}
         title="Copy link to section"
       >
         {copied ? (
-          <Check className="w-4 h-4 text-[#00c4aa]" />
+          <Check
+            className="w-4 h-4"
+            style={{ color: "var(--themed-accent)" }}
+          />
         ) : (
-          <Link2 className="w-4 h-4 text-[#7AC2EB]" />
+          <Link2 className="w-4 h-4" style={{ color: "var(--themed-link)" }} />
         )}
       </button>
     </h2>
@@ -74,16 +90,30 @@ function SectionHeading({ id, title }: { id: string; title: string }) {
 
 export default function TermsOfServicePage() {
   return (
-    <div className="font-sans bg-[#030F16] min-h-screen">
-      <MainNavbar />
+    <div
+      className="font-sans min-h-screen transition-colors duration-300"
+      style={{ backgroundColor: "var(--themed-bg)" }}
+    >
+      <ThemedNavbar />
 
       {/* Header */}
-      <header className="pt-32 pb-12 border-b border-[#1A77AD]/20">
+      <header
+        className="pt-32 pb-12 border-b transition-colors duration-300"
+        style={{ borderColor: "var(--themed-border)" }}
+      >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h1
+            className="text-3xl md:text-4xl font-bold mb-4 transition-colors duration-300"
+            style={{ color: "var(--themed-heading)" }}
+          >
             Terms of Service
           </h1>
-          <p className="text-[#BDE0F5]/60">Last updated: December 6, 2025</p>
+          <p
+            className="transition-colors duration-300"
+            style={{ color: "var(--themed-text-muted)" }}
+          >
+            Last updated: December 6, 2025
+          </p>
         </div>
       </header>
 
@@ -91,9 +121,12 @@ export default function TermsOfServicePage() {
       <main className="py-12">
         <div className="flex justify-center">
           {/* Sticky Table of Contents - Left Side */}
-          <div className="hidden xl:block w-52 flex-shrink-0 mr-8">
+          <div className="hidden xl:block w-52 flex-shrink-0 mr-8 ml-8 2xl:ml-0">
             <nav className="sticky top-12 max-h-[calc(100vh-4rem)] overflow-y-auto">
-              <h2 className="text-sm font-semibold text-[#BDE0F5]/40 uppercase tracking-wider mb-4">
+              <h2
+                className="text-sm font-semibold uppercase tracking-wider mb-4 transition-colors duration-300"
+                style={{ color: "var(--themed-text-muted)" }}
+              >
                 Contents
               </h2>
               <ul className="space-y-2">
@@ -101,7 +134,15 @@ export default function TermsOfServicePage() {
                   <li key={section.id}>
                     <Link
                       href={`#${section.id}`}
-                      className="text-sm text-[#BDE0F5]/50 hover:text-[#00c4aa] transition-colors block py-0.5"
+                      className="text-sm transition-colors block py-0.5"
+                      style={{ color: "var(--themed-text-muted)" }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = "var(--themed-accent)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color =
+                          "var(--themed-text-muted)";
+                      }}
                     >
                       {section.title}
                     </Link>
@@ -115,7 +156,10 @@ export default function TermsOfServicePage() {
           <div className="max-w-4xl w-full px-4 sm:px-6 lg:px-8">
             {/* Introduction */}
             <section id="introduction" className="mb-12 scroll-mt-24">
-              <p className="text-[#BDE0F5]/80 leading-relaxed">
+              <p
+                className="leading-relaxed transition-colors duration-300"
+                style={{ color: "var(--themed-text)" }}
+              >
                 Foxomy (hereinafter referred to as &quot;Foxomy&quot;,
                 &quot;we&quot; as the case may be) would like to send to
                 customers (&quot;You&quot;, &quot;User&quot;, or
@@ -134,7 +178,10 @@ export default function TermsOfServicePage() {
                   id="refusal-of-service"
                   title="1. Refusal of Service Regulations"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     We reserve the right to block service or refuse future
                     service if the usage regulations are violated. If you have
@@ -185,7 +232,8 @@ export default function TermsOfServicePage() {
                     restrictions, please refer to our{" "}
                     <Link
                       href="/aup"
-                      className="text-[#00c4aa] hover:underline hover:text-[#00c4aa]/80"
+                      className="hover:underline transition-colors"
+                      style={{ color: "var(--themed-accent)" }}
                     >
                       Acceptable Use Policy
                     </Link>
@@ -211,7 +259,10 @@ export default function TermsOfServicePage() {
                   id="customer-responsibilities"
                   title="2. Customer Responsibilities"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     Customers at Foxomy always have full rights and obligations
                     of the service lessee according to the provisions of the
@@ -255,7 +306,10 @@ export default function TermsOfServicePage() {
                   id="foxomy-responsibilities"
                   title="3. Foxomy's Responsibilities"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     As a service provider, Foxomy has full rights and
                     obligations of a service provider as prescribed in the US
@@ -294,7 +348,10 @@ export default function TermsOfServicePage() {
                   id="service-suspension"
                   title="4. Service Suspension"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     The customer&apos;s service may be suspended without prior
                     notice but will receive an email notification of suspension
@@ -323,7 +380,10 @@ export default function TermsOfServicePage() {
                   id="registering-account"
                   title="5. Registering an Account"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     An account on the Foxomy service management system is a
                     customer account created during the service registration
@@ -341,7 +401,10 @@ export default function TermsOfServicePage() {
                   id="cancellation"
                   title="6. Cancellation of Service"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     You must submit a cancellation request at
                     https://foxomy.com/billing to cancel the service. You can
@@ -361,8 +424,14 @@ export default function TermsOfServicePage() {
                   id="billing-payment"
                   title="7. Billing and Payment Information"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
-                  <h3 className="text-lg font-medium text-white mt-6 mb-2">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
+                  <h3
+                    className="text-lg font-medium mt-6 mb-2 transition-colors duration-300"
+                    style={{ color: "var(--themed-heading)" }}
+                  >
                     1. Payment method
                   </h3>
                   <p>
@@ -376,7 +445,10 @@ export default function TermsOfServicePage() {
                     after a review.
                   </p>
 
-                  <h3 className="text-lg font-medium text-white mt-6 mb-2">
+                  <h3
+                    className="text-lg font-medium mt-6 mb-2 transition-colors duration-300"
+                    style={{ color: "var(--themed-heading)" }}
+                  >
                     2. Prepayment (Non-subscription PayPal only)
                   </h3>
                   <p>
@@ -386,7 +458,10 @@ export default function TermsOfServicePage() {
                     before the invoice payment due date to notify customers.
                   </p>
 
-                  <h3 className="text-lg font-medium text-white mt-6 mb-2">
+                  <h3
+                    className="text-lg font-medium mt-6 mb-2 transition-colors duration-300"
+                    style={{ color: "var(--themed-heading)" }}
+                  >
                     3. Auto-renewal (Stripe and PayPal subscription only)
                   </h3>
                   <p>
@@ -399,7 +474,10 @@ export default function TermsOfServicePage() {
                     invoice has been canceled.
                   </p>
 
-                  <h3 className="text-lg font-medium text-white mt-6 mb-2">
+                  <h3
+                    className="text-lg font-medium mt-6 mb-2 transition-colors duration-300"
+                    style={{ color: "var(--themed-heading)" }}
+                  >
                     4. Taxes
                   </h3>
                   <p>
@@ -408,7 +486,10 @@ export default function TermsOfServicePage() {
                     user.
                   </p>
 
-                  <h3 className="text-lg font-medium text-white mt-6 mb-2">
+                  <h3
+                    className="text-lg font-medium mt-6 mb-2 transition-colors duration-300"
+                    style={{ color: "var(--themed-heading)" }}
+                  >
                     5. Late Payment
                   </h3>
                   <p>
@@ -422,7 +503,10 @@ export default function TermsOfServicePage() {
                     date.
                   </p>
 
-                  <h3 className="text-lg font-medium text-white mt-6 mb-2">
+                  <h3
+                    className="text-lg font-medium mt-6 mb-2 transition-colors duration-300"
+                    style={{ color: "var(--themed-heading)" }}
+                  >
                     6. Refusal of Payment
                   </h3>
                   <p>
@@ -430,7 +514,10 @@ export default function TermsOfServicePage() {
                     detect that the payment is fraudulent.
                   </p>
 
-                  <h3 className="text-lg font-medium text-white mt-6 mb-2">
+                  <h3
+                    className="text-lg font-medium mt-6 mb-2 transition-colors duration-300"
+                    style={{ color: "var(--themed-heading)" }}
+                  >
                     7. Refunds
                   </h3>
                   <p>
@@ -447,7 +534,10 @@ export default function TermsOfServicePage() {
               {/* Section 8 */}
               <section id="support" className="scroll-mt-24">
                 <SectionHeading id="support" title="8. Support" />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     You can submit a support issue via email or on-site ticket
                     support system. In some cases, resolving the issue may take
@@ -460,7 +550,10 @@ export default function TermsOfServicePage() {
               {/* Section 9 */}
               <section id="complaints" className="scroll-mt-24">
                 <SectionHeading id="complaints" title="9. Complaints" />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     We always try to improve our service. Customers have the
                     right to complain or give feedback on Foxomy&apos;s service
@@ -479,7 +572,10 @@ export default function TermsOfServicePage() {
                   id="limitation-liability"
                   title="10. Limitation of Liability and Disclaimer of Warranty"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     In no event shall any of Foxomy&apos;s directors, officers,
                     employees or agents be liable for any direct or
@@ -500,7 +596,10 @@ export default function TermsOfServicePage() {
                   id="compensation"
                   title="11. Compensation for Damages"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     In the case that Foxomy fails to ensure the service license
                     commitment (SLA), compensation will be made according to the
@@ -517,7 +616,10 @@ export default function TermsOfServicePage() {
                   id="changes-terms"
                   title="12. Changes to Terms"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     Foxomy may change the terms of service, any policies or
                     related legal documents when necessary. Changes may be
@@ -531,17 +633,23 @@ export default function TermsOfServicePage() {
               {/* Section 13 */}
               <section id="contact" className="scroll-mt-24">
                 <SectionHeading id="contact" title="13. Contact Information" />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     If you have any questions about these Terms of Service,
                     please contact us:
                   </p>
                   <ul className="space-y-2">
                     <li>
-                      <span className="text-[#BDE0F5]/50">Email:</span>{" "}
+                      <span style={{ color: "var(--themed-text-muted)" }}>
+                        Email:
+                      </span>{" "}
                       <a
                         href="mailto:"
-                        className="text-[#00c4aa] hover:underline"
+                        className="hover:underline"
+                        style={{ color: "var(--themed-accent)" }}
                       >
                         <ScrambledText>legal@foxomy.com</ScrambledText>
                       </a>
@@ -552,10 +660,20 @@ export default function TermsOfServicePage() {
             </div>
 
             {/* Back to top */}
-            <div className="mt-16 pt-8 border-t border-[#1A77AD]/20">
+            <div
+              className="mt-16 pt-8 border-t transition-colors duration-300"
+              style={{ borderColor: "var(--themed-border)" }}
+            >
               <Link
                 href="#"
-                className="text-[#7AC2EB] hover:text-[#00c4aa] transition-colors text-sm"
+                className="text-sm transition-colors"
+                style={{ color: "var(--themed-link)" }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = "var(--themed-accent)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "var(--themed-link)";
+                }}
               >
                 ↑ Back to top
               </Link>
@@ -567,8 +685,7 @@ export default function TermsOfServicePage() {
         </div>
       </main>
 
-      {/* Footer spacer */}
-      <div className="h-24" />
+      <ThemedFooter />
     </div>
   );
 }

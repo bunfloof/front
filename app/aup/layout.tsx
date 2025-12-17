@@ -1,10 +1,6 @@
 import { ThemeProvider } from "@/contexts/ThemeContext";
 
-export default function BlogLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AUPLayout({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider>
       <div className="themed-selection hide-global-footer themed-page">

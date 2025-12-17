@@ -1,7 +1,7 @@
 "use client";
 
-import { MainNavbar } from "@/components/MainNavbar";
-import { Footer } from "@/components/Footer";
+import { ThemedNavbar } from "@/components/ThemedNavbar";
+import { ThemedFooter } from "@/components/ThemedFooter";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -10,29 +10,12 @@ import {
   Share2,
   Check,
   Bookmark,
-  Sun,
-  Moon,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { ScrambledText } from "@/components/ScrambledText";
 
 export default function CodeOfConductPost() {
   const [copied, setCopied] = useState(false);
-  const [isDark, setIsDark] = useState(true);
-
-  // Load theme preference from localStorage on mount
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("blog-theme");
-    if (savedTheme) {
-      setIsDark(savedTheme === "dark");
-    }
-  }, []);
-
-  // Save theme preference to localStorage when it changes
-  const toggleTheme = () => {
-    const newTheme = !isDark;
-    setIsDark(newTheme);
-    localStorage.setItem("blog-theme", newTheme ? "dark" : "light");
-  };
 
   const copyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -42,33 +25,39 @@ export default function CodeOfConductPost() {
 
   return (
     <div
-      className={`font-sans min-h-screen transition-colors duration-300 ${
-        isDark ? "bg-[#030F16]" : "bg-[#F8FAFC]"
-      }`}
+      className="font-sans min-h-screen transition-colors duration-300"
+      style={{ backgroundColor: "var(--themed-bg)" }}
     >
-      <MainNavbar isDark={isDark} />
+      <ThemedNavbar />
 
       {/* Header */}
       <header
-        className={`pt-32 pb-12 border-b transition-colors duration-300 ${
-          isDark ? "border-[#1A77AD]/20" : "border-gray-200"
-        }`}
+        className="pt-32 pb-12 border-b transition-colors duration-300"
+        style={{ borderColor: "var(--themed-border)" }}
       >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Breadcrumb */}
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-1.5 text-sm mb-6 transition-colors hover:opacity-70"
+            style={{ color: "var(--themed-text-muted)" }}
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span className="font-mono">cd /blog</span>
+          </Link>
+
           {/* Title */}
           <h1
-            className={`text-3xl md:text-4xl font-bold mb-6 leading-tight transition-colors duration-300 ${
-              isDark ? "text-white" : "text-gray-900"
-            }`}
+            className="text-3xl md:text-4xl font-bold mb-6 leading-tight transition-colors duration-300"
+            style={{ color: "var(--themed-heading)" }}
           >
-            Relations Code of Conduct
+            Code of Conduct
           </h1>
 
           {/* Meta */}
           <div
-            className={`flex flex-wrap items-center text-md transition-colors duration-300 ${
-              isDark ? "text-[#D1D5E3]/80" : "text-gray-500"
-            }`}
+            className="flex flex-wrap items-center text-md transition-colors duration-300"
+            style={{ color: "var(--themed-text-muted)" }}
           >
             <span className="flex items-center gap-1.5">
               <Calendar className="w-4 h-4" />
@@ -86,23 +75,8 @@ export default function CodeOfConductPost() {
             </span>
             <div className="flex items-center gap-3 ml-auto">
               <button
-                onClick={toggleTheme}
-                className={`flex items-center gap-1.5 transition-colors cursor-pointer ${
-                  isDark ? "hover:text-[#D1D5E3]" : "hover:text-gray-600"
-                }`}
-                aria-label="Toggle theme"
-              >
-                {isDark ? (
-                  <Sun className="w-4 h-4" />
-                ) : (
-                  <Moon className="w-4 h-4" />
-                )}
-              </button>
-              <button
                 onClick={copyLink}
-                className={`flex items-center gap-1.5 transition-colors cursor-pointer ${
-                  isDark ? "hover:text-[#D1D5E3]" : "hover:text-gray-600"
-                }`}
+                className="flex items-center gap-1.5 transition-colors cursor-pointer hover:opacity-80"
               >
                 {copied ? (
                   <>
@@ -124,144 +98,165 @@ export default function CodeOfConductPost() {
       {/* Main Content */}
       <main className="py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <article
-            className={`prose prose-lg max-w-none transition-colors duration-300 ${
-              isDark ? "prose-invert" : ""
-            }`}
-          >
+          <article className="prose prose-lg max-w-none">
             <div
-              className={`leading-relaxed space-y-6 transition-colors duration-300 ${
-                isDark ? "text-[#D1D5DB]" : "text-gray-600"
-              }`}
+              className="leading-relaxed space-y-6 transition-colors duration-300"
+              style={{ color: "var(--themed-text)" }}
             >
+              <h2
+                className="text-2xl font-bold mb-6 pb-3 border-b transition-colors duration-300"
+                style={{
+                  color: "var(--themed-heading)",
+                  borderColor: "var(--themed-border-strong)",
+                }}
+              >
+                Our Pledge
+              </h2>
               <p>
-                This Code of Conduct outlines our strict expectations for our
-                staff members and customers to maintain a respectful and
-                drama-free environment. We aim to be peacekeepers in the hosting
-                community.
+                We as members, contributors, and leaders pledge to make
+                participation in our community a harassment-free experience for
+                everyone, regardless of age, body size, visible or invisible
+                disability, ethnicity, sex characteristics, gender identity and
+                expression, level of experience, education, socio-economic
+                status, nationality, personal appearance, race, religion, or
+                sexual identity and orientation.
+              </p>
+              <p>
+                We pledge to act and interact in ways that contribute to an
+                open, welcoming, diverse, inclusive, and healthy community.
               </p>
 
               <h2
-                className={`text-2xl font-bold mt-12 mb-6 pb-3 border-b transition-colors duration-300 ${
-                  isDark
-                    ? "text-white border-[#1A77AD]/30"
-                    : "text-gray-900 border-gray-200"
-                }`}
+                className="text-2xl font-bold mt-12 mb-6 pb-3 border-b transition-colors duration-300"
+                style={{
+                  color: "var(--themed-heading)",
+                  borderColor: "var(--themed-border-strong)",
+                }}
               >
-                For Staff Members
+                Our Standards
               </h2>
-
-              <h3
-                className={`text-lg font-semibold mt-8 mb-3 transition-colors duration-300 ${
-                  isDark ? "text-white" : "text-gray-800"
-                }`}
-              >
-                Competitor Relations
-              </h3>
-
               <p>
-                We focus on our own work and let our service speak for itself.
-                We do not publicly engage in negative commentary about other
-                hosting providers.
+                Examples of behavior that contributes to a positive environment
+                for our community include:
               </p>
-
-              <p>Staff members are expected to:</p>
               <ul
-                className={`list-disc list-inside space-y-2 ml-4 transition-colors duration-300 ${
-                  isDark ? "text-[#D1D5DB]" : "text-gray-600"
-                }`}
+                className="list-disc list-inside space-y-2 ml-4 transition-colors duration-300"
+                style={{ color: "var(--themed-text)" }}
               >
+                <li>Demonstrating empathy and kindness toward other people</li>
                 <li>
-                  Never criticize, slander, or speak negatively about other
-                  hosting providers
+                  Being respectful of differing opinions, viewpoints, and
+                  experiences
                 </li>
                 <li>
-                  Never participate in other hosting providers&apos; communities
-                  to cause conflict or drama
+                  Accepting responsibility and apologizing to those affected by
+                  our mistakes, and learning from the experience
                 </li>
+                <li>Giving and gracefully accepting constructive feedback</li>
                 <li>
-                  Never retaliate if another competitor speaks negatively about
-                  Foxomy
+                  Focusing on what is best not just for us as individuals, but
+                  for the overall community
                 </li>
               </ul>
-
-              <p>
-                Even if other competitors attack us, we agree to disagree and
-                move on.
-              </p>
-
-              <h3
-                className={`text-lg font-semibold mt-8 mb-3 transition-colors duration-300 ${
-                  isDark ? "text-white" : "text-gray-800"
-                }`}
+              <p>Examples of unacceptable behavior include:</p>
+              <ul
+                className="list-disc list-inside space-y-2 ml-4 transition-colors duration-300"
+                style={{ color: "var(--themed-text)" }}
               >
-                Humility and Representation
-              </h3>
-
-              <p>
-                Working at Foxomy is a responsibility, not a status symbol.
-                Staff members should not advertise their Foxomy affiliation in
-                Discord bios, social media profiles, or elsewhere.
-              </p>
-
-              <h3
-                className={`text-lg font-semibold mt-8 mb-3 transition-colors duration-300 ${
-                  isDark ? "text-white" : "text-gray-800"
-                }`}
-              >
-                Our Shared Responsibility
-              </h3>
-
-              <p>
-                With 42 team members and partners, we all share the
-                responsibility of keeping Foxomy&apos;s reputation clean and
-                professional. We don&apos;t waste our time or energy on petty
-                activities.
-              </p>
-
+                <li>
+                  Trolling, insulting/derogatory comments, and personal or
+                  political attacks
+                </li>
+                <li>Bullying, discrimination, or harassment</li>
+              </ul>
               <h2
-                className={`text-2xl font-bold mt-12 mb-6 pb-3 border-b transition-colors duration-300 ${
-                  isDark
-                    ? "text-white border-[#1A77AD]/30"
-                    : "text-gray-900 border-gray-200"
-                }`}
+                className="text-2xl font-bold mt-12 mb-6 pb-3 border-b transition-colors duration-300"
+                style={{
+                  color: "var(--themed-heading)",
+                  borderColor: "var(--themed-border-strong)",
+                }}
               >
-                For Customers
+                Enforcement Responsibilities
               </h2>
-
               <p>
-                We kindly ask that customers use our official support channels
-                when seeking help with their Foxomy services. For the best
-                experience, please avoid mentioning Foxomy when asking for
-                server help in Discord servers or communities of other hosting
-                providers.
+                Community leaders are responsible for clarifying and enforcing
+                our standards of acceptable behavior and will take appropriate
+                and fair corrective action in response to any behavior that they
+                deem inappropriate, threatening, offensive, or harmful.
               </p>
-
               <p>
-                Our support team is available 24/7 via live chat, Discord, and
-                email. We&apos;re here to help you succeed—just reach out to us
-                directly.
+                Community leaders have the right and responsibility to remove,
+                edit, or reject comments, messages, and other contributions that
+                are not aligned to this Code of Conduct, or to temporarily or
+                permanently restrict any members for other behaviors that they
+                deem inappropriate, threatening, offensive, or harmful.
               </p>
-
-              <p className="text-[#00c4aa] font-semibold mt-8">
-                Thank you for being part of the Foxomy.
+              <h2
+                className="text-2xl font-bold mt-12 mb-6 pb-3 border-b transition-colors duration-300"
+                style={{
+                  color: "var(--themed-heading)",
+                  borderColor: "var(--themed-border-strong)",
+                }}
+              >
+                Scope
+              </h2>
+              <p>
+                This Code of Conduct applies within all community spaces, and
+                also applies when an individual is officially representing the
+                community in public spaces. Examples of representing our
+                community include using an official e-mail address, posting via
+                an official social media account, or acting as an appointed
+                representative at an online or offline event.
+              </p>
+              <h2
+                className="text-2xl font-bold mt-12 mb-6 pb-3 border-b transition-colors duration-300"
+                style={{
+                  color: "var(--themed-heading)",
+                  borderColor: "var(--themed-border-strong)",
+                }}
+              >
+                Enforcement
+              </h2>
+              <p>
+                Instances of abusive, harassing, or otherwise unacceptable
+                behavior may be reported to the community leaders responsible
+                for enforcement at{" "}
+                <a
+                  href="mailto:"
+                  className="hover:underline"
+                  style={{ color: "var(--themed-accent)" }}
+                >
+                  <ScrambledText>report@foxomy.com</ScrambledText>
+                </a>
+                .
+              </p>
+              <p>
+                All complaints will be reviewed and investigated promptly and
+                fairly. All community leaders are obligated to respect the
+                privacy and security of the reporter of any incident.
               </p>
             </div>
           </article>
 
           {/* cd /blog */}
           <div
-            className={`mt-16 pt-8 border-t transition-colors duration-300 ${
-              isDark ? "border-[#1A77AD]/20" : "border-gray-200"
-            }`}
+            className="mt-16 pt-8 border-t transition-colors duration-300"
+            style={{ borderColor: "var(--themed-border)" }}
           >
             <Link
               href="/blog"
-              className={`flex w-full justify-between items-center gap-2 transition-colors group rounded-md p-4 ${
-                isDark
-                  ? "text-[#7AC2EB] hover:bg-[#071F2C]/90 border border-[#1A77AD]/20"
-                  : "text-sky-600 hover:bg-gray-100 border border-gray-200"
-              }`}
+              className="flex w-full justify-between items-center gap-2 transition-colors group rounded-md p-4 border font-mono"
+              style={{
+                color: "var(--themed-text)",
+                borderColor: "var(--themed-border)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor =
+                  "var(--themed-nav-hover)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "transparent";
+              }}
             >
               cd /blog
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
@@ -270,7 +265,7 @@ export default function CodeOfConductPost() {
         </div>
       </main>
 
-      <Footer isDark={isDark} />
+      <ThemedFooter />
     </div>
   );
 }

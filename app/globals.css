@@ -498,11 +498,68 @@
   color: #ffffff;
 }
 
-/* Blog page selection color */
-.blog-selection ::selection {
+/* ===========================================
+   Blog Theme System (CSS Variables)
+   =========================================== */
+
+/* Dark mode (default for blog) */
+.dark .themed-page,
+.themed-page {
+  --themed-bg: #030f16;
+  --themed-bg-secondary: #071f2c;
+  --themed-text: #d1d5db;
+  --themed-text-muted: rgba(209, 213, 227, 0.8);
+  --themed-heading: #ffffff;
+  --themed-heading-secondary: #ffffff;
+  --themed-border: rgba(26, 119, 173, 0.2);
+  --themed-border-strong: rgba(26, 119, 173, 0.3);
+  --themed-link: #7ac2eb;
+  --themed-accent: #00c4aa;
+  --themed-nav-bg: rgba(3, 15, 22, 0.8);
+  --themed-nav-hover: rgba(26, 119, 173, 0.2);
+  --themed-button-bg: #071f2c;
+  --themed-button-hover: #0d3a54;
+  --themed-button-border: rgba(26, 119, 173, 0.4);
+  --themed-button-text: #bde0f5;
+  --themed-dropdown-bg: rgba(3, 15, 22, 0.95);
+  --themed-footer-bg: #030f16;
+  --themed-social-bg: rgba(13, 58, 84, 0.5);
+  --themed-social-text: rgba(122, 194, 235, 0.6);
+  --themed-footer-title: #d6fff9;
+  --themed-logo-filter: none;
+}
+
+/* Light mode for blog */
+.light .themed-page {
+  --themed-bg: #f8fafc;
+  --themed-bg-secondary: #ffffff;
+  --themed-text: #4b5563;
+  --themed-text-muted: #6b7280;
+  --themed-heading: #111827;
+  --themed-heading-secondary: #1f2937;
+  --themed-border: #e5e7eb;
+  --themed-border-strong: #d1d5db;
+  --themed-link: #0369a1;
+  --themed-accent: #0891b2;
+  --themed-nav-bg: rgba(255, 255, 255, 0.8);
+  --themed-nav-hover: rgba(243, 244, 246, 0.2);
+  --themed-button-bg: #f3f4f6;
+  --themed-button-hover: #e5e7eb;
+  --themed-button-border: #d1d5db;
+  --themed-button-text: #374151;
+  --themed-dropdown-bg: rgba(255, 255, 255, 0.95);
+  --themed-footer-bg: #f9fafb;
+  --themed-social-bg: #e5e7eb;
+  --themed-social-text: #6b7280;
+  --themed-footer-title: #1f2937;
+  --themed-logo-filter: invert(1);
+}
+
+/* Blog page selection color - only in dark mode */
+.dark .themed-selection ::selection {
   background: rgba(56, 189, 248, 0.3);
 }
-.blog-selection ::-moz-selection {
+.dark .themed-selection ::-moz-selection {
   background: rgba(56, 189, 248, 0.3);
 }
 

@@ -1,6 +1,7 @@
 "use client";
 
-import { MainNavbar } from "@/components/MainNavbar";
+import { ThemedNavbar } from "@/components/ThemedNavbar";
+import { ThemedFooter } from "@/components/ThemedFooter";
 import { ScrambledText } from "@/components/ScrambledText";
 import Link from "next/link";
 import { Link2, Check } from "lucide-react";
@@ -22,25 +23,45 @@ const sections = [
 function SectionHeading({ id, title }: { id: string; title: string }) {
   const [copied, setCopied] = useState(false);
 
-  const copyLink = () => {
+  const copyLink = async () => {
     const url = `${window.location.origin}${window.location.pathname}#${id}`;
-    navigator.clipboard.writeText(url);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
   };
 
   return (
-    <h2 className="group flex items-center gap-3 text-xl font-semibold text-white mb-4 pb-2 border-b border-[#1A77AD]/20">
+    <h2
+      className="group flex items-center gap-3 text-xl font-semibold mb-4 pb-2 border-b transition-colors duration-300"
+      style={{
+        color: "var(--themed-heading)",
+        borderColor: "var(--themed-border)",
+      }}
+    >
       <span>{title}</span>
       <button
         onClick={copyLink}
-        className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-[#1A77AD]/20"
+        className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded"
+        style={{ backgroundColor: "transparent" }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = "var(--themed-nav-hover)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = "transparent";
+        }}
         title="Copy link to section"
       >
         {copied ? (
-          <Check className="w-4 h-4 text-[#00c4aa]" />
+          <Check
+            className="w-4 h-4"
+            style={{ color: "var(--themed-accent)" }}
+          />
         ) : (
-          <Link2 className="w-4 h-4 text-[#7AC2EB]" />
+          <Link2 className="w-4 h-4" style={{ color: "var(--themed-link)" }} />
         )}
       </button>
     </h2>
@@ -49,16 +70,27 @@ function SectionHeading({ id, title }: { id: string; title: string }) {
 
 export default function SLAPage() {
   return (
-    <div className="font-sans bg-[#030F16] min-h-screen">
-      <MainNavbar />
+    <div
+      className="font-sans min-h-screen transition-colors duration-300"
+      style={{ backgroundColor: "var(--themed-bg)" }}
+    >
+      <ThemedNavbar />
 
       {/* Header */}
-      <header className="pt-32 pb-12 border-b border-[#1A77AD]/20">
+      <header
+        className="pt-32 pb-12 border-b transition-colors duration-300"
+        style={{ borderColor: "var(--themed-border)" }}
+      >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h1
+            className="text-3xl md:text-4xl font-bold mb-4 transition-colors duration-300"
+            style={{ color: "var(--themed-heading)" }}
+          >
             Service Level Agreement
           </h1>
-          <p className="text-[#BDE0F5]/60">Last updated: December 6, 2025</p>
+          <p style={{ color: "var(--themed-text-muted)" }}>
+            Last updated: December 6, 2025
+          </p>
         </div>
       </header>
 
@@ -66,9 +98,12 @@ export default function SLAPage() {
       <main className="py-12">
         <div className="flex justify-center">
           {/* Sticky Table of Contents - Left Side */}
-          <div className="hidden xl:block w-52 flex-shrink-0 mr-8">
+          <div className="hidden xl:block w-52 flex-shrink-0 mr-8 ml-8 2xl:ml-0">
             <nav className="sticky top-12 max-h-[calc(100vh-4rem)] overflow-y-auto">
-              <h2 className="text-sm font-semibold text-[#BDE0F5]/40 uppercase tracking-wider mb-4">
+              <h2
+                className="text-sm font-semibold uppercase tracking-wider mb-4 transition-colors duration-300"
+                style={{ color: "var(--themed-text-muted)" }}
+              >
                 Contents
               </h2>
               <ul className="space-y-2">
@@ -76,7 +111,15 @@ export default function SLAPage() {
                   <li key={section.id}>
                     <Link
                       href={`#${section.id}`}
-                      className="text-sm text-[#BDE0F5]/50 hover:text-[#00c4aa] transition-colors block py-0.5"
+                      className="text-sm transition-colors block py-0.5"
+                      style={{ color: "var(--themed-text-muted)" }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = "var(--themed-accent)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color =
+                          "var(--themed-text-muted)";
+                      }}
                     >
                       {section.title}
                     </Link>
@@ -90,11 +133,18 @@ export default function SLAPage() {
           <div className="max-w-4xl w-full px-4 sm:px-6 lg:px-8">
             {/* Introduction */}
             <section id="introduction" className="mb-12 scroll-mt-24">
-              <p className="text-[#BDE0F5]/80 leading-relaxed">
+              <p
+                className="leading-relaxed transition-colors duration-300"
+                style={{ color: "var(--themed-text)" }}
+              >
                 This Service Level Agreement (&quot;SLA&quot;) describes the
                 level of service you can expect from Foxomy. This agreement is
                 governed by Foxomy&apos;s{" "}
-                <Link href="/terms" className="text-[#00c4aa] hover:underline">
+                <Link
+                  href="/terms"
+                  className="hover:underline"
+                  style={{ color: "var(--themed-accent)" }}
+                >
                   Terms of Service
                 </Link>{" "}
                 and applies to all customers using our services.
@@ -106,50 +156,74 @@ export default function SLAPage() {
               {/* Section 1 */}
               <section id="definitions" className="scroll-mt-24">
                 <SectionHeading id="definitions" title="1. Definitions" />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>The following terms are used throughout this agreement:</p>
                   <ul className="space-y-3 ml-4">
                     <li>
-                      <span className="text-white font-medium">
+                      <span
+                        className="font-medium"
+                        style={{ color: "var(--themed-heading)" }}
+                      >
                         &quot;Service&quot;
                       </span>{" "}
                       refers to any commercial offering provided by Foxomy to
                       the customer.
                     </li>
                     <li>
-                      <span className="text-white font-medium">
+                      <span
+                        className="font-medium"
+                        style={{ color: "var(--themed-heading)" }}
+                      >
                         &quot;Status Page&quot;
                       </span>{" "}
                       refers to Foxomy&apos;s official site for tracking and
                       publishing service status.
                     </li>
                     <li>
-                      <span className="text-white font-medium">
+                      <span
+                        className="font-medium"
+                        style={{ color: "var(--themed-heading)" }}
+                      >
                         &quot;Uptime&quot;
                       </span>{" "}
                       refers to the state where a service is operational
                       according to the Status Page.
                     </li>
                     <li>
-                      <span className="text-white font-medium">
+                      <span
+                        className="font-medium"
+                        style={{ color: "var(--themed-heading)" }}
+                      >
                         &quot;Downtime&quot;
                       </span>{" "}
                       refers to the state where a service is not operational
                       according to the Status Page.
                     </li>
                     <li>
-                      <span className="text-white font-medium">
+                      <span
+                        className="font-medium"
+                        style={{ color: "var(--themed-heading)" }}
+                      >
                         &quot;Maintenance&quot;
                       </span>{" "}
                       refers to the state where a service is undergoing
                       scheduled maintenance according to the Status Page.
                     </li>
                     <li>
-                      <span className="text-white font-medium">
+                      <span
+                        className="font-medium"
+                        style={{ color: "var(--themed-heading)" }}
+                      >
                         &quot;Credit&quot;
                       </span>{" "}
                       or{" "}
-                      <span className="text-white font-medium">
+                      <span
+                        className="font-medium"
+                        style={{ color: "var(--themed-heading)" }}
+                      >
                         &quot;Balance&quot;
                       </span>{" "}
                       refers to virtual currency credit on the Foxomy billing
@@ -157,7 +231,10 @@ export default function SLAPage() {
                       Foxomy.
                     </li>
                     <li>
-                      <span className="text-white font-medium">
+                      <span
+                        className="font-medium"
+                        style={{ color: "var(--themed-heading)" }}
+                      >
                         &quot;Force Majeure Event&quot;
                       </span>{" "}
                       refers to any event beyond the reasonable control of
@@ -175,7 +252,10 @@ export default function SLAPage() {
                   id="uptime-guarantee"
                   title="2. Uptime Guarantee"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     Foxomy offers a Universal Service Guarantee of 99.9% Uptime
                     for all services. This means we guarantee that our services
@@ -193,7 +273,10 @@ export default function SLAPage() {
               {/* Section 3 */}
               <section id="exclusions" className="scroll-mt-24">
                 <SectionHeading id="exclusions" title="3. Exclusions" />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     The 99.9% Uptime Guarantee does not apply when downtime is
                     caused by:
@@ -221,7 +304,10 @@ export default function SLAPage() {
               {/* Section 4 */}
               <section id="compensation" className="scroll-mt-24">
                 <SectionHeading id="compensation" title="4. Compensation" />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     If we fail to meet the 99.9% Uptime Guarantee for your
                     service during a billing period, you are entitled to
@@ -241,7 +327,10 @@ export default function SLAPage() {
                   id="claiming-credit"
                   title="5. Claiming Credit"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>To claim SLA credit, you must:</p>
                   <ul className="list-decimal list-inside space-y-2 ml-4">
                     <li>
@@ -268,7 +357,10 @@ export default function SLAPage() {
               {/* Section 6 */}
               <section id="limitations" className="scroll-mt-24">
                 <SectionHeading id="limitations" title="6. Limitations" />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>The following limitations apply to this SLA:</p>
                   <ul className="list-decimal list-inside space-y-2 ml-4">
                     <li>
@@ -293,7 +385,8 @@ export default function SLAPage() {
                     Foxomy to meet the uptime guarantee. Please refer to our{" "}
                     <Link
                       href="/terms"
-                      className="text-[#00c4aa] hover:underline"
+                      className="hover:underline"
+                      style={{ color: "var(--themed-accent)" }}
                     >
                       Terms of Service
                     </Link>{" "}
@@ -305,17 +398,23 @@ export default function SLAPage() {
               {/* Section 7 */}
               <section id="contact" className="scroll-mt-24">
                 <SectionHeading id="contact" title="7. Contact Information" />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     If you have any questions about this Service Level Agreement
                     or need to submit an SLA claim, please contact us:
                   </p>
                   <ul className="space-y-2">
                     <li>
-                      <span className="text-[#BDE0F5]/50">Email:</span>{" "}
+                      <span style={{ color: "var(--themed-text-muted)" }}>
+                        Email:
+                      </span>{" "}
                       <a
                         href="mailto:"
-                        className="text-[#00c4aa] hover:underline"
+                        className="hover:underline"
+                        style={{ color: "var(--themed-accent)" }}
                       >
                         <ScrambledText>support@foxomy.com</ScrambledText>
                       </a>
@@ -326,10 +425,20 @@ export default function SLAPage() {
             </div>
 
             {/* Back to top */}
-            <div className="mt-16 pt-8 border-t border-[#1A77AD]/20">
+            <div
+              className="mt-16 pt-8 border-t transition-colors duration-300"
+              style={{ borderColor: "var(--themed-border)" }}
+            >
               <Link
                 href="#"
-                className="text-[#7AC2EB] hover:text-[#00c4aa] transition-colors text-sm"
+                className="text-sm transition-colors"
+                style={{ color: "var(--themed-link)" }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = "var(--themed-accent)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "var(--themed-link)";
+                }}
               >
                 ↑ Back to top
               </Link>
@@ -341,8 +450,7 @@ export default function SLAPage() {
         </div>
       </main>
 
-      {/* Footer spacer */}
-      <div className="h-24" />
+      <ThemedFooter />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@/contexts/ThemeContext";
 
-export default function BlogLayout({
+export default function PrivacyLayout({
   children,
 }: {
   children: React.ReactNode;

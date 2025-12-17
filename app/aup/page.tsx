@@ -1,6 +1,7 @@
 "use client";
 
-import { MainNavbar } from "@/components/MainNavbar";
+import { ThemedNavbar } from "@/components/ThemedNavbar";
+import { ThemedFooter } from "@/components/ThemedFooter";
 import { ScrambledText } from "@/components/ScrambledText";
 import Link from "next/link";
 import { Link2, Check } from "lucide-react";
@@ -24,25 +25,45 @@ const sections = [
 function SectionHeading({ id, title }: { id: string; title: string }) {
   const [copied, setCopied] = useState(false);
 
-  const copyLink = () => {
+  const copyLink = async () => {
     const url = `${window.location.origin}${window.location.pathname}#${id}`;
-    navigator.clipboard.writeText(url);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
   };
 
   return (
-    <h2 className="group flex items-center gap-3 text-xl font-semibold text-white mb-4 pb-2 border-b border-[#1A77AD]/20">
+    <h2
+      className="group flex items-center gap-3 text-xl font-semibold mb-4 pb-2 border-b transition-colors duration-300"
+      style={{
+        color: "var(--themed-heading)",
+        borderColor: "var(--themed-border)",
+      }}
+    >
       <span>{title}</span>
       <button
         onClick={copyLink}
-        className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-[#1A77AD]/20"
+        className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded"
+        style={{ backgroundColor: "transparent" }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = "var(--themed-nav-hover)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = "transparent";
+        }}
         title="Copy link to section"
       >
         {copied ? (
-          <Check className="w-4 h-4 text-[#00c4aa]" />
+          <Check
+            className="w-4 h-4"
+            style={{ color: "var(--themed-accent)" }}
+          />
         ) : (
-          <Link2 className="w-4 h-4 text-[#7AC2EB]" />
+          <Link2 className="w-4 h-4" style={{ color: "var(--themed-link)" }} />
         )}
       </button>
     </h2>
@@ -51,16 +72,27 @@ function SectionHeading({ id, title }: { id: string; title: string }) {
 
 export default function AcceptableUsePolicyPage() {
   return (
-    <div className="font-sans bg-[#030F16] min-h-screen">
-      <MainNavbar />
+    <div
+      className="font-sans min-h-screen transition-colors duration-300"
+      style={{ backgroundColor: "var(--themed-bg)" }}
+    >
+      <ThemedNavbar />
 
       {/* Header */}
-      <header className="pt-32 pb-12 border-b border-[#1A77AD]/20">
+      <header
+        className="pt-32 pb-12 border-b transition-colors duration-300"
+        style={{ borderColor: "var(--themed-border)" }}
+      >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h1
+            className="text-3xl md:text-4xl font-bold mb-4 transition-colors duration-300"
+            style={{ color: "var(--themed-heading)" }}
+          >
             Acceptable Use Policy
           </h1>
-          <p className="text-[#BDE0F5]/60">Last updated: December 6, 2025</p>
+          <p style={{ color: "var(--themed-text-muted)" }}>
+            Last updated: December 6, 2025
+          </p>
         </div>
       </header>
 
@@ -68,9 +100,12 @@ export default function AcceptableUsePolicyPage() {
       <main className="py-12">
         <div className="flex justify-center">
           {/* Sticky Table of Contents - Left Side */}
-          <div className="hidden xl:block w-52 flex-shrink-0 mr-8">
+          <div className="hidden xl:block w-52 flex-shrink-0 mr-8 ml-8 2xl:ml-0">
             <nav className="sticky top-12 max-h-[calc(100vh-4rem)] overflow-y-auto">
-              <h2 className="text-sm font-semibold text-[#BDE0F5]/40 uppercase tracking-wider mb-4">
+              <h2
+                className="text-sm font-semibold uppercase tracking-wider mb-4 transition-colors duration-300"
+                style={{ color: "var(--themed-text-muted)" }}
+              >
                 Contents
               </h2>
               <ul className="space-y-2">
@@ -78,7 +113,15 @@ export default function AcceptableUsePolicyPage() {
                   <li key={section.id}>
                     <Link
                       href={`#${section.id}`}
-                      className="text-sm text-[#BDE0F5]/50 hover:text-[#00c4aa] transition-colors block py-0.5"
+                      className="text-sm transition-colors block py-0.5"
+                      style={{ color: "var(--themed-text-muted)" }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = "var(--themed-accent)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color =
+                          "var(--themed-text-muted)";
+                      }}
                     >
                       {section.title}
                     </Link>
@@ -92,12 +135,19 @@ export default function AcceptableUsePolicyPage() {
           <div className="max-w-4xl w-full px-4 sm:px-6 lg:px-8">
             {/* Introduction */}
             <section id="introduction" className="mb-12 scroll-mt-24">
-              <p className="text-[#BDE0F5]/80 leading-relaxed">
+              <p
+                className="leading-relaxed transition-colors duration-300"
+                style={{ color: "var(--themed-text)" }}
+              >
                 This Acceptable Use Policy (&quot;AUP&quot;) outlines the rules
                 and guidelines for using Foxomy&apos;s services. By using our
                 services, you agree to comply with this policy. This AUP is part
                 of and should be read together with our{" "}
-                <Link href="/terms" className="text-[#00c4aa] hover:underline">
+                <Link
+                  href="/terms"
+                  className="hover:underline"
+                  style={{ color: "var(--themed-accent)" }}
+                >
                   Terms of Service
                 </Link>
                 . If you have any questions about whether a specific use is
@@ -113,7 +163,10 @@ export default function AcceptableUsePolicyPage() {
                   id="prohibited-activities"
                   title="1. Prohibited Activities"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     Customers may not use Foxomy&apos;s services for any
                     unlawful or prohibited purpose. The following activities are
@@ -156,7 +209,10 @@ export default function AcceptableUsePolicyPage() {
               {/* Section 2 */}
               <section id="network-abuse" className="scroll-mt-24">
                 <SectionHeading id="network-abuse" title="2. Network Abuse" />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     Customers may not use Foxomy&apos;s services to disrupt,
                     attack, or negatively impact any network or system. The
@@ -198,7 +254,10 @@ export default function AcceptableUsePolicyPage() {
                   id="content-restrictions"
                   title="3. Content Restrictions"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     Customers are responsible for all content hosted on their
                     services. The following types of content are prohibited:
@@ -232,7 +291,10 @@ export default function AcceptableUsePolicyPage() {
               {/* Section 4 */}
               <section id="resource-usage" className="scroll-mt-24">
                 <SectionHeading id="resource-usage" title="4. Resource Usage" />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     Services must be used in accordance with their intended
                     purpose and within reasonable resource limits:
@@ -268,7 +330,10 @@ export default function AcceptableUsePolicyPage() {
                   id="game-servers"
                   title="5. Game Server Services"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     Game server services are provided specifically for hosting
                     multiplayer game servers. Customers using these services
@@ -291,7 +356,8 @@ export default function AcceptableUsePolicyPage() {
                         href="https://www.minecraft.net/en-us/eula"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#00c4aa] hover:underline"
+                        className="hover:underline"
+                        style={{ color: "var(--themed-accent)" }}
                       >
                         minecraft.net/eula
                       </a>
@@ -304,7 +370,10 @@ export default function AcceptableUsePolicyPage() {
               {/* Section 6 */}
               <section id="enforcement" className="scroll-mt-24">
                 <SectionHeading id="enforcement" title="6. Enforcement" />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     Foxomy reserves the right to take appropriate action against
                     any customer who violates this Acceptable Use Policy.
@@ -332,7 +401,10 @@ export default function AcceptableUsePolicyPage() {
                   id="reporting-abuse"
                   title="7. Reporting Abuse"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     If you become aware of any violation of this Acceptable Use
                     Policy or any abusive activity on Foxomy&apos;s network,
@@ -340,7 +412,8 @@ export default function AcceptableUsePolicyPage() {
                     email to{" "}
                     <a
                       href="mailto:"
-                      className="text-[#00c4aa] hover:underline"
+                      className="hover:underline"
+                      style={{ color: "var(--themed-accent)" }}
                     >
                       <ScrambledText>abuse@foxomy.com</ScrambledText>
                     </a>
@@ -359,7 +432,10 @@ export default function AcceptableUsePolicyPage() {
                   id="changes"
                   title="8. Changes to This Policy"
                 />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     Foxomy may update this Acceptable Use Policy at any time.
                     Changes may be communicated to customers via email when
@@ -374,28 +450,35 @@ export default function AcceptableUsePolicyPage() {
               {/* Section 9 */}
               <section id="contact" className="scroll-mt-24">
                 <SectionHeading id="contact" title="9. Contact Information" />
-                <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
                   <p>
                     If you have any questions about this Acceptable Use Policy,
                     please contact us:
                   </p>
                   <ul className="space-y-2">
                     <li>
-                      <span className="text-[#BDE0F5]/50">Abuse Reports:</span>{" "}
+                      <span style={{ color: "var(--themed-text-muted)" }}>
+                        Abuse Reports:
+                      </span>{" "}
                       <a
                         href="mailto:"
-                        className="text-[#00c4aa] hover:underline"
+                        className="hover:underline"
+                        style={{ color: "var(--themed-accent)" }}
                       >
                         <ScrambledText>abuse@foxomy.com</ScrambledText>
                       </a>
                     </li>
                     <li>
-                      <span className="text-[#BDE0F5]/50">
+                      <span style={{ color: "var(--themed-text-muted)" }}>
                         General Inquiries:
                       </span>{" "}
                       <a
                         href="mailto:"
-                        className="text-[#00c4aa] hover:underline"
+                        className="hover:underline"
+                        style={{ color: "var(--themed-accent)" }}
                       >
                         <ScrambledText>legal@foxomy.com</ScrambledText>
                       </a>
@@ -406,10 +489,20 @@ export default function AcceptableUsePolicyPage() {
             </div>
 
             {/* Back to top */}
-            <div className="mt-16 pt-8 border-t border-[#1A77AD]/20">
+            <div
+              className="mt-16 pt-8 border-t transition-colors duration-300"
+              style={{ borderColor: "var(--themed-border)" }}
+            >
               <Link
                 href="#"
-                className="text-[#7AC2EB] hover:text-[#00c4aa] transition-colors text-sm"
+                className="text-sm transition-colors"
+                style={{ color: "var(--themed-link)" }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = "var(--themed-accent)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "var(--themed-link)";
+                }}
               >
                 ↑ Back to top
               </Link>
@@ -421,8 +514,7 @@ export default function AcceptableUsePolicyPage() {
         </div>
       </main>
 
-      {/* Footer spacer */}
-      <div className="h-24" />
+      <ThemedFooter />
     </div>
   );
 }

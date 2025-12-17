@@ -3,19 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import React from "react";
-
-const menuItems = [
-  { name: "Minecraft", href: "/game" },
-  { name: "Game", href: "/game" },
-  { name: "Web", href: "/web" },
-  { name: "Team", href: "/team" },
-];
-
-const loginOptions = [
-  { name: "Billing Panel", href: "https://foxomy.com/billing" },
-  { name: "Game Panel", href: "https://panel.foxomy.com/app" },
-  { name: "Webhosting Panel", href: "https://us1.rapidcpanelserver.com:2083" },
-];
+import { menuItems, loginOptions } from "@/config/navigation";
 
 interface MainNavbarProps {
   isDark?: boolean;
