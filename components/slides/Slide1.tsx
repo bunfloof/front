@@ -1,5 +1,6 @@
 import { Button } from "../ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 export function Slide1() {
   return (
@@ -40,7 +41,7 @@ export function Slide1() {
             </p>
             <div className="pt-4 mb-8">
               <Button variant="minecraft" size="xl" className="text-xl">
-                <a href="/game">Create Server</a>
+                <Link href="/game">Create Server</Link>
               </Button>
             </div>
             {/* Features in 2 columns */}

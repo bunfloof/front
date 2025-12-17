@@ -193,10 +193,21 @@ export default function GameHostingPage() {
             if (sendTime) {
               const receiveTime = Date.now();
               const ping = receiveTime - sendTime;
-              setPings((prev) => ({
-                ...prev,
-                [location.codename]: ping,
-              }));
+              setPings((prev) => {
+                const currentPing = prev[location.codename];
+                // Only update if no previous ping, previous was error, or new ping is lower
+                if (
+                  currentPing === null ||
+                  currentPing < 0 ||
+                  ping < currentPing
+                ) {
+                  return {
+                    ...prev,
+                    [location.codename]: ping,
+                  };
+                }
+                return prev;
+              });
             }
           }
         };
@@ -232,15 +243,10 @@ export default function GameHostingPage() {
     };
   }, [startPingMeasurements]);
 
-  // Clear selected addons when location changes (some addons may not be available)
+  // Clear selected addons when location changes (some addons may not be available at the new location)
   useEffect(() => {
     if (selectedLocation) {
-      const availableAddonIds = getAddonsForLocation(
-        selectedLocation.apiKey
-      ).map((a) => a.id);
-      setSelectedAddons((prev) =>
-        prev.filter((id) => availableAddonIds.includes(id))
-      );
+      setSelectedAddons([]);
     }
   }, [selectedLocation]);
 
@@ -416,15 +422,15 @@ export default function GameHostingPage() {
       <div className="" style={{ backgroundColor: "#030F16" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-end w-full">
-          <a
-            href="https://foxomy.com/billing/submitticket.php"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-[#F59E0B] hover:text-[#FBBF24] transition-colors text-sm "
-          >
-            <AlertTriangle className="w-4 h-4" />
-            <span>Report a bug or pricing error</span>
-          </a>
+            <a
+              href="https://foxomy.com/billing/submitticket.php"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-[#F59E0B] hover:text-[#FBBF24] transition-colors text-sm "
+            >
+              <AlertTriangle className="w-4 h-4" />
+              <span>Report a bug or pricing error</span>
+            </a>
           </div>
         </div>
       </div>
@@ -615,12 +621,12 @@ export default function GameHostingPage() {
                   key={location.codename}
                   onClick={() => handleLocationSelect(location)}
                   disabled={location.outOfStock}
-                  className={`relative p-4 rounded-sm border transition-all text-left cursor-pointer backdrop-blur-sm ${
+                  className={`relative p-4 rounded-sm border transition-all text-left backdrop-blur-sm ${
                     location.outOfStock
                       ? "opacity-40 cursor-not-allowed border-[#1A77AD]/20 bg-[#071F2C]/70"
                       : isSelected
-                      ? "border-[#00c4aa] bg-[#071F2C]/90 shadow-[0_0_20px_rgba(0,196,170,0.15)]"
-                      : "border-[#1A77AD]/30 bg-[#071F2C]/70 hover:border-[#33A1E0]/50 hover:bg-[#071F2C]/90"
+                      ? "cursor-pointer border-[#00c4aa] bg-[#071F2C]/90 shadow-[0_0_20px_rgba(0,196,170,0.15)]"
+                      : "cursor-pointer border-[#1A77AD]/30 bg-[#071F2C]/70 hover:border-[#33A1E0]/50 hover:bg-[#071F2C]/90"
                   }`}
                   layout
                   transition={{ type: "spring", stiffness: 500, damping: 30 }}

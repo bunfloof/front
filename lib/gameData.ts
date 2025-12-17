@@ -852,7 +852,7 @@ export const plans: Plan[] = [
     vCores: 10,
     storage: "40/Unlimited GB",
     backupSlots: 50,
-    containerSplits: 1,
+    containerSplits: 2,
     whmcsPid: "58",
   },
   {
@@ -1265,11 +1265,11 @@ export const plans: Plan[] = [
     id: "dal16gb",
     locationCode: "dal-budget",
     ram: 16,
-    price: 12,
+    price: 16,
     vCores: 10,
-    storage: "240/Unlimited GB",
+    storage: "320/Unlimited GB",
     backupSlots: 50,
-    containerSplits: 6,
+    containerSplits: 8,
     whmcsPid: "171",
   },
   {

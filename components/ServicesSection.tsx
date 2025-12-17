@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 interface ServiceCardProps {
@@ -93,17 +94,33 @@ function ServiceCard({
         </ul>
 
         {/* Link */}
-        <a
-          href={href}
-          className={`inline-flex items-center gap-1 font-semibold transition-colors group ${
-            featured
-              ? "text-[#00c4aa] hover:text-white"
-              : "text-[#7AC2EB] hover:text-[#00c4aa]"
-          }`}
-        >
-          {linkText}
-          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-        </a>
+        {href.startsWith("http") ? (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`inline-flex items-center gap-1 font-semibold transition-colors group ${
+              featured
+                ? "text-[#00c4aa] hover:text-white"
+                : "text-[#7AC2EB] hover:text-[#00c4aa]"
+            }`}
+          >
+            {linkText}
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </a>
+        ) : (
+          <Link
+            href={href}
+            className={`inline-flex items-center gap-1 font-semibold transition-colors group ${
+              featured
+                ? "text-[#00c4aa] hover:text-white"
+                : "text-[#7AC2EB] hover:text-[#00c4aa]"
+            }`}
+          >
+            {linkText}
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        )}
       </div>
     </div>
   );
@@ -143,6 +160,7 @@ const services: ServiceCardProps[] = [
     ],
     imageSrc: "/discordbot.png",
     imageAlt: "Discord Bot",
+    href: "/game",
     linkText: "View plans",
   },
   {

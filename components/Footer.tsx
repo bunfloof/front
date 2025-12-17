@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
 const footerSections = [
   {
@@ -21,7 +22,7 @@ const footerSections = [
       {
         label: "Open Ticket",
         href: "https://foxomy.com/billing/submitticket.php",
-      }
+      },
     ],
   },
   {
@@ -98,7 +99,7 @@ export function Footer() {
               <span className="text-white text-xl font-semibold">Foxomy</span>
             </div>
             <p className="text-[#7AC2EB]/50 text-sm mb-6">
-              ©  {new Date().getFullYear()} Foxomy. All rights reserved.
+              © {new Date().getFullYear()} Foxomy. All rights reserved.
             </p>
 
             {/* Social icons */}
@@ -130,12 +131,23 @@ export function Footer() {
               <ul className="space-y-2.5">
                 {section.links.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-[#BDE0F5]/70 text-sm hover:text-[#00c4aa] transition-colors duration-200"
-                    >
-                      {link.label}
-                    </a>
+                    {link.href.startsWith("http") ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#BDE0F5]/70 text-sm hover:text-[#00c4aa] transition-colors duration-200"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="text-[#BDE0F5]/70 text-sm hover:text-[#00c4aa] transition-colors duration-200"
+                      >
+                        {link.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>

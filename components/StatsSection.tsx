@@ -54,6 +54,9 @@ export function StatsSection() {
     {
       value: apiStats ? formatNumber(apiStats.active_customers) : null,
       label: "Active Clients",
+      subLabel: apiStats
+        ? `OUT OF ${formatNumber(apiStats.total_customers)} TOTAL`
+        : null,
       isApi: true,
     },
     {
@@ -74,7 +77,16 @@ export function StatsSection() {
   ];
 
   return (
-    <section className="relative py-14 md:py-16 bg-[#030F16] border-b border-white/10">
+    <section className="relative py-14 md:py-16 bg-[#030F16] border-b border-white/10 overflow-hidden">
+      {/* Subtle shine gradient */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            
+            "linear-gradient(180deg, rgba(0,196,170,0.03) 0%, transparent 40%)",
+        }}
+      />
       {/* Accent line at bottom */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-1 accent-line-gradient" />
 
@@ -88,14 +100,19 @@ export function StatsSection() {
               {stat.isApi && isLoading ? (
                 <StatSkeleton />
               ) : (
-                <>
+                <div className="relative">
                   <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-green-50 tracking-tight leading-none">
                     {stat.value}
                   </div>
                   <div className="text-[#7AC2EB] text-sm font-medium mt-1 uppercase tracking-wide">
                     {stat.label}
                   </div>
-                </>
+                  {"subLabel" in stat && stat.subLabel && (
+                    <div className="absolute left-0 right-0 text-center md:text-left text-[#7AC2EB]/40 text-xs">
+                      {stat.subLabel}
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           ))}

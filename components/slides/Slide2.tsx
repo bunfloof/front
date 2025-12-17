@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Noise from "@/components/ui/noise";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface Slide2Props {
   isAnimating?: boolean;
@@ -32,7 +33,7 @@ export function Slide2({ isAnimating = false }: Slide2Props) {
             </p>
             <div className="flex gap-4 flex-wrap">
               <Button variant="classic" size="lg" className="text-md">
-                Get Started
+                <Link href="/game">Get Started</Link>
               </Button>
             </div>
           </div>
