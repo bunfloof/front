@@ -143,7 +143,7 @@ export default function AkogenoActPage() {
               <section id="discord-policy" className="scroll-mt-24">
                 <SectionHeading
                   id="discord-policy"
-                  title="Discord & Social Media"
+                  title="Our Discord & Social Media"
                 />
                 <div className="text-[#BDE0F5]/70 space-y-4 leading-relaxed">
                   <p>
@@ -154,7 +154,7 @@ export default function AkogenoActPage() {
                   <p>
                     We are not in a position to police every interaction that
                     occurs on third-party platforms, even those where we
-              bac      maintain a community presence. Discord has its own terms of
+                    maintain a community presence. Discord has its own terms of
                     service, Trust &amp; Safety team, and reporting procedures
                     specifically designed to handle these matters. If you have
                     any concerns about anything you see, please report it to

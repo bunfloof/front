@@ -11,9 +11,31 @@ const menuItems = [
   { name: "Team", href: "/team" },
 ];
 
+const loginOptions = [
+  { name: "Billing Panel", href: "https://foxomy.com/billing" },
+  { name: "Game Panel", href: "https://panel.foxomy.com/app" },
+  { name: "Webhosting Panel", href: "https://us1.rapidcpanelserver.com:2083" },
+];
+
 export const MainNavbar = () => {
   const [menuState, setMenuState] = React.useState(false);
+  const [loginDropdown, setLoginDropdown] = React.useState(false);
   const [isAtTop, setIsAtTop] = React.useState(true);
+  const loginRef = React.useRef<HTMLDivElement>(null);
+
+  // Close login dropdown when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        loginRef.current &&
+        !loginRef.current.contains(event.target as Node)
+      ) {
+        setLoginDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -74,18 +96,53 @@ export const MainNavbar = () => {
                 </div>
               </div>
               <div className="flex space-x-2 items-center">
-                <Link
-                  href="#"
-                  className="group bg-[#071F2C] relative z-10 hover:bg-[#0D3A54] border border-[#1A77AD]/40 text-[#BDE0F5] text-sm transition font-medium duration-200 rounded-md px-4 py-2 flex items-center justify-center h-8"
-                >
-                  Log in
-                </Link>
-                <Link
-                  href="#"
-                  className="group bg-[#00c4aa] relative z-10 hover:bg-[#00d4b8] border border-[#00c4aa] text-[#030F16] text-sm transition font-medium duration-200 rounded-md px-4 py-2 flex items-center justify-center h-8"
-                >
-                  Sign up
-                </Link>
+                <div className="relative" ref={loginRef}>
+                  <button
+                    onClick={() => setLoginDropdown(!loginDropdown)}
+                    className="group bg-[#071F2C] relative z-10 hover:bg-[#0D3A54] border border-[#1A77AD]/40 text-[#BDE0F5] text-sm transition font-medium duration-200 rounded-md px-4 py-2 flex items-center justify-center h-8 gap-1.5"
+                  >
+                    Login
+                    <svg
+                      className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                        loginDropdown ? "rotate-180" : ""
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+                  <AnimatePresence>
+                    {loginDropdown && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -8, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -8, scale: 0.95 }}
+                        transition={{ duration: 0.15, ease: "easeOut" }}
+                        className="absolute right-0 mt-2 w-48 rounded-lg border border-[#1A77AD]/30 backdrop-blur-2xl bg-[#030F16]/95 shadow-xl shadow-black/20 overflow-hidden z-50"
+                      >
+                        {loginOptions.map((option, index) => (
+                          <a
+                            key={index}
+                            href={option.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block px-4 py-2.5 text-sm text-[#BDE0F5]/80 hover:text-white hover:bg-[#1A77AD]/20 transition-colors duration-150"
+                            onClick={() => setLoginDropdown(false)}
+                          >
+                            {option.name}
+                          </a>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
             </div>
           </div>
@@ -193,25 +250,26 @@ export const MainNavbar = () => {
                 ))}
               </motion.ul>
               <motion.div
-                className="mt-6 space-y-3"
+                className="mt-4 pt-4 border-t border-[#1A77AD]/20"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.2 }}
               >
-                <Link
-                  href="#"
-                  className="w-full block text-center bg-[#071F2C] hover:bg-[#0D3A54] border border-[#1A77AD]/40 text-[#BDE0F5] text-sm transition font-medium duration-200 rounded-md px-4 py-2 h-10 leading-6"
-                  onClick={() => setMenuState(false)}
-                >
-                  Log in
-                </Link>
-                <Link
-                  href="#"
-                  className="w-full block text-center bg-[#00c4aa] hover:bg-[#00d4b8] border border-[#00c4aa] text-[#030F16] text-sm transition font-medium duration-200 rounded-md px-4 py-2 h-10 leading-6"
-                  onClick={() => setMenuState(false)}
-                >
-                  Sign up
-                </Link>
+                <p className="text-xs text-[#BDE0F5]/50 uppercase tracking-wider px-4 mb-2">
+                  Login
+                </p>
+                {loginOptions.map((option, index) => (
+                  <a
+                    key={index}
+                    href={option.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-sm px-4 py-2 text-[#BDE0F5]/70 hover:text-white transition duration-200"
+                    onClick={() => setMenuState(false)}
+                  >
+                    {option.name}
+                  </a>
+                ))}
               </motion.div>
             </motion.div>
           )}

@@ -7,7 +7,7 @@ import "photoswipe/dist/photoswipe.css";
 export const memberData = {
   id: "bun",
   name: "Bun",
-  role: "Chink",
+  role: "Local Team Member",
   handle: "@bunarcticfloof",
   avatar: "/imgs/portfolios/bun/IMG_0308.png",
   portfolioBg: "bg-[#2774AE]",
@@ -50,12 +50,12 @@ export function BunPortfolio() {
               >
                 "PirateBay Server"
               </a>{" "}
-              using Hamachi. In 2017, I gained my first experience with server
+              using Hamachi. In 2016, I gained my first experience with server
               hosting services through Google Cloud. Eventually, I founded
               Foxomy in September 2020 while I was still in high school. I went
               on to earn my Bachelor's degree in Computer Engineering in 2024 at
               the University of California and am currently pursuing a Master's
-              in Computer Science.
+              in Computer Science and Engineering.
             </p>
           </div>
 

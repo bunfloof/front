@@ -109,12 +109,6 @@ function useDedicatedIPAvailability(selectedLocation: Location | null) {
   return { availability, loading };
 }
 
-// Icon mapping for addons
-const addonIcons: Record<string, React.ReactNode> = {
-  "dedicated-ip": <Globe className="w-5 h-5 text-[#00c4aa]" />,
-  "managed-support": <Headphones className="w-5 h-5 text-[#00c4aa]" />,
-};
-
 export default function GameHostingPage() {
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(
     null
@@ -421,15 +415,17 @@ export default function GameHostingPage() {
       {/* Report Bug/Pricing Error Link */}
       <div className="" style={{ backgroundColor: "#030F16" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-end w-full">
           <a
             href="https://foxomy.com/billing/submitticket.php"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-[#F59E0B] hover:text-[#FBBF24] transition-colors text-sm justify-end w-full"
+            className="inline-flex items-center gap-2 text-[#F59E0B] hover:text-[#FBBF24] transition-colors text-sm "
           >
             <AlertTriangle className="w-4 h-4" />
             <span>Report a bug or pricing error</span>
           </a>
+          </div>
         </div>
       </div>
 

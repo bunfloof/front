@@ -6,7 +6,7 @@ import Image from "next/image";
 export const memberData = {
   id: "cozmo",
   name: "Cozmo",
-  role: "Chink",
+  role: "Local Team Member",
   handle: "@CozmoFPS",
   avatar: "/imgs/cozmo/cd5b90be-add9-4e2c-b44a-97ab882580d5.jpeg",
   portfolioBg: "bg-[#06040F]",
