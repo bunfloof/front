@@ -17,7 +17,7 @@ export function ThemedFooter() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-12">
           {/* Brand column */}
           <div className="col-span-2 md:col-span-3 lg:col-span-2">
-            <div className="flex items-center gap-3 mb-4">
+            <Link href="/" className="flex items-center gap-3 mb-4">
               <Image
                 src="/logotail.svg"
                 alt="Foxomy"
@@ -32,7 +32,7 @@ export function ThemedFooter() {
               >
                 Foxomy
               </span>
-            </div>
+            </Link>
             <p
               className="text-sm mb-6 transition-colors duration-300"
               style={{ color: "var(--themed-text-muted)" }}

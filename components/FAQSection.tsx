@@ -22,10 +22,10 @@ const faqs: FAQ[] = [
     question: "What is your refund policy?",
     answer: (
       <p>
-        We offer a generous 180-day money-back and 100% satisfaction guarantee. If you're not
-        satisfied with our service for any reason, please contact us. We have a
-        perfect track record of never denying a refund request because we're
-        confident in our services.
+        We offer a generous 180-day money-back and 100% satisfaction guarantee.
+        If you're not satisfied with our service for any reason, please contact
+        us. We have a perfect track record of never denying a refund request
+        because we're confident in our services.
       </p>
     ),
   },
@@ -45,7 +45,7 @@ const faqs: FAQ[] = [
     answer: (
       <p>
         No, Bun is not a pedophile or zoophile. Those are unsubstantiated
-        allegations made by competitors such as Brandon from SpringRacks Hosting
+        allegations made by competitors such as Brandon from Springracks Hosting
         and XandarYT.
       </p>
     ),
@@ -73,8 +73,9 @@ const faqs: FAQ[] = [
     answer: (
       <p>
         Our premium servers run on Intel Core i9-14900KS/Ultra 9 285K
-        processors. Our budget servers run on Ryzen 9 9950X3D processors. All
-        servers have DDR5 RAM and NVMe SSD storage.
+        processors. Our budget servers run on Ryzen 9 9950X or equivalent
+        processors in single thread performance. All servers have DDR5 RAM and
+        NVMe SSD storage.
       </p>
     ),
   },

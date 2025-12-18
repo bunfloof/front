@@ -865,7 +865,7 @@ export function TeamSection() {
           <p className="text-[#BDE0F5]/70 text-lg max-w-3xl">
             Foxomy is run by a small group of passionate volunteers who try
             their best to keep the service up and running. If you're interested
-            in contributing, please contact us.
+            in joining, please contact us.
           </p>
         </div>
 

@@ -1,4 +1,9 @@
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "The Akogeno Act",
+};
 
 export default function AkogenoLayout({
   children,
@@ -13,4 +18,3 @@ export default function AkogenoLayout({
     </ThemeProvider>
   );
 }
-

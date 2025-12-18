@@ -52,7 +52,7 @@ export function PowerfulHardwareSection() {
             </div>
 
             {/* Stats row */}
-            <div className="mt-10 pt-8 border-t border-[#1A77AD]/30">
+            {/* <div className="mt-10 pt-8 border-t border-[#1A77AD]/30">
               <div className="flex items-center gap-4">
                 <span className="text-5xl font-bold text-white">24/7</span>
                 <div className="text-sm text-[#BDE0F5]/60 leading-tight">
@@ -62,7 +62,7 @@ export function PowerfulHardwareSection() {
                   Real-time health checks
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Right side - Image */}

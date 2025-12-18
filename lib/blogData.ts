@@ -16,7 +16,31 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
-    slug: "foxomy-code-of-conduct",
+    slug: "how-foxomy-uses-mxroute",
+    title: "How Foxomy Uses MXRoute to Guarantee Email Delivery",
+    excerpt:
+      "For the past 5 years since the beginning of Foxomy, we've always relied on Mailgun to deliver transactional emails to our clients. During those 5 years, we've never had any problems nor have opened a ticket with Mailgun.",
+    date: "December 17, 2025",
+    author: "Foxomy Team",
+    readTime: "1 min read",
+    category: "Infrastructure",
+    emoji: "🌐",
+    featured: false,
+  },
+  {
+    slug: "strategic-relations-guidelines",
+    title: "Relations Guidelines",
+    excerpt:
+      "At Foxomy, we believe in focusing on our own work and letting our service speak for itself. Staff members are expected to: Never criticize or slander other hosting providers or communities",
+    date: "December 17, 2025",
+    author: "Foxomy Team",
+    readTime: "1 min read",
+    category: "Policy",
+    emoji: "📜",
+    featured: false,
+  },
+  {
+    slug: "code-of-conduct",
     title: "Code of Conduct",
     excerpt:
       "We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size,",

@@ -10,12 +10,12 @@ export const memberData = {
   role: "Local Team Member",
   handle: "@bunarcticfloof",
   avatar: "/imgs/portfolios/bun/IMG_0308.png",
-  portfolioBg: "bg-[#2774AE]",
+  portfolioBg: "bg-[#2d74aa]",
 };
 
 export function BunPortfolio() {
   return (
-    <div className="min-h-[300px] p-8 md:p-12 bg-[#2774AE]">
+    <div className="min-h-[300px] p-8 md:p-12 bg-[#2d74aa]">
       {/* Bunny has a two-column layout */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -50,12 +50,12 @@ export function BunPortfolio() {
               >
                 "PirateBay Server"
               </a>{" "}
-              using Hamachi. In 2016, I gained my first experience with server
-              hosting services through Google Cloud. Eventually, I founded
-              Foxomy in September 2020 while I was still in high school. I went
-              on to earn my Bachelor's degree in Computer Engineering in 2024 at
-              the University of California and am currently pursuing a Master's
-              in Computer Science and Engineering.
+              using Hamachi. In 2016, I gained my first experience with cloud
+              hosting services through free credits with Google Cloud.
+              Eventually, I founded Foxomy in September 2020 while I was still
+              in high school. I went on to earn my Bachelor's degree in Computer
+              Engineering in 2024 at the University of California and am
+              currently pursuing a Master's in Computer Science and Engineering.
             </p>
           </div>
 
@@ -64,21 +64,21 @@ export function BunPortfolio() {
             <Gallery>
               <div className="grid grid-cols-4 gap-3">
                 {[
-                  "IMG_1388.png",
-                  "IMG_0308.png",
-                  "IMG_8949.PNG",
-                  "bunfloof.png",
-                  "IMG_1015.JPG",
-                  "IMG_3355.PNG",
-                  "IMG_3746.JPG",
-                  "bun icon.PNG",
+                  { src: "IMG_1388.png", width: 800, height: 800 },
+                  { src: "IMG_0308.png", width: 800, height: 800 },
+                  { src: "IMG_8949.PNG", width: 800, height: 800 },
+                  { src: "bunfloof.png", width: 2020, height: 4000 },
+                  { src: "IMG_1015.JPG", width: 960, height: 1280 },
+                  { src: "BunHIRES.png", width: 1900, height: 2285 },
+                  { src: "IMG_3746.JPG", width: 900, height: 1600 },
+                  { src: "bun icon.PNG", width: 800, height: 800 },
                 ].map((image, index) => (
                   <Item
                     key={index}
-                    original={`/imgs/portfolios/bun/${image}`}
-                    thumbnail={`/imgs/portfolios/bun/${image}`}
-                    width="800"
-                    height="800"
+                    original={`/imgs/portfolios/bun/${image.src}`}
+                    thumbnail={`/imgs/portfolios/bun/${image.src}`}
+                    width={image.width}
+                    height={image.height}
                     alt={`Gallery image ${index + 1}`}
                   >
                     {({ ref, open }) => (
@@ -88,7 +88,7 @@ export function BunPortfolio() {
                         className="aspect-square rounded-xl overflow-hidden cursor-pointer border-2 border-[#8BB8E8]/30 hover:border-[#8BB8E8]/70 transition-colors"
                       >
                         <img
-                          src={`/imgs/portfolios/bun/${image}`}
+                          src={`/imgs/portfolios/bun/${image.src}`}
                           alt={`Gallery image ${index + 1}`}
                           className="w-full h-full object-cover"
                         />

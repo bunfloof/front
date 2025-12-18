@@ -4,7 +4,7 @@
 export const memberData = {
   id: "shy",
   name: "Shy",
-  role: "Partners Team",
+  role: "Partners Team Member",
   handle: "@shy",
   avatar: "/imgs/portfolios/shy/3a4b3f795ad45ecb136155086e5b81dd.png",
   portfolioBg: "bg-gray-700",

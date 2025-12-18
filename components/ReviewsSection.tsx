@@ -162,7 +162,7 @@ const reviews: (Review & { featured?: boolean })[] = [
     id: "blitz",
     name: "Blitz",
     avatar: "/imgs/reviewers/blitz/ff0644b36e96bb02e0fe1bc44ac5609c.jfif",
-    text: "yeah, I highly recommend this host. I don’t care whar the owner does or if he’s a furry as long as I get good service and quality. I transferred here from shockbyte and the owner helped me transfer everything in less than 15 minutes.",
+    text: "yeah, I highly recommend this host. I don’t care what the owner does or if he’s a furry as long as I get good service and quality. I transferred here from shockbyte and the owner helped me transfer everything in less than 15 minutes.",
     source: "Discord",
     date: "February 26, 2024",
     featured: true,

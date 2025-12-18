@@ -102,7 +102,7 @@ export function PanelFeaturesSection() {
             Pterodactyl Panel but better
           </h2>
           <p className="text-[#BDE0F5]/70 text-lg">
-            Our refactor in NextJS 15 with major improvements developed in-house, built by our lovely bun.
+            Our refactor in NextJS 15 with major improvements developed in-house, built by our development team.
           </p>
         </div>
 

@@ -62,6 +62,7 @@ export const footerSections: FooterSection[] = [
     links: [
       { label: "Team", href: "/team" },
       { label: "Blog", href: "/blog" },
+      { label: "The Akogeno Act", href: "/akogeno" },
     ],
   },
   {
@@ -80,7 +81,6 @@ export const footerSections: FooterSection[] = [
       { label: "Privacy Policy", href: "/privacy" },
       { label: "Service License Agreement", href: "/sla" },
       { label: "Acceptable Usage Policy", href: "/aup" },
-      { label: "The Akogeno Act", href: "/akogeno" },
     ],
   },
 ];

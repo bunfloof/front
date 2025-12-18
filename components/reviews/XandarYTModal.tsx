@@ -38,7 +38,7 @@ export function XandarYTModal({ isOpen, onClose }: BaseReviewerModalProps) {
       <div className="flex items-start gap-2 mb-4 rounded-lg">
         <AlertTriangle className="w-5 h-5 text-amber-400" />
         <p className="text-amber-200 text-sm">
-          Aleksandar Kisin may be biased because they have never used Foxomy
+          XandarYT may be biased because they have never used Foxomy
           before.
         </p>
       </div>

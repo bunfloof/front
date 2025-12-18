@@ -83,7 +83,6 @@ export function StatsSection() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            
             "linear-gradient(180deg, rgba(0,196,170,0.03) 0%, transparent 40%)",
         }}
       />

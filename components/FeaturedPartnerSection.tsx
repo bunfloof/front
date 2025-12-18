@@ -13,12 +13,12 @@ export function FeaturedPartnerSection() {
     >
       {/* Background image with blur */}
       <div className="absolute inset-0">
-        <Image
+        {/* <Image
           src="/jackfilms-bg.jpg"
           alt=""
           fill
           className="object-cover opacity-10 blur-sm"
-        />
+        /> */}
         <div
           className="absolute inset-0"
           style={{

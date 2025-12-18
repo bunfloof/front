@@ -14,7 +14,8 @@ const plans = [
     domains: "2",
     subdomains: "3",
     price: 2,
-    orderLink: "https://foxomy.com/billing/cart.php?a=add&pid=200",
+    orderLink:
+      "https://foxomy.com/billing/store/chicago-cpanel-web-hosting/jax-web-10-gb",
   },
   {
     id: "20gb",
@@ -24,7 +25,8 @@ const plans = [
     domains: "3",
     subdomains: "Unlimited",
     price: 4,
-    orderLink: "https://foxomy.com/billing/cart.php?a=add&pid=201",
+    orderLink:
+      "https://foxomy.com/billing/store/chicago-cpanel-web-hosting/jax-web-20-gb",
   },
   {
     id: "30gb",
@@ -34,7 +36,8 @@ const plans = [
     domains: "4",
     subdomains: "Unlimited",
     price: 6,
-    orderLink: "https://foxomy.com/billing/cart.php?a=add&pid=202",
+    orderLink:
+      "https://foxomy.com/billing/store/chicago-cpanel-web-hosting/jax-web-30-gb",
   },
   {
     id: "40gb",
@@ -44,7 +47,8 @@ const plans = [
     domains: "5",
     subdomains: "Unlimited",
     price: 8,
-    orderLink: "https://foxomy.com/billing/cart.php?a=add&pid=203",
+    orderLink:
+      "https://foxomy.com/billing/store/chicago-cpanel-web-hosting/jax-web-40-gb",
   },
   {
     id: "unmetered",
@@ -54,7 +58,8 @@ const plans = [
     domains: "Unlimited",
     subdomains: "Unlimited",
     price: 10,
-    orderLink: "https://foxomy.com/billing/cart.php?a=add&pid=204",
+    orderLink:
+      "https://foxomy.com/billing/store/chicago-cpanel-web-hosting/jax-web-unlimited",
   },
 ];
 
@@ -108,9 +113,7 @@ export default function WebHostingPage() {
               transition={{ type: "spring", stiffness: 200, damping: 15 }}
               className="relative mb-8"
             >
-                <Globe className="w-15 h-15 text-white" />
-
-              
+              <Globe className="w-15 h-15 text-white" />
             </motion.div>
 
             <motion.h1
@@ -129,8 +132,8 @@ export default function WebHostingPage() {
               className="text-[#BDE0F5]/70 text-lg md:text-xl max-w-2xl mb-6"
             >
               Fast, reliable, and secure web hosting powered by LiteSpeed and
-              CloudLinux. Perfect for WordPress blogs, businesses, and everything in
-              between.
+              CloudLinux. Perfect for WordPress blogs, businesses, and
+              everything in between.
             </motion.p>
           </div>
         </div>

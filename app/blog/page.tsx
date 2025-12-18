@@ -43,7 +43,7 @@ export default function BlogPage() {
               className="text-4xl font-bold transition-colors duration-300"
               style={{ color: "var(--themed-heading)" }}
             >
-              Articles
+              Blog
             </h1>
           </div>
         </header>

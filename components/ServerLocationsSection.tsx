@@ -690,7 +690,7 @@ export function ServerLocationsSection() {
                     Global Server Locations
                   </h1>
                   <p className="text-[#BDE0F5]/70 text-base mb-8">
-                    Low latency servers worldwide for your players. Click on a location below to center the map on it.
+                    Low latency servers worldwide for your players. Click on a location below to focus the map on it.
                   </p>
 
                   {/* Locations by Continent - 2 column grid */}

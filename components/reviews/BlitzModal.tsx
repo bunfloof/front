@@ -27,7 +27,7 @@ export function BlitzModal({ isOpen, onClose }: BaseReviewerModalProps) {
 
       {/* Review text */}
       <p className="text-[#BDE0F5] leading-relaxed text-lg mb-6 pr-8">
-        "yeah, I highly recommend this host. I don’t care whar the owner does or
+        "yeah, I highly recommend this host. I don’t care what the owner does or
         if he’s a furry as long as I get good service and quality. I transferred
         here from shockbyte and the owner helped me transfer everything in less
         than 15 minutes"
