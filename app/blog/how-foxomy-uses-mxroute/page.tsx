@@ -70,7 +70,7 @@ export default function HowFoxomyUsesMXRoutePost() {
             <span className="mx-2">·</span>
             <span className="flex items-center gap-1.5">
               <User className="w-4 h-4" />
-              Foxomy Team
+              Trish
             </span>
             <span className="mx-2">·</span>
             <span className="flex items-center gap-1.5">
@@ -145,7 +145,38 @@ export default function HowFoxomyUsesMXRoutePost() {
                 clients. During those 5 years, we've never had any problems nor
                 have opened a ticket with Mailgun.
               </p>
-
+              <Gallery>
+                <Item
+                  original="/imgs/blogs/how-foxomy-uses-mxroute/Screenshot 2025-12-18 at 6.48.13 PM.png"
+                  thumbnail="/imgs/blogs/how-foxomy-uses-mxroute/Screenshot 2025-12-18 at 6.48.13 PM.png"
+                  width="1248"
+                  height="743"
+                  alt="Securitytrails screenshot"
+                >
+                  {({ ref, open }) => (
+                    <div
+                      ref={ref}
+                      onClick={open}
+                      className="cursor-pointer rounded-sm overflow-hidden transition-colors my-4"
+                      style={{ borderColor: "var(--themed-border)" }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.borderColor =
+                          "var(--themed-border-strong)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.borderColor =
+                          "var(--themed-border)";
+                      }}
+                    >
+                      <img
+                        src="/imgs/blogs/how-foxomy-uses-mxroute/Screenshot 2025-12-18 at 6.48.13 PM.png"
+                        alt="Securitytrails screenshot"
+                        className="w-full h-auto"
+                      />
+                    </div>
+                  )}
+                </Item>
+              </Gallery>
               <p>
                 On October 12, 2025, we migrated from Mailgun to MXRoute after
                 snagging one of their best Black Friday flash deals for{" "}
@@ -215,7 +246,7 @@ export default function HowFoxomyUsesMXRoutePost() {
                   borderColor: "var(--themed-border-strong)",
                 }}
               >
-                Building Our Email Relay
+                Building Our Email Relay for Redundancy and Logging
               </h2>
 
               <p>
@@ -394,14 +425,59 @@ export default function HowFoxomyUsesMXRoutePost() {
               </p>
 
               <p>
-                At Foxomy, we operate on "the customer is always right" while
-                MXRoute operates on "I'll kick you out if you're a problem."
-                It's his company, and he can run it however he likes. I love the
-                energy, and I wish he was there to kick SpringRacks' ass when
-                Brandon was lecturing us like Akogeno. Just don't get on
-                Jarland's bad side and you'll be fine.
+                Foxomy operates on "the customer is always right" while MXRoute
+                operates on "I'll kick you out if you're a problem." It's
+                Jarland's company, and he can run it however he likes. I love
+                the energy, and I wish he was there to kick SpringRacks' ass
+                when Brandon was lecturing us like Akogeno. Just don't get on
+                his bad side, and you'll be fine. If you do, you'll get the
+                boot.
               </p>
-
+              <p>
+                Poor fellow furry friend{" "}
+                <a
+                  href="https://www.reddit.com/r/mxroute/comments/1pog1nq/mail_routing_problems_support_not_helpful"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline"
+                  style={{ color: "var(--themed-accent)" }}
+                >
+                  loomy7
+                </a>{" "}
+                got the boot. RIP loomy7.
+              </p>
+              <Gallery>
+                <Item
+                  original="/imgs/blogs/how-foxomy-uses-mxroute/profileIcon_6sd46ijhy8ha1.jpg"
+                  thumbnail="/imgs/blogs/how-foxomy-uses-mxroute/profileIcon_6sd46ijhy8ha1.jpg"
+                  width="1000"
+                  height="1000"
+                  alt="loomy7 got the boot"
+                >
+                  {({ ref, open }) => (
+                    <div
+                      ref={ref}
+                      onClick={open}
+                      className="cursor-pointer overflow-hidden transition-colors my-4 rounded-sm max-w-sm"
+                      style={{ borderColor: "var(--themed-border)" }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.borderColor =
+                          "var(--themed-border-strong)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.borderColor =
+                          "var(--themed-border)";
+                      }}
+                    >
+                      <img
+                        src="/imgs/blogs/how-foxomy-uses-mxroute/profileIcon_6sd46ijhy8ha1.jpg"
+                        alt="loomy7 got the boot"
+                        className="w-full h-auto"
+                      />
+                    </div>
+                  )}
+                </Item>
+              </Gallery>
               <h2
                 className="text-2xl font-bold mt-12 mb-6 pb-3 border-b transition-colors duration-300"
                 style={{
@@ -462,8 +538,9 @@ export default function HowFoxomyUsesMXRoutePost() {
 
               <p>
                 This did eventually resolve itself, but we stopped using MXRoute
-                for receiving email because his spam filters were too strict.
-                MXRoute is now purely one of our outbound SMTP providers.
+                for receiving email because MXRoute's spam filters were too
+                strict. MXRoute is now purely one of our outbound SMTP
+                providers.
               </p>
 
               <h2

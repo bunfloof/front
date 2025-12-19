@@ -134,8 +134,8 @@ export default function StrategicRelationsGuidelinesPost() {
                 style={{ color: "var(--themed-text)" }}
               >
                 <li>
-                  Never comment on other hosting providers or communities (Please
-                  stop, Kayla)
+                  Never comment on other hosting providers or communities
+                  (Please stop, Kayla)
                 </li>
                 <li>
                   Never participate in other communities to cause conflict or
@@ -150,7 +150,9 @@ export default function StrategicRelationsGuidelinesPost() {
                 Even if other competitors attack us, we agree to disagree and
                 move on.
               </p>
-              <p className="font-bold">Real example of behavior we want to avoid:</p>
+              <p className="font-bold">
+                Real example of behavior we want to avoid:
+              </p>
               <Gallery>
                 <Item
                   original="/imgs/blogs/strategic-relations-guidelines/brandon.png"
@@ -309,7 +311,7 @@ export default function StrategicRelationsGuidelinesPost() {
                 >
                   Discord server
                 </a>
-                .
+                , but please don't be mean to other furry friends.
               </p>
               <h2
                 className="text-2xl font-bold mt-12 mb-6 pb-3 border-b transition-colors duration-300"

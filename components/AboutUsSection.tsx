@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+
 const staffImages = [
   { name: "Bun", src: "/imgs/portfolios/bun/bun icon.PNG" },
   {
@@ -151,13 +154,13 @@ export function AboutUsSection() {
               your hosting needs!
             </p>
 
-            {/* <a
-              href="#"
+            <Link
+              href="/blog"
               className="inline-flex items-center gap-2 text-[#7AC2EB] font-semibold hover:text-[#00c4aa] transition-colors group"
             >
-              Read our story
+              Read our blog
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a> */}
+            </Link>
           </div>
         </div>
       </div>

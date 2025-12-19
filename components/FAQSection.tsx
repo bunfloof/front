@@ -39,7 +39,6 @@ const faqs: FAQ[] = [
       </p>
     ),
   },
-  ,
   {
     question: "Is Foxomy run by a pedophile?",
     answer: (

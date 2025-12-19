@@ -16,12 +16,24 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "foxomy-is-home-hosted",
+    title: "Foxomy Is Home Hosted (Really)",
+    excerpt:
+      "Foxomy was not a thing yet. Server hosting was just a personal hobby of Bun. Bun has been providing private server hosting services to her furry friends from 2017-2019. This was an ancient relic of Bun's DIY rack in 2019 when she was still in high school.",
+    date: "December 18, 2025",
+    author: "Trish",
+    readTime: "1 min read",
+    category: "Infrastructure",
+    emoji: "🌐",
+    featured: false,
+  },
+  {
     slug: "how-foxomy-uses-mxroute",
     title: "How Foxomy Uses MXRoute to Guarantee Email Delivery",
     excerpt:
       "For the past 5 years since the beginning of Foxomy, we've always relied on Mailgun to deliver transactional emails to our clients. During those 5 years, we've never had any problems nor have opened a ticket with Mailgun.",
     date: "December 17, 2025",
-    author: "Foxomy Team",
+    author: "Trish",
     readTime: "1 min read",
     category: "Infrastructure",
     emoji: "🌐",
@@ -41,7 +53,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "code-of-conduct",
-    title: "Code of Conduct",
+    title: "Community Code of Conduct",
     excerpt:
       "We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size,",
     date: "December 17, 2025",

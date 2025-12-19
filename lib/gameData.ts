@@ -87,7 +87,7 @@ export const locations: Location[] = [
   },
   {
     codename: "nyc-premium",
-    apiKey: "nyc",
+    apiKey: "ny",
     name: "New York, New York",
     flagIcon: "/imgs/flags/usflag.svg",
     wsUrl: "wss://speedtest.is.cc.prod.hosts.ooklaserver.net:8080/ws?",
@@ -99,7 +99,7 @@ export const locations: Location[] = [
   },
   {
     codename: "jc-budget",
-    apiKey: "jc",
+    apiKey: "nj",
     name: "Secaucus, New Jersey",
     flagIcon: "/imgs/flags/usflag.svg",
     wsUrl: "wss://speedtest.surfshark.com:8080/ws?",
@@ -123,7 +123,7 @@ export const locations: Location[] = [
   },
   {
     codename: "hel-premium",
-    apiKey: "hel",
+    apiKey: "fin",
     name: "Helsinki, Finland",
     flagIcon: "/imgs/flags/fiflag.svg",
     wsUrl: "wss://speedtest-hki.netplaza.fi:8080/ws?",
@@ -1317,7 +1317,7 @@ export const addons: Addon[] = [
     description:
       "A reserved IP address with the default port (25565) and ability to open any port (1024-65535).",
     urlParams: "&configoption[1]=1",
-    locations: ["dfw", "chi", "nyc", "fra", "hel", "eseg", "jc", "dal"],
+    locations: ["dfw", "chi", "ny", "fra", "fin", "eseg", "nj", "dal"],
   },
   {
     id: "free-webhosting",
@@ -1333,7 +1333,7 @@ export const addons: Addon[] = [
     name: "Managed Support",
     price: 0,
     description:
-      "Free managed support for your server setup and mods/plugins configuration. We offer premium treatment for free for everyone.",
+      "Free managed support for your server setup and mods/plugins configuration. We offer premium treatment for free to everyone.",
     urlParams: "",
     locations: [], // Available in all locations
   },

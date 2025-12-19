@@ -15,6 +15,12 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Foxomy",
+  icons: {
+    icon: {
+      url: "/icon.svg",
+      type: "image/svg+xml",
+    },
+  },
   openGraph: {
     title: "Foxomy",
     description:

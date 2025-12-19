@@ -8,7 +8,7 @@ export const memberData = {
   name: "Cozmo",
   role: "Local Team Member",
   handle: "@CozmoFPS",
-  avatar: "/imgs/cozmo/cd5b90be-add9-4e2c-b44a-97ab882580d5.jpeg",
+  avatar: "/imgs/portfolios/cozmo/cd5b90be-add9-4e2c-b44a-97ab882580d5.jpeg",
   portfolioBg: "bg-[#06040F]",
 };
 

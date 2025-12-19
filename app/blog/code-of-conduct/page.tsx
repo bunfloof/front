@@ -51,7 +51,7 @@ export default function CodeOfConductPost() {
             className="text-3xl md:text-4xl font-bold mb-6 leading-tight transition-colors duration-300"
             style={{ color: "var(--themed-heading)" }}
           >
-            Code of Conduct
+            Community Code of Conduct
           </h1>
 
           {/* Meta */}
@@ -164,8 +164,7 @@ export default function CodeOfConductPost() {
                 style={{ color: "var(--themed-text)" }}
               >
                 <li>
-                  Trolling, insulting/derogatory comments, and personal or
-                  political attacks
+                  Trolling, insulting/derogatory comments, and personal attacks
                 </li>
                 <li>Bullying, discrimination, or harassment</li>
               </ul>

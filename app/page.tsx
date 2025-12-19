@@ -11,7 +11,6 @@ import { PowerfulHardwareSection } from "@/components/PowerfulHardwareSection";
 import { ServicesSection } from "@/components/ServicesSection";
 import { FeaturesSection } from "@/components/FeaturesSection";
 import { ReviewsSection } from "@/components/ReviewsSection";
-import { HatersSection } from "@/components/HatersSection";
 import { FeaturedPartnerSection } from "@/components/FeaturedPartnerSection";
 import { PanelFeaturesSection } from "@/components/PanelFeaturesSection";
 import { ServerLocationsSection } from "@/components/ServerLocationsSection";
@@ -40,8 +39,6 @@ export default function Home() {
       <FeaturedPartnerSection />
       {/* Server Locations Section */}
       <ServerLocationsSection />
-      {/* Haters Section */}
-      {/* <HatersSection /> */}
 
       {/* FAQ Section */}
       <FAQSection />
