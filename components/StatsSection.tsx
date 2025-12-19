@@ -52,7 +52,7 @@ export function StatsSection() {
 
   const stats = [
     {
-      value: apiStats ? formatNumber(apiStats.active_customers) : null,
+      value: apiStats ? "0" + formatNumber(apiStats.active_customers) : null,
       label: "Active Clients",
       subLabel: apiStats
         ? `OUT OF ${formatNumber(apiStats.total_customers)} TOTAL`

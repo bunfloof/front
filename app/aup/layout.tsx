@@ -14,3 +14,4 @@ export default function AUPLayout({ children }: { children: React.ReactNode }) {
     </ThemeProvider>
   );
 }
+

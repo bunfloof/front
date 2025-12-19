@@ -16,6 +16,8 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+export.sh
+
 # Local env files
 .env
 .env.local
@@ -45,4 +47,11 @@ coverage/
 
 # Misc
 *.log
+
+
+
+
+
+
+
 
