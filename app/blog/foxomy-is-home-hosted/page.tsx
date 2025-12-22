@@ -104,6 +104,10 @@ export default function FoxomyIsHomeHostedPost() {
               className="leading-relaxed space-y-6 transition-colors duration-300"
               style={{ color: "var(--themed-text)" }}
             >
+              <p>
+                You are currently being served this website from our home (and
+                Cloudflare).
+              </p>
               <h2
                 className="text-2xl font-bold mb-6 pb-3 border-b transition-colors duration-300"
                 style={{
@@ -114,10 +118,10 @@ export default function FoxomyIsHomeHostedPost() {
                 The Beginning of Foxomy (?)
               </h2>
               <p>
-                Foxomy was not a thing yet. Server hosting was just a personal
-                hobby of Bun. Bun has been providing private server hosting
-                services to her furry friends from 2016-2019. This was an
-                ancient relic of Bun's DIY rack in 2019 when she was still in
+                Foxomy was not a thing back then. Server hosting was just a
+                personal hobby of Bun. Bun has been providing private server
+                hosting services to her furry friends from 2016-2019. This was
+                an ancient relic of Bun's DIY rack in 2019 when she was still in
                 high school.
               </p>
               <Gallery>
@@ -199,13 +203,15 @@ export default function FoxomyIsHomeHostedPost() {
 
               <p>
                 Each modem was loaded with a config of the Spectrum's highest
-                tier plan, which gave us 943 Mbps download and 42 Mbps upload.
-                We multiplied that by four modems and ran them through our 3Com
-                switch load balancer to get an aggregate of 3772 Mbps download
-                and 168 Mbps upload speeds. The highly asymmetrical download and
-                upload speed was due to the limitations of DOCSIS 3.0 back then.
+                tier plan, which gave us 943 mbps download and 42 mbps upload
+                speeds. We multiplied that by four modems and ran them through
+                our 3Com switch load balancer to get an aggregate of 3772 mbps
+                download and 168 mbps upload speeds. The highly asymmetrical
+                download/upload ratio was due to the limitations of DOCSIS 3.0.
                 It was good enough to host small game servers, websites, and
-                Discord bots but would suffer during large file transfers.
+                Discord bots but would suffer during large file transfers or
+                when multiple users were connected to the server at the same
+                time.
               </p>
 
               <h2
@@ -220,25 +226,26 @@ export default function FoxomyIsHomeHostedPost() {
 
               <p>
                 By 2020, DOCSIS 3.1 made our free internet setup obsolete.
-                Spectrum started requiring modems to be on their approved lists
-                and their CMTS software detected spoofed configs. The golden age
-                of free cable internet was over. However, symmetrical gigabit
-                fiber from Sonic internet was just around the corner. When
-                Sonic's fiber finally reached our neighborhood, we subscribed to
-                them immediately. With Sonic, our speeds were now 9 gbps down
-                and up with sub-1ms latency to Cloudflare. Our old cable modem
-                setup was decommissioned, though we kept a single modem as a
-                backup line.
+                Spectrum started requiring modems to be approved, and and their
+                CMTS software detected spoofed configs. The golden age of free
+                cable internet was over. However, symmetrical gigabit fiber from
+                Sonic internet was just around the corner. When Sonic's fiber
+                finally reached our neighborhood, we subscribed to them
+                immediately. With Sonic, our speeds were now 9 gbps down and up
+                with sub-1ms latency to Cloudflare. Our old cable modem setup
+                was decommissioned, though we kept a single modem as a backup
+                line.
               </p>
 
               <p>
                 We have a redundant and fault-tolerant 3-ISP setup running
-                across three different Layer 1 mediums: fiber, copper, and 5G.
-                Sonic fiber is our primary uplink. Spectrum cable serves as our
-                secondary uplink. AT&T 5G cellular is our last-resort failover.
-                If Sonic goes down, it will failover to Spectrum. If Spectrum
-                goes down too, 5G will be used until the wired connections come
-                back.
+                across three different layer 1 mediums: fiber, copper, and 5G.
+                Sonic fiber is our primary uplink that has perfect uptime and
+                reliability. Spectrum cable is our secondary uplink. AT&T 5G
+                cellular is our last-resort backup. If Sonic goes down, it will
+                failover to Spectrum. If Spectrum goes down too, 5G will be used
+                until the wired connections come back online. Here are some
+                speedtest results from 4 different ISPs serving our home:
               </p>
               <Gallery>
                 <div className="flex flex-wrap gap-4 my-4">
@@ -332,6 +339,36 @@ export default function FoxomyIsHomeHostedPost() {
                       </div>
                     )}
                   </Item>
+                  <Item
+                    original="https://www.speedtest.net/result/18617990023.png"
+                    thumbnail="https://www.speedtest.net/result/18617990023.png"
+                    width="750"
+                    height="400"
+                    alt="Speedtest result from our home"
+                  >
+                    {({ ref, open }) => (
+                      <div
+                        ref={ref}
+                        onClick={open}
+                        className="cursor-pointer overflow-hidden transition-colors rounded-sm max-w-sm"
+                        style={{ borderColor: "var(--themed-border)" }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.borderColor =
+                            "var(--themed-border-strong)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.borderColor =
+                            "var(--themed-border)";
+                        }}
+                      >
+                        <img
+                          src="https://www.speedtest.net/result/18617990023.png"
+                          alt="Speedtest result from our home"
+                          className="w-full h-auto"
+                        />
+                      </div>
+                    )}
+                  </Item>
                 </div>
               </Gallery>
               <h2
@@ -349,15 +386,15 @@ export default function FoxomyIsHomeHostedPost() {
                 datacenters around the globe, our roots started from a small
                 home in California. From day one, we owned our own hardware,
                 operated our own load balanced network, and ran everything on
-                our own infrastructure we can touch. This is the heart of
+                our own infrastructure that we can touch. This is the heart of
                 Foxomy, where our main infrastructure, website, billing panel,
                 game panel, and utility scripts are still hosted. This is where
                 we've always been, and we wouldn't have it any other way.
               </p>
               <Gallery>
                 <Item
-                  original="/imgs/blogs/foxomy-is-home-hosted/house.jpg"
-                  thumbnail="/imgs/blogs/foxomy-is-home-hosted/house.jpg"
+                  original="/imgs/blogs/foxomy-is-home-hosted/furryhousesonic.jpg"
+                  thumbnail="/imgs/blogs/foxomy-is-home-hosted/furryhousesonic.jpg"
                   width="2000"
                   height="2000"
                   alt="furry house"
@@ -378,7 +415,7 @@ export default function FoxomyIsHomeHostedPost() {
                       }}
                     >
                       <img
-                        src="/imgs/blogs/foxomy-is-home-hosted/house.jpg"
+                        src="/imgs/blogs/foxomy-is-home-hosted/furryhousesonic.jpg"
                         alt="furry house"
                         className="w-full h-auto"
                       />

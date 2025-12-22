@@ -124,10 +124,6 @@ import {
   memberData as kaylaData,
 } from "./portfolios/KaylaPortfolio";
 import {
-  NoahPortfolio,
-  memberData as noahData,
-} from "./portfolios/NoahPortfolio";
-import {
   PapatonydeepPortfolio,
   memberData as papatonydeepData,
 } from "./portfolios/PapatonydeepPortfolio";
@@ -252,7 +248,6 @@ const portfolioComponents: Record<string, React.ComponentType> = {
   grayday78: GrayDay78Portfolio,
   // HR Team
   kayla: KaylaPortfolio,
-  noah: NoahPortfolio,
   papatonydeep: PapatonydeepPortfolio,
   // Local Team
   benjamincarter: BenjaminCarterPortfolio,
@@ -313,7 +308,6 @@ const portfolioBackgrounds: Record<string, string> = {
   grayday78: grayday78Data.portfolioBg,
   // HR Team
   kayla: kaylaData.portfolioBg,
-  noah: noahData.portfolioBg,
   papatonydeep: papatonydeepData.portfolioBg,
   // Local Team
   benjamincarter: benjamincarterData.portfolioBg,
@@ -390,7 +384,7 @@ const departments: Department[] = [
   {
     id: "hr",
     name: "HR Team",
-    members: [kaylaData, noahData, papatonydeepData],
+    members: [kaylaData, papatonydeepData],
   },
   {
     id: "local",
@@ -864,8 +858,8 @@ export function TeamSection() {
           </h1>
           <p className="text-[#BDE0F5]/70 text-lg max-w-3xl">
             Foxomy is run by a small group of passionate volunteers who try
-            their best to keep the service up and running. If you're interested
-            in joining, please contact us.
+            their best to keep the service up and running. Click on a team
+            member to learn more about them.
           </p>
         </div>
 

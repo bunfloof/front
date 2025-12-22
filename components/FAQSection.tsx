@@ -68,6 +68,18 @@ const faqs: FAQ[] = [
     ),
   },
   {
+    question: "Did Foxomy hack Springracks?",
+    answer: (
+      <p>
+        No, Foxomy did not hack or DDoS Springracks nor do we engage in illegal
+        activities against any hosting provider. These are unsubstantiated
+        allegations spread by Akogeno, Brandon, Tamz, and XandarYT. We are not
+        affiliated with Springracks, and we do not have any malicious intent
+        towards them.
+      </p>
+    ),
+  },
+  {
     question: "What are your server specifications?",
     answer: (
       <p>

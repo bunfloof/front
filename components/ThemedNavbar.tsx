@@ -9,7 +9,7 @@ import { Sun, Moon } from "lucide-react";
 import { menuItems, loginOptions } from "@/config/navigation";
 
 export const ThemedNavbar = () => {
-  const { toggleTheme, isDark } = useTheme();
+  const { toggleTheme, isDark, brandName } = useTheme();
   const [menuState, setMenuState] = React.useState(false);
   const [loginDropdown, setLoginDropdown] = React.useState(false);
   const [isAtTop, setIsAtTop] = React.useState(true);
@@ -80,7 +80,7 @@ export const ThemedNavbar = () => {
                     className="text-lg font-semibold tracking-tight transition-colors duration-300"
                     style={{ color: "var(--themed-heading)" }}
                   >
-                    Foxomy
+                    {brandName}
                   </span>
                 </Link>
                 <div className="flex items-center gap-1">
@@ -239,7 +239,7 @@ export const ThemedNavbar = () => {
                 className="text-lg font-semibold tracking-tight transition-colors duration-300"
                 style={{ color: "var(--themed-heading)" }}
               >
-                Foxomy
+                {brandName}
               </span>
             </Link>
 

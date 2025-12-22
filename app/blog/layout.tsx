@@ -11,7 +11,7 @@ export default function BlogLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ThemeProvider>
+    <ThemeProvider brandName="Blog">
       <div className="themed-selection hide-global-footer themed-page">
         {children}
       </div>

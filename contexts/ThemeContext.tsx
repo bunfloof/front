@@ -8,11 +8,20 @@ interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
   isDark: boolean;
+  brandName: string;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+interface ThemeProviderProps {
+  children: React.ReactNode;
+  brandName?: string;
+}
+
+export function ThemeProvider({
+  children,
+  brandName = "Foxomy",
+}: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>("dark");
 
   // Load theme from localStorage on mount
@@ -43,7 +52,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <ThemeContext.Provider
-      value={{ theme, toggleTheme, isDark: theme === "dark" }}
+      value={{ theme, toggleTheme, isDark: theme === "dark", brandName }}
     >
       {children}
     </ThemeContext.Provider>

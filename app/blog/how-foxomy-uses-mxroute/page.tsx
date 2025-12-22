@@ -10,9 +10,6 @@ import {
   Share2,
   Check,
   Bookmark,
-  Mail,
-  Server,
-  AlertTriangle,
 } from "lucide-react";
 import { useState } from "react";
 import { Gallery, Item } from "react-photoswipe-gallery";
@@ -143,7 +140,7 @@ export default function HowFoxomyUsesMXRoutePost() {
                 For the past 5 years since the beginning of Foxomy, we've always
                 relied on Mailgun to deliver transactional emails to our
                 clients. During those 5 years, we've never had any problems nor
-                have opened a ticket with Mailgun.
+                have opened any tickets with Mailgun because it just works.
               </p>
               <Gallery>
                 <Item
@@ -180,14 +177,16 @@ export default function HowFoxomyUsesMXRoutePost() {
               <p>
                 On October 12, 2025, we migrated from Mailgun to MXRoute after
                 snagging one of their best Black Friday flash deals for{" "}
-                $10/triennially.
+                $10/triennially. It included 400 emails per hour per unique
+                email address, unlimited email addresses, and unlimited domains.
               </p>
 
               <p>
-                Mailgun cost us $35/month. Over five years, that would be $35 ×
-                12 months × 5 years = $2,100 and that's how much we spent on an
-                email provider. If we'd been with MXRoute for those same five
-                years, it would be less than $20. That's over 100x cheaper than
+                Mailgun cost us $35/month for a fixed plan of 50,000 emails per
+                month. Over five years, that would be $35 × 12 months × 5 years
+                = $2,100 and that's how much we spent on an outbound email
+                provider. If we'd been with MXRoute for those same five years,
+                it would be less than $20. That's over 100x cheaper than
                 Mailgun.
               </p>
               <p>
@@ -234,7 +233,7 @@ export default function HowFoxomyUsesMXRoutePost() {
 
               <p>
                 I have nothing against this, but it felt underwhelming from
-                someone coming from a big provider like Mailgun. Their real
+                someone coming from a polished provider like Mailgun. Their real
                 magic most likely happens behind the scenes in their backend
                 where we can't see.
               </p>
@@ -403,7 +402,8 @@ export default function HowFoxomyUsesMXRoutePost() {
                 I asked the owner of MXRoute, Jarland Donnell, about this, and
                 he said that the delay comes from outbound filtering and relays.
                 He could theoretically get it to deliver as fast as Mailgun if
-                he didn't care about his IPs' reputation.
+                he didn't care about his IPs' reputation and rotate IPs to get
+                around rate limiting.
               </p>
 
               <h2
@@ -554,8 +554,10 @@ export default function HowFoxomyUsesMXRoutePost() {
               </h2>
 
               <p>
-                We would recommend MXRoute as one of our outbound SMTP providers
-                for fast email delivery and guaranteed inbox placement.
+                For the price of $10 every 3 years, we can't complain. We would
+                recommend MXRoute as one of our outbound SMTP providers for
+                reliable email delivery and strong sender IP reputation but
+                would not recommend it for forwarding emails to Gmail.
               </p>
             </div>
           </article>

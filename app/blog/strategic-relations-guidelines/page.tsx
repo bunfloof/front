@@ -187,8 +187,8 @@ export default function StrategicRelationsGuidelinesPost() {
               </Gallery>
               <p>
                 This type of public criticism of competitors reflects poorly on
-                the person saying it and Springracks Hosting. We should never
-                engage in this behavior.
+                Brandon and Springracks Hosting. We should never engage in this
+                behavior even if others do it.
               </p>
               <h3
                 className="text-xl font-bold mb-4 transition-colors duration-300"
@@ -209,10 +209,10 @@ export default function StrategicRelationsGuidelinesPost() {
               <Gallery>
                 <div className="flex flex-wrap items-start gap-4 my-4">
                   <Item
-                    original="/imgs/blogs/strategic-relations-guidelines/skryptiop.png"
-                    thumbnail="/imgs/blogs/strategic-relations-guidelines/skryptiop.png"
-                    width="530"
-                    height="822"
+                    original="/imgs/blogs/strategic-relations-guidelines/skryptiopx.png"
+                    thumbnail="/imgs/blogs/strategic-relations-guidelines/skryptiopx.png"
+                    width="543"
+                    height="732"
                     alt="Example of condemned behavior"
                   >
                     {({ ref, open }) => (
@@ -231,7 +231,7 @@ export default function StrategicRelationsGuidelinesPost() {
                         }}
                       >
                         <img
-                          src="/imgs/blogs/strategic-relations-guidelines/skryptiop.png"
+                          src="/imgs/blogs/strategic-relations-guidelines/skryptiopx.png"
                           alt="Example of condemned behavior"
                           className="w-full h-auto"
                         />
@@ -239,10 +239,10 @@ export default function StrategicRelationsGuidelinesPost() {
                     )}
                   </Item>
                   <Item
-                    original="/imgs/blogs/strategic-relations-guidelines/skryptiob.png"
-                    thumbnail="/imgs/blogs/strategic-relations-guidelines/skryptiob.png"
-                    width="426"
-                    height="74"
+                    original="/imgs/blogs/strategic-relations-guidelines/skryptiobx.png"
+                    thumbnail="/imgs/blogs/strategic-relations-guidelines/skryptiobx.png"
+                    width="435"
+                    height="75"
                     alt="Example of condemned behavior"
                   >
                     {({ ref, open }) => (
@@ -261,7 +261,7 @@ export default function StrategicRelationsGuidelinesPost() {
                         }}
                       >
                         <img
-                          src="/imgs/blogs/strategic-relations-guidelines/skryptiob.png"
+                          src="/imgs/blogs/strategic-relations-guidelines/skryptiobx.png"
                           alt="Example of condemned behavior"
                           className="w-full h-auto"
                         />
@@ -272,7 +272,7 @@ export default function StrategicRelationsGuidelinesPost() {
               </Gallery>
               <p>
                 This type of self promotion reflects poorly on Litebyte. We
-                should never engage in this behavior.
+                should never engage in this behavior even if others do it.
               </p>
               <h2
                 className="text-2xl font-bold mt-12 mb-6 pb-3 border-b transition-colors duration-300"
@@ -286,10 +286,47 @@ export default function StrategicRelationsGuidelinesPost() {
               <p>
                 We kindly ask that customers avoid mentioning Foxomy when
                 seeking help in other communities or Discord servers because
-                they don't like furries. Do not attack other hosting providers
-                or communities even if they are wrong. We are currently not
-                asking for reviews. For the best support experience, please use
-                our official channels.
+                they don't like furries. If a hosting provider must be
+                mentioned, please use "Springracks" as a substitute. In some
+                communities, Foxomy is a blacklisted word due to bans enforced
+                by third party hosting companies such as STEL Hosting.
+              </p>
+              <Gallery>
+                <Item
+                  original="/imgs/blogs/strategic-relations-guidelines/strafe.png"
+                  thumbnail="/imgs/blogs/strategic-relations-guidelines/strafe.png"
+                  width="724"
+                  height="84"
+                  alt="Example of condemned behavior"
+                >
+                  {({ ref, open }) => (
+                    <div
+                      ref={ref}
+                      onClick={open}
+                      className="cursor-pointer rounded-sm overflow-hidden border transition-colors my-4"
+                      style={{ borderColor: "var(--themed-border)" }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.borderColor =
+                          "var(--themed-border-strong)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.borderColor =
+                          "var(--themed-border)";
+                      }}
+                    >
+                      <img
+                        src="/imgs/blogs/strategic-relations-guidelines/strafe.png"
+                        alt="Example of condemned behavior"
+                        className="w-full h-auto"
+                      />
+                    </div>
+                  )}
+                </Item>
+              </Gallery>
+              <p>
+                We also ask that you avoid engaging in disputes or appeals with
+                other hosting providers or communities on our behalf, even when
+                they're in the wrong.
               </p>
 
               <h2
@@ -311,8 +348,17 @@ export default function StrategicRelationsGuidelinesPost() {
                 >
                   Discord server
                 </a>
-                , but please don't be mean to other furry friends.
+                , but please don't be mean to our furry friends.
               </p>
+              <iframe
+                src="https://discord.com/widget?id=943233569772425287&theme=dark"
+                width="350"
+                height="500"
+                allowTransparency={true}
+                frameBorder="0"
+                sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+                className="rounded-md my-4"
+              />
               <h2
                 className="text-2xl font-bold mt-12 mb-6 pb-3 border-b transition-colors duration-300"
                 style={{

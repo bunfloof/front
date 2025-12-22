@@ -16,7 +16,6 @@ export interface LoginOption {
 
 export const menuItems: MenuItem[] = [
   { name: "Minecraft", href: "/game" },
-  { name: "Game", href: "/game" },
   { name: "Web", href: "/web" },
   { name: "Team", href: "/team" },
   { name: "Blog", href: "/blog" },
