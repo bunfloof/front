@@ -5,6 +5,7 @@ import { ThemedFooter } from "@/components/ThemedFooter";
 import { useTheme } from "@/contexts/ThemeContext";
 import { blogPosts } from "@/lib/blogData";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function BlogPage() {
   const { isDark } = useTheme();
@@ -103,7 +104,19 @@ export default function BlogPage() {
                       >
                         <span>{post.date}</span>
                         <span>·</span>
-                        <span>{post.author}</span>
+                        <span className="flex items-center gap-1.5">
+                          {post.authorImage && (
+                            <Image
+                              src={post.authorImage}
+                              alt={post.author}
+                              width={20}
+                              height={20}
+                              className="rounded-full object-cover"
+                              style={{ width: 20, height: 20 }}
+                            />
+                          )}
+                          {post.author}
+                        </span>
                         <span>·</span>
                         <span>{post.category}</span>
                       </div>

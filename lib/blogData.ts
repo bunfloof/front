@@ -7,6 +7,7 @@ export interface BlogPost {
   excerpt: string;
   date: string;
   author: string;
+  authorImage?: string;
   readTime: string;
   category: string;
   emoji: string;
@@ -22,6 +23,7 @@ export const blogPosts: BlogPost[] = [
       "Foxomy was not a thing yet. Server hosting was just a personal hobby of Bun. Bun has been providing private server hosting services to her furry friends from 2017-2019. This was an ancient relic of Bun's DIY rack in 2019 when she was still in high school.",
     date: "December 18, 2025",
     author: "Trish",
+    authorImage: "/imgs/portfolios/trish/fd3c42c4e4ded19a2e1433535c3babc1.jpeg",
     readTime: "1 min read",
     category: "Infrastructure",
     emoji: "🌐",
@@ -34,6 +36,7 @@ export const blogPosts: BlogPost[] = [
       "For the past 5 years since the beginning of Foxomy, we've always relied on Mailgun to deliver transactional emails to our clients. During those 5 years, we've never had any problems nor have opened a ticket with Mailgun.",
     date: "December 17, 2025",
     author: "Trish",
+    authorImage: "/imgs/portfolios/trish/fd3c42c4e4ded19a2e1433535c3babc1.jpeg",
     readTime: "1 min read",
     category: "Infrastructure",
     emoji: "🌐",
@@ -45,7 +48,8 @@ export const blogPosts: BlogPost[] = [
     excerpt:
       "At Foxomy, we believe in focusing on our own work and letting our service speak for itself. Staff members are expected to: Never criticize or slander other hosting providers or communities",
     date: "December 17, 2025",
-    author: "Foxomy Team",
+    author: "Feliix",
+    authorImage: "/imgs/portfolios/feliix/IMG_3882.JPG",
     readTime: "1 min read",
     category: "Policy",
     emoji: "📜",

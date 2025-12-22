@@ -14,6 +14,7 @@ import {
 import { useState } from "react";
 import { Gallery, Item } from "react-photoswipe-gallery";
 import "photoswipe/dist/photoswipe.css";
+import Image from "next/image";
 
 export default function HowFoxomyUsesMXRoutePost() {
   const [copied, setCopied] = useState(false);
@@ -66,7 +67,13 @@ export default function HowFoxomyUsesMXRoutePost() {
             </span>
             <span className="mx-2">·</span>
             <span className="flex items-center gap-1.5">
-              <User className="w-4 h-4" />
+              <Image
+                src="/imgs/portfolios/trish/fd3c42c4e4ded19a2e1433535c3babc1.jpeg"
+                alt="Trish"
+                width={20}
+                height={20}
+                className="rounded-full object-cover"
+              />{" "}
               Trish
             </span>
             <span className="mx-2">·</span>

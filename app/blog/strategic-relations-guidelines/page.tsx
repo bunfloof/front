@@ -15,6 +15,7 @@ import { useState } from "react";
 import { ScrambledText } from "@/components/ScrambledText";
 import { Gallery, Item } from "react-photoswipe-gallery";
 import "photoswipe/dist/photoswipe.css";
+import Image from "next/image";
 
 export default function StrategicRelationsGuidelinesPost() {
   const [copied, setCopied] = useState(false);
@@ -67,8 +68,14 @@ export default function StrategicRelationsGuidelinesPost() {
             </span>
             <span className="mx-2">·</span>
             <span className="flex items-center gap-1.5">
-              <User className="w-4 h-4" />
-              Foxomy Team
+              <Image
+                src="/imgs/portfolios/feliix/IMG_3882.JPG"
+                alt="Feliix"
+                width={20}
+                height={20}
+                className="rounded-full object-cover"
+              />{" "}
+              Feliix
             </span>
             <span className="mx-2">·</span>
             <span className="flex items-center gap-1.5">
@@ -134,21 +141,30 @@ export default function StrategicRelationsGuidelinesPost() {
                 style={{ color: "var(--themed-text)" }}
               >
                 <li>
-                  Never comment on other hosting providers or communities
-                  (Please stop, Kayla)
+                  Never comment, question, or participate in other hosting
+                  providers' community spaces or Discord servers unless you are
+                  a genuine customer of their services. (Please fucking stop,
+                  Kayla)
                 </li>
                 <li>
-                  Never participate in other communities to cause conflict or
-                  drama
+                  Never talk negatively about other hosting providers anywhere,
+                  including in our own Discord server.
                 </li>
                 <li>
-                  Never retaliate if another community speaks negatively about
-                  Foxomy
+                  Never try to correct other hosting providers' opinions or
+                  misconceptions about Foxomy. If someone speaks negatively
+                  about Foxomy, please agree that{" "}
+                  <ScrambledText>
+                    Bun is a furry/pedophile and move on.
+                  </ScrambledText>
                 </li>
               </ul>
               <p>
-                Even if other competitors attack us, we agree to disagree and
-                move on.
+                If a person affiliated with another hosting provider is in our
+                Discord server, it does not give you the right or entitlement to
+                join their Discord server. We hold ourselves to our own
+                standards regardless of what others do. Please don't be that
+                person.
               </p>
               <p className="font-bold">
                 Real example of behavior we want to avoid:
@@ -288,8 +304,8 @@ export default function StrategicRelationsGuidelinesPost() {
                 seeking help in other communities or Discord servers because
                 they don't like furries. If a hosting provider must be
                 mentioned, please use "Springracks" as a substitute. In some
-                communities, Foxomy is a blacklisted word due to bans enforced
-                by third party hosting companies such as STEL Hosting.
+                communities, Foxomy is a blacklisted word due to bans imposed by
+                third party hosting providers such as STEL Hosting.
               </p>
               <Gallery>
                 <Item
@@ -326,7 +342,9 @@ export default function StrategicRelationsGuidelinesPost() {
               <p>
                 We also ask that you avoid engaging in disputes or appeals with
                 other hosting providers or communities on our behalf, even when
-                they're in the wrong.
+                they're in the wrong. If your Minecraft server is banned from
+                being advertised in a community because it's hosted on Foxomy,
+                please don't try to appeal the ban.
               </p>
 
               <h2
