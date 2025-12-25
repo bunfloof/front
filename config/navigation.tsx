@@ -4,9 +4,15 @@ import { ReactNode } from "react";
 // NAVBAR CONFIGURATION
 // ============================================
 
-export interface MenuItem {
+export interface MenuChild {
   name: string;
   href: string;
+}
+
+export interface MenuItem {
+  name: string;
+  href?: string;
+  children?: MenuChild[];
 }
 
 export interface LoginOption {
@@ -19,6 +25,13 @@ export const menuItems: MenuItem[] = [
   { name: "Web", href: "/web" },
   { name: "Team", href: "/team" },
   { name: "Blog", href: "/blog" },
+  {
+    name: "Resources",
+    children: [
+      { name: "IP Location Lookup", href: "/ipgeolocation" },
+      { name: "Minecraft Server Status", href: "#" },
+    ],
+  },
 ];
 
 export const loginOptions: LoginOption[] = [
@@ -71,6 +84,10 @@ export const footerSections: FooterSection[] = [
         label: "Open Ticket",
         href: "https://foxomy.com/billing/submitticket.php",
       },
+      {
+        label: "IP Lookup",
+        href: "/ipgeolocation",
+      },
     ],
   },
   {
@@ -78,7 +95,7 @@ export const footerSections: FooterSection[] = [
     links: [
       { label: "Terms of Service", href: "/terms" },
       { label: "Privacy Policy", href: "/privacy" },
-      { label: "Service License Agreement", href: "/sla" },
+      { label: "Service Level Agreement", href: "/sla" },
       { label: "Acceptable Usage Policy", href: "/aup" },
     ],
   },
@@ -123,4 +140,3 @@ export const socialLinks: SocialLink[] = [
     ),
   },
 ];
-

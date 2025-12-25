@@ -167,7 +167,7 @@ const services: ServiceCardProps[] = [
     title: "Website Hosting",
     description:
       "Shared hosting supporting WordPress, PHP, Python, NodeJS, and more.",
-    price: "$1",
+    price: "$2",
     priceLabel: "month",
     features: [
       "cPanel control panel",

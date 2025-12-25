@@ -12,8 +12,12 @@ export const ThemedNavbar = () => {
   const { toggleTheme, isDark, brandName } = useTheme();
   const [menuState, setMenuState] = React.useState(false);
   const [loginDropdown, setLoginDropdown] = React.useState(false);
+  const [resourcesDropdown, setResourcesDropdown] = React.useState(false);
+  const [mobileResourcesExpanded, setMobileResourcesExpanded] =
+    React.useState(false);
   const [isAtTop, setIsAtTop] = React.useState(true);
   const loginRef = React.useRef<HTMLDivElement>(null);
+  const resourcesRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -22,6 +26,12 @@ export const ThemedNavbar = () => {
         !loginRef.current.contains(event.target as Node)
       ) {
         setLoginDropdown(false);
+      }
+      if (
+        resourcesRef.current &&
+        !resourcesRef.current.contains(event.target as Node)
+      ) {
+        setResourcesDropdown(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -84,28 +94,110 @@ export const ThemedNavbar = () => {
                   </span>
                 </Link>
                 <div className="flex items-center gap-1">
-                  {menuItems.map((item, index) => (
-                    <Link
-                      key={index}
-                      href={item.href}
-                      className="flex items-center justify-center text-sm px-4 py-2 h-8 rounded-md transition duration-200"
-                      style={{
-                        color: "var(--themed-text-muted)",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor =
-                          "var(--themed-nav-hover)";
-                        e.currentTarget.style.color = "var(--themed-heading)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = "transparent";
-                        e.currentTarget.style.color =
-                          "var(--themed-text-muted)";
-                      }}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
+                  {menuItems.map((item, index) =>
+                    item.children ? (
+                      <div key={index} className="relative" ref={resourcesRef}>
+                        <button
+                          onClick={() =>
+                            setResourcesDropdown(!resourcesDropdown)
+                          }
+                          className="flex items-center justify-center text-sm px-4 py-2 h-8 rounded-md transition duration-200 gap-1"
+                          style={{
+                            color: "var(--themed-text-muted)",
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor =
+                              "var(--themed-nav-hover)";
+                            e.currentTarget.style.color =
+                              "var(--themed-heading)";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor =
+                              "transparent";
+                            e.currentTarget.style.color =
+                              "var(--themed-text-muted)";
+                          }}
+                        >
+                          {item.name}
+                          <svg
+                            className={`w-3 h-3 transition-transform duration-200 ${
+                              resourcesDropdown ? "rotate-180" : ""
+                            }`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 9l-7 7-7-7"
+                            />
+                          </svg>
+                        </button>
+                        <AnimatePresence>
+                          {resourcesDropdown && (
+                            <motion.div
+                              initial={{ opacity: 0, y: -8, scale: 0.95 }}
+                              animate={{ opacity: 1, y: 0, scale: 1 }}
+                              exit={{ opacity: 0, y: -8, scale: 0.95 }}
+                              transition={{ duration: 0.15, ease: "easeOut" }}
+                              className="absolute left-0 mt-2 w-48 rounded-lg border backdrop-blur-2xl shadow-xl overflow-hidden z-50"
+                              style={{
+                                backgroundColor: "var(--themed-dropdown-bg)",
+                                borderColor: "var(--themed-border)",
+                              }}
+                            >
+                              {item.children.map((child, childIndex) => (
+                                <Link
+                                  key={childIndex}
+                                  href={child.href}
+                                  className="block px-4 py-2.5 text-sm transition-colors duration-150"
+                                  style={{ color: "var(--themed-text-muted)" }}
+                                  onMouseEnter={(e) => {
+                                    e.currentTarget.style.backgroundColor =
+                                      "var(--themed-nav-hover)";
+                                    e.currentTarget.style.color =
+                                      "var(--themed-heading)";
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    e.currentTarget.style.backgroundColor =
+                                      "transparent";
+                                    e.currentTarget.style.color =
+                                      "var(--themed-text-muted)";
+                                  }}
+                                  onClick={() => setResourcesDropdown(false)}
+                                >
+                                  {child.name}
+                                </Link>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    ) : (
+                      <Link
+                        key={index}
+                        href={item.href!}
+                        className="flex items-center justify-center text-sm px-4 py-2 h-8 rounded-md transition duration-200"
+                        style={{
+                          color: "var(--themed-text-muted)",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor =
+                            "var(--themed-nav-hover)";
+                          e.currentTarget.style.color = "var(--themed-heading)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "transparent";
+                          e.currentTarget.style.color =
+                            "var(--themed-text-muted)";
+                        }}
+                      >
+                        {item.name}
+                      </Link>
+                    )
+                  )}
                 </div>
               </div>
               <div className="flex space-x-2 items-center">
@@ -333,24 +425,96 @@ export const ThemedNavbar = () => {
                       visible: { opacity: 1, x: 0 },
                     }}
                   >
-                    <Link
-                      href={item.href}
-                      className="block text-sm px-4 py-2 rounded-md transition duration-200"
-                      style={{ color: "var(--themed-text-muted)" }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor =
-                          "var(--themed-nav-hover)";
-                        e.currentTarget.style.color = "var(--themed-heading)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = "transparent";
-                        e.currentTarget.style.color =
-                          "var(--themed-text-muted)";
-                      }}
-                      onClick={() => setMenuState(false)}
-                    >
-                      {item.name}
-                    </Link>
+                    {item.children ? (
+                      <div>
+                        <button
+                          onClick={() =>
+                            setMobileResourcesExpanded(!mobileResourcesExpanded)
+                          }
+                          className="flex items-center justify-between w-full text-sm px-4 py-2 rounded-md transition duration-200"
+                          style={{ color: "var(--themed-text-muted)" }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor =
+                              "var(--themed-nav-hover)";
+                            e.currentTarget.style.color =
+                              "var(--themed-heading)";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor =
+                              "transparent";
+                            e.currentTarget.style.color =
+                              "var(--themed-text-muted)";
+                          }}
+                        >
+                          {item.name}
+                          <svg
+                            className={`w-3 h-3 transition-transform duration-200 ${
+                              mobileResourcesExpanded ? "rotate-180" : ""
+                            }`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 9l-7 7-7-7"
+                            />
+                          </svg>
+                        </button>
+                        <AnimatePresence>
+                          {mobileResourcesExpanded && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="overflow-hidden"
+                            >
+                              {item.children.map((child, childIndex) => (
+                                <Link
+                                  key={childIndex}
+                                  href={child.href}
+                                  className="block text-sm pl-8 pr-4 py-2 transition duration-200"
+                                  style={{ color: "var(--themed-text-muted)" }}
+                                  onMouseEnter={(e) => {
+                                    e.currentTarget.style.color =
+                                      "var(--themed-heading)";
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    e.currentTarget.style.color =
+                                      "var(--themed-text-muted)";
+                                  }}
+                                  onClick={() => setMenuState(false)}
+                                >
+                                  {child.name}
+                                </Link>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    ) : (
+                      <Link
+                        href={item.href!}
+                        className="block text-sm px-4 py-2 rounded-md transition duration-200"
+                        style={{ color: "var(--themed-text-muted)" }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor =
+                            "var(--themed-nav-hover)";
+                          e.currentTarget.style.color = "var(--themed-heading)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "transparent";
+                          e.currentTarget.style.color =
+                            "var(--themed-text-muted)";
+                        }}
+                        onClick={() => setMenuState(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    )}
                   </motion.li>
                 ))}
               </motion.ul>

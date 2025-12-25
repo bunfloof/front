@@ -24,8 +24,10 @@ const sections = [
     title: "10. Limitation of Liability and Disclaimer of Warranty",
   },
   { id: "compensation", title: "11. Compensation for Damages" },
-  { id: "changes-terms", title: "12. Changes to Terms" },
-  { id: "contact", title: "13. Contact Information" },
+  { id: "governing-law", title: "12. Governing Law" },
+  { id: "arbitration", title: "13. Arbitration" },
+  { id: "changes-terms", title: "14. Changes to Terms" },
+  { id: "contact", title: "15. Contact Information" },
 ];
 
 // Section heading component with copy link functionality
@@ -91,6 +93,7 @@ function SectionHeading({ id, title }: { id: string; title: string }) {
 export default function TermsOfServicePage() {
   return (
     <div
+      id="top"
       className="font-sans min-h-screen transition-colors duration-300"
       style={{ backgroundColor: "var(--themed-bg)" }}
     >
@@ -112,7 +115,7 @@ export default function TermsOfServicePage() {
             className="transition-colors duration-300"
             style={{ color: "var(--themed-text-muted)" }}
           >
-            Last updated: December 6, 2025
+            Last updated: December 22, 2025
           </p>
         </div>
       </header>
@@ -219,7 +222,8 @@ export default function TermsOfServicePage() {
                       pre-genning chunks, high player counts, etc.
                     </li>
                     <li>
-                      Using the website to promote illegal services/products.
+                      Using the website to promote illegal services/products in
+                      the state of California or the United States.
                     </li>
                     <li>
                       Using the service to store digital content that violates
@@ -266,9 +270,9 @@ export default function TermsOfServicePage() {
                   <p>
                     Customers at Foxomy always have full rights and obligations
                     of the service lessee according to the provisions of the
-                    Civil Code and the Commercial Law of Vietnam. To ensure the
-                    best interests, customers also need to comply with the
-                    following regulations:
+                    Civil Code and the Commercial Law of the United States. To
+                    ensure the best interests, customers also need to comply
+                    with the following regulations:
                   </p>
                   <ul className="list-decimal list-inside space-y-2 ml-4">
                     <li>
@@ -601,7 +605,7 @@ export default function TermsOfServicePage() {
                   style={{ color: "var(--themed-text)" }}
                 >
                   <p>
-                    In the case that Foxomy fails to ensure the service license
+                    In the case that Foxomy fails to ensure the service level
                     commitment (SLA), compensation will be made according to the
                     compensation policy. This balance can be used by the
                     customer to register for the service or renew, and may be
@@ -611,10 +615,76 @@ export default function TermsOfServicePage() {
               </section>
 
               {/* Section 12 */}
+              <section id="governing-law" className="scroll-mt-24">
+                <SectionHeading id="governing-law" title="12. Governing Law" />
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
+                  <p>
+                    This contract shall be construed in accordance with the laws
+                    of the State of California.
+                  </p>
+                </div>
+              </section>
+
+              {/* Section 13 */}
+              <section id="arbitration" className="scroll-mt-24">
+                <SectionHeading id="arbitration" title="13. Arbitration" />
+                <div
+                  className="space-y-4 leading-relaxed transition-colors duration-300"
+                  style={{ color: "var(--themed-text)" }}
+                >
+                  <p>
+                    Any controversies or disputes arising out of or relating to
+                    this contract shall be resolved by binding arbitration in
+                    accordance with the then-current Commercial Arbitration
+                    Rules of the American Arbitration Association. The parties
+                    shall select a mutually acceptable arbitrator knowledgeable
+                    about issues relating to the subject matter of this
+                    contract.
+                  </p>
+                  <p>
+                    In the event the parties are unable to agree to such a
+                    selection, each party will select an arbitrator, and the two
+                    arbitrators in turn shall select a third arbitrator, all
+                    three of whom shall preside jointly over the matter. The
+                    arbitration shall take place at a location that is
+                    reasonably centrally located between the parties, or
+                    otherwise mutually agreed upon by the parties.
+                  </p>
+                  <p>
+                    All documents, materials, and information in the possession
+                    of each party that are in any way relevant to the dispute
+                    shall be made available to the other party for review and
+                    copying no later than 30 days after the notice of
+                    arbitration is served. The arbitrator(s) shall not have the
+                    authority to modify any provision of this contract or to
+                    award punitive damages.
+                  </p>
+                  <p>
+                    The arbitrator(s) shall have the power to issue mandatory
+                    orders and restraint orders in connection with the
+                    arbitration. The decision rendered by the arbitrator(s)
+                    shall be final and binding on the parties, and judgment may
+                    be entered in conformity with the decision in any California
+                    court having jurisdiction. The agreement to arbitration
+                    shall be specifically enforceable under the prevailing
+                    arbitration law.
+                  </p>
+                  <p>
+                    During the continuance of any arbitration proceeding, the
+                    parties shall continue to perform their respective
+                    obligations under this contract.
+                  </p>
+                </div>
+              </section>
+
+              {/* Section 14 */}
               <section id="changes-terms" className="scroll-mt-24">
                 <SectionHeading
                   id="changes-terms"
-                  title="12. Changes to Terms"
+                  title="14. Changes to Terms"
                 />
                 <div
                   className="space-y-4 leading-relaxed transition-colors duration-300"
@@ -630,9 +700,9 @@ export default function TermsOfServicePage() {
                 </div>
               </section>
 
-              {/* Section 13 */}
+              {/* Section 15 */}
               <section id="contact" className="scroll-mt-24">
-                <SectionHeading id="contact" title="13. Contact Information" />
+                <SectionHeading id="contact" title="15. Contact Information" />
                 <div
                   className="space-y-4 leading-relaxed transition-colors duration-300"
                   style={{ color: "var(--themed-text)" }}
@@ -665,7 +735,7 @@ export default function TermsOfServicePage() {
               style={{ borderColor: "var(--themed-border)" }}
             >
               <Link
-                href="#"
+                href="#top"
                 className="text-sm transition-colors"
                 style={{ color: "var(--themed-link)" }}
                 onMouseEnter={(e) => {

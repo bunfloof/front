@@ -12,10 +12,14 @@ interface MainNavbarProps {
 export const MainNavbar = ({ isDark = true }: MainNavbarProps) => {
   const [menuState, setMenuState] = React.useState(false);
   const [loginDropdown, setLoginDropdown] = React.useState(false);
+  const [resourcesDropdown, setResourcesDropdown] = React.useState(false);
+  const [mobileResourcesExpanded, setMobileResourcesExpanded] =
+    React.useState(false);
   const [isAtTop, setIsAtTop] = React.useState(true);
   const loginRef = React.useRef<HTMLDivElement>(null);
+  const resourcesRef = React.useRef<HTMLDivElement>(null);
 
-  // Close login dropdown when clicking outside
+  // Close dropdowns when clicking outside
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -23,6 +27,12 @@ export const MainNavbar = ({ isDark = true }: MainNavbarProps) => {
         !loginRef.current.contains(event.target as Node)
       ) {
         setLoginDropdown(false);
+      }
+      if (
+        resourcesRef.current &&
+        !resourcesRef.current.contains(event.target as Node)
+      ) {
+        setResourcesDropdown(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -90,19 +100,81 @@ export const MainNavbar = ({ isDark = true }: MainNavbarProps) => {
                   </span>
                 </Link>
                 <div className="flex items-center gap-1">
-                  {menuItems.map((item, index) => (
-                    <Link
-                      key={index}
-                      href={item.href}
-                      className={`flex items-center justify-center text-sm px-4 py-2 h-8 rounded-md transition duration-200 ${
-                        isDark
-                          ? "hover:bg-[#1A77AD]/20 text-[#BDE0F5]/70 hover:text-white"
-                          : "hover:bg-gray-100 text-gray-600 hover:text-gray-900"
-                      }`}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
+                  {menuItems.map((item, index) =>
+                    item.children ? (
+                      <div key={index} className="relative" ref={resourcesRef}>
+                        <button
+                          onClick={() =>
+                            setResourcesDropdown(!resourcesDropdown)
+                          }
+                          className={`flex items-center justify-center text-sm px-4 py-2 h-8 rounded-md transition duration-200 gap-1 ${
+                            isDark
+                              ? "hover:bg-[#1A77AD]/20 text-[#BDE0F5]/70 hover:text-white"
+                              : "hover:bg-gray-100 text-gray-600 hover:text-gray-900"
+                          }`}
+                        >
+                          {item.name}
+                          <svg
+                            className={`w-3 h-3 transition-transform duration-200 ${
+                              resourcesDropdown ? "rotate-180" : ""
+                            }`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 9l-7 7-7-7"
+                            />
+                          </svg>
+                        </button>
+                        <AnimatePresence>
+                          {resourcesDropdown && (
+                            <motion.div
+                              initial={{ opacity: 0, y: -8, scale: 0.95 }}
+                              animate={{ opacity: 1, y: 0, scale: 1 }}
+                              exit={{ opacity: 0, y: -8, scale: 0.95 }}
+                              transition={{ duration: 0.15, ease: "easeOut" }}
+                              className={`absolute left-0 mt-2 w-48 rounded-lg border backdrop-blur-2xl shadow-xl overflow-hidden z-50 ${
+                                isDark
+                                  ? "border-[#1A77AD]/30 bg-[#030F16]/95 shadow-black/20"
+                                  : "border-gray-200 bg-white/95 shadow-gray-200/50"
+                              }`}
+                            >
+                              {item.children.map((child, childIndex) => (
+                                <Link
+                                  key={childIndex}
+                                  href={child.href}
+                                  className={`block px-4 py-2.5 text-sm transition-colors duration-150 ${
+                                    isDark
+                                      ? "text-[#BDE0F5]/80 hover:text-white hover:bg-[#1A77AD]/20"
+                                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                                  }`}
+                                  onClick={() => setResourcesDropdown(false)}
+                                >
+                                  {child.name}
+                                </Link>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    ) : (
+                      <Link
+                        key={index}
+                        href={item.href!}
+                        className={`flex items-center justify-center text-sm px-4 py-2 h-8 rounded-md transition duration-200 ${
+                          isDark
+                            ? "hover:bg-[#1A77AD]/20 text-[#BDE0F5]/70 hover:text-white"
+                            : "hover:bg-gray-100 text-gray-600 hover:text-gray-900"
+                        }`}
+                      >
+                        {item.name}
+                      </Link>
+                    )
+                  )}
                 </div>
               </div>
               <div className="flex space-x-2 items-center">
@@ -279,17 +351,75 @@ export const MainNavbar = ({ isDark = true }: MainNavbarProps) => {
                       visible: { opacity: 1, x: 0 },
                     }}
                   >
-                    <Link
-                      href={item.href}
-                      className={`block text-sm px-4 py-2 rounded-md transition duration-200 ${
-                        isDark
-                          ? "hover:bg-[#1A77AD]/20 text-[#BDE0F5]/70 hover:text-white"
-                          : "hover:bg-gray-100 text-gray-600 hover:text-gray-900"
-                      }`}
-                      onClick={() => setMenuState(false)}
-                    >
-                      {item.name}
-                    </Link>
+                    {item.children ? (
+                      <div>
+                        <button
+                          onClick={() =>
+                            setMobileResourcesExpanded(!mobileResourcesExpanded)
+                          }
+                          className={`flex items-center justify-between w-full text-sm px-4 py-2 rounded-md transition duration-200 ${
+                            isDark
+                              ? "hover:bg-[#1A77AD]/20 text-[#BDE0F5]/70 hover:text-white"
+                              : "hover:bg-gray-100 text-gray-600 hover:text-gray-900"
+                          }`}
+                        >
+                          {item.name}
+                          <svg
+                            className={`w-3 h-3 transition-transform duration-200 ${
+                              mobileResourcesExpanded ? "rotate-180" : ""
+                            }`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 9l-7 7-7-7"
+                            />
+                          </svg>
+                        </button>
+                        <AnimatePresence>
+                          {mobileResourcesExpanded && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="overflow-hidden"
+                            >
+                              {item.children.map((child, childIndex) => (
+                                <Link
+                                  key={childIndex}
+                                  href={child.href}
+                                  className={`block text-sm pl-8 pr-4 py-2 transition duration-200 ${
+                                    isDark
+                                      ? "text-[#BDE0F5]/70 hover:text-white"
+                                      : "text-gray-600 hover:text-gray-900"
+                                  }`}
+                                  onClick={() => setMenuState(false)}
+                                >
+                                  {child.name}
+                                </Link>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    ) : (
+                      <Link
+                        href={item.href!}
+                        className={`block text-sm px-4 py-2 rounded-md transition duration-200 ${
+                          isDark
+                            ? "hover:bg-[#1A77AD]/20 text-[#BDE0F5]/70 hover:text-white"
+                            : "hover:bg-gray-100 text-gray-600 hover:text-gray-900"
+                        }`}
+                        onClick={() => setMenuState(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    )}
                   </motion.li>
                 ))}
               </motion.ul>

@@ -61,7 +61,7 @@ export default function CodeOfConductPost() {
           >
             <span className="flex items-center gap-1.5">
               <Calendar className="w-4 h-4" />
-              December 5, 2025
+              December 17, 2025
             </span>
             <span className="mx-2">·</span>
             <span className="flex items-center gap-1.5">

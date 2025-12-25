@@ -48,8 +48,7 @@ export const blogPosts: BlogPost[] = [
     excerpt:
       "At Foxomy, we believe in focusing on our own work and letting our service speak for itself. Staff members are expected to: Never criticize or slander other hosting providers or communities",
     date: "December 17, 2025",
-    author: "Feliix",
-    authorImage: "/imgs/portfolios/feliix/IMG_3882.JPG",
+    author: "Foxomy Team",
     readTime: "1 min read",
     category: "Policy",
     emoji: "📜",

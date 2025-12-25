@@ -68,14 +68,8 @@ export default function StrategicRelationsGuidelinesPost() {
             </span>
             <span className="mx-2">·</span>
             <span className="flex items-center gap-1.5">
-              <Image
-                src="/imgs/portfolios/feliix/IMG_3882.JPG"
-                alt="Feliix"
-                width={20}
-                height={20}
-                className="rounded-full object-cover"
-              />{" "}
-              Feliix
+              <User className="w-4 h-4" />
+              Foxomy Team
             </span>
             <span className="mx-2">·</span>
             <span className="flex items-center gap-1.5">
@@ -368,13 +362,79 @@ export default function StrategicRelationsGuidelinesPost() {
                 </a>
                 , but please don't be mean to our furry friends.
               </p>
+              {/* Discord join link ui */}
+              <div
+                className="rounded-lg p-4 max-w-md my-6"
+                style={{ backgroundColor: "#2b2d31" }}
+              >
+                <p
+                  className="text-[11px] font-bold uppercase tracking-wide mb-3"
+                  style={{ color: "#b5bac1", margin: 0 }}
+                >
+                  You've been invited to join a server
+                </p>
+                <div className="flex items-center justify-between gap-3 mt-2">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div
+                      className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 overflow-hidden"
+                      style={{ backgroundColor: "#5865f2" }}
+                    >
+                      <img
+                        src="/imgs/blogs/strategic-relations-guidelines/efbc7d3a9799f492823c1a7e34d31166.jpeg"
+                        alt="Foxomy"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="min-w-0">
+                      <p
+                        className="font-semibold text-base truncate"
+                        style={{ color: "#f2f3f5", margin: 0 }}
+                      >
+                        Foxomy
+                      </p>
+                      <div className="flex items-center gap-3 mt-0.5">
+                        <span
+                          className="flex items-center gap-1 text-xs font-semibold"
+                          style={{ color: "#b5bac1" }}
+                        >
+                          <span
+                            className="w-2 h-2 rounded-full"
+                            style={{ backgroundColor: "#23a559" }}
+                          />
+                          80 Online
+                        </span>
+                        <span
+                          className="flex items-center gap-1 text-xs font-semibold"
+                          style={{ color: "#b5bac1" }}
+                        >
+                          <span
+                            className="w-2 h-2 rounded-full"
+                            style={{ backgroundColor: "#80848e" }}
+                          />
+                          1,180 Members
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <a
+                    href="https://discord.com/invite/uQkn7vVqj6"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-5 rounded text-sm font-medium text-white shrink-0 transition-colors hover:brightness-90 cursor-pointer no-underline self-stretch flex items-center"
+                    style={{ backgroundColor: "#248046" }}
+                  >
+                    Join
+                  </a>
+                </div>
+              </div>
               <iframe
                 src="https://discord.com/widget?id=943233569772425287&theme=dark"
                 width="350"
                 height="500"
                 allowTransparency={true}
                 frameBorder="0"
-                sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+                sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin 
+                allow-scripts"
                 className="rounded-md my-4"
               />
               <h2

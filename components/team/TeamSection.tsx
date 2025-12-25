@@ -381,11 +381,11 @@ const departments: Department[] = [
     name: "Graphics Team",
     members: [dekuData, grayday78Data],
   },
-  {
-    id: "hr",
-    name: "HR Team",
-    members: [kaylaData, papatonydeepData],
-  },
+  // {
+  //   id: "hr",
+  //   name: "HR Team",
+  //   members: [kaylaData, papatonydeepData],
+  // },
   {
     id: "local",
     name: "Local Team",

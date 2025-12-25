@@ -75,6 +75,7 @@ function SectionHeading({ id, title }: { id: string; title: string }) {
 export default function PrivacyPolicyPage() {
   return (
     <div
+      id="top"
       className="font-sans min-h-screen transition-colors duration-300"
       style={{ backgroundColor: "var(--themed-bg)" }}
     >
@@ -459,7 +460,7 @@ export default function PrivacyPolicyPage() {
               style={{ borderColor: "var(--themed-border)" }}
             >
               <Link
-                href="#"
+                href="#top"
                 className="text-sm transition-colors"
                 style={{ color: "var(--themed-link)" }}
                 onMouseEnter={(e) => {

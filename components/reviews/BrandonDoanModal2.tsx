@@ -104,12 +104,14 @@ export function BrandonDoanModal2({ isOpen, onClose }: BaseReviewerModalProps) {
           </span>
         </div>
         <p className="text-[#BDE0F5]/90 text-sm leading-relaxed">
-          Hi Brandon, thank you for sharing your concerns. We do not remove any
-          sort of opinions, negative or positive, against Foxomy in our Discord
-          server. Transparency is more important to us than having good looks.
-          Our focus is on creating a supportive environment for minorities, but
-          we do not deny service based on race. We appreciate the feedback, we
-          admit that your host SpringRacks Hosting is more professional than us.
+          Hi Brandon, thank you for sharing your concerns. First of all, please
+          use gender neutral pronouns and do not misgender our customers. We do
+          not remove any sort of opinions, negative or positive, against Foxomy
+          in our Discord server. Transparency is more important to us than
+          having good looks. Our focus is on creating a supportive environment
+          for minorities, but we do not deny service based on race. We
+          appreciate the feedback, we admit that your host SpringRacks Hosting
+          is more professional than us.
         </p>
       </div>
     </ModalWrapper>

@@ -33,7 +33,7 @@ const locations: Location[] = [
     arrowCoordinates: [-118.2437, 34.0521], // Arrow tip locked here
     tipEdge: "right", // Arrow on right edge of badge
     tipOffset: 0, // Centered on that edge
-    websocketUrl: "wss://losangeles.ca.speedtest.frontier.com:8080/ws",
+    websocketUrl: "wss://los-angeles.ca.viterbi.foxomy.com/ws?",
   },
   {
     name: "Dallas",
@@ -41,7 +41,7 @@ const locations: Location[] = [
     arrowCoordinates: [-96.8066, 32.7767 + 0.4222], // Arrow tip locked here
     tipEdge: "bottom", // Arrow on bottom edge of badge
     tipOffset: 0, // Centered on that edge
-    websocketUrl: "wss://dallas1.cabospeed.com:8080/ws?",
+    websocketUrl: "wss://dallas.tx.viterbi.foxomy.com/ws?",
   },
   {
     name: "Chicago",
@@ -49,8 +49,7 @@ const locations: Location[] = [
     arrowCoordinates: [-87.6298, 42.0781], // Arrow tip locked here
     tipEdge: "bottom", // Arrow on bottom edge of badge
     tipOffset: 0, // Centered on that edge
-    websocketUrl:
-      "wss://speedtest.chi.gigenet.com.prod.hosts.ooklaserver.net:8080/ws?",
+    websocketUrl: "wss://chicago1.cabospeed.com:8080/ws?",
   },
   {
     name: "New York",
@@ -66,8 +65,7 @@ const locations: Location[] = [
     arrowCoordinates: [8.6821, 50.3555], // Arrow tip locked here
     tipEdge: "bottom", // Arrow on bottom edge of badge
     tipOffset: 0, // Centered on that edge
-    websocketUrl:
-      "wss://speedtest1.synlinq.de.prod.hosts.ooklaserver.net:8080/ws?",
+    websocketUrl: "wss://fra-eq5-tptest1.31173.se:8080/ws?",
   },
   {
     name: "Helsinki",
@@ -75,8 +73,7 @@ const locations: Location[] = [
     arrowCoordinates: [24.9384, 60.3699], // Arrow tip locked here
     tipEdge: "bottom", // Arrow on bottom edge of badge
     tipOffset: 0, // Centered on that edge
-    websocketUrl:
-      "wss://speedtest-hki.retn.net.prod.hosts.ooklaserver.net:8080/ws?",
+    websocketUrl: "wss://speedtest-hki.netplaza.fi:8080/ws?",
   },
   {
     name: "Ho Chi Minh",
@@ -84,7 +81,7 @@ const locations: Location[] = [
     arrowCoordinates: [107.2412, 10.8231], // Arrow tip locked here
     tipEdge: "left", // Arrow on left edge of badge
     tipOffset: 0, // Centered on that edge
-    websocketUrl: "wss://speedtest.fpt.vn.prod.hosts.ooklaserver.net:8080/ws?",
+    websocketUrl: "wss://vst.powernet.vn:8080/ws?",
   },
 ];
 
