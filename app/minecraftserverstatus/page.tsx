@@ -16,7 +16,12 @@ import {
   Hash,
   Network,
   Cpu,
+  MapPin,
+  Building2,
+  Wifi,
+  Navigation,
 } from "lucide-react";
+import Link from "next/link";
 import { SignalBar, pingToSignalState } from "@/components/SignalBar";
 import { autoToHTML } from "@sfirew/minecraft-motd-parser";
 import {
@@ -78,6 +83,7 @@ interface LiveData {
   players: {
     online: number;
     max: number;
+    sample?: Array<{ name: string; id: string }>;
   } | null;
   error?: string;
 }
@@ -86,6 +92,41 @@ interface LiveData {
 interface GraphPoint {
   timestamp: number;
   value: number;
+}
+
+// Geolocation data structure
+interface GeoData {
+  ip: string;
+  country: string;
+  countryCode: string;
+  region: string;
+  city: string;
+  isp: string;
+  organization: string;
+  latitude: string;
+  longitude: string;
+  asn: string;
+  type: string;
+}
+
+// Parse ipinfo API response to GeoData
+function parseIpinfoResponse(data: Record<string, unknown>): GeoData {
+  const unavailable = "Unavailable";
+  const loc = String(data.loc || ",").split(",");
+  const asnData = data.asn as Record<string, unknown> | undefined;
+  return {
+    ip: String(data.ip || unavailable),
+    country: String(data.country || unavailable),
+    countryCode: String(data.country || ""),
+    region: String(data.region || unavailable),
+    city: String(data.city || unavailable),
+    isp: String(asnData?.name || unavailable),
+    organization: String(asnData?.name || unavailable),
+    latitude: loc[0] || unavailable,
+    longitude: loc[1] || unavailable,
+    asn: String(asnData?.asn || unavailable),
+    type: String(asnData?.type || unavailable),
+  };
 }
 
 // Data row component
@@ -146,6 +187,40 @@ function LiveGraph({
   unit: string;
   maxPoints?: number;
 }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [chartColors, setChartColors] = useState({
+    gridColor: "rgba(128, 128, 128, 0.2)",
+    tickColor: "rgba(128, 128, 128, 0.7)",
+  });
+
+  // Read CSS variables for theme-aware colors
+  useEffect(() => {
+    const updateColors = () => {
+      if (containerRef.current) {
+        const styles = getComputedStyle(containerRef.current);
+        const textMuted = styles.getPropertyValue("--themed-text-muted").trim();
+        const border = styles.getPropertyValue("--themed-border").trim();
+
+        // Use border color for grid lines, text-muted for tick labels
+        setChartColors({
+          gridColor: border || "rgba(128, 128, 128, 0.2)",
+          tickColor: textMuted || "rgba(128, 128, 128, 0.7)",
+        });
+      }
+    };
+
+    updateColors();
+
+    // Listen for theme changes
+    const observer = new MutationObserver(updateColors);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class", "data-theme", "style"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   const displayData = data.slice(-maxPoints);
 
   if (displayData.length < 2) {
@@ -160,7 +235,7 @@ function LiveGraph({
         }}
       >
         <span style={{ color: "var(--themed-text-muted)" }}>
-          Waiting for {label.toLowerCase()} data...
+          Sampling {label.toLowerCase()} data...
         </span>
       </div>
     );
@@ -229,11 +304,11 @@ function LiveGraph({
       x: {
         display: true,
         grid: {
-          color: "rgba(255, 255, 255, 0.1)",
+          color: chartColors.gridColor,
           drawBorder: false,
         },
         ticks: {
-          color: "rgba(255, 255, 255, 0.5)",
+          color: chartColors.tickColor,
           font: {
             size: 10,
           },
@@ -243,11 +318,11 @@ function LiveGraph({
       y: {
         display: true,
         grid: {
-          color: "rgba(255, 255, 255, 0.1)",
+          color: chartColors.gridColor,
           drawBorder: false,
         },
         ticks: {
-          color: "rgba(255, 255, 255, 0.5)",
+          color: chartColors.tickColor,
           font: {
             size: 10,
           },
@@ -271,6 +346,7 @@ function LiveGraph({
 
   return (
     <div
+      ref={containerRef}
       className="rounded-xl p-4"
       style={{
         backgroundColor: "var(--themed-bg-secondary)",
@@ -286,7 +362,7 @@ function LiveGraph({
         >
           {label}
         </span>
-        <span className="text-lg font-bold" style={{ color }}>
+        <span className="text-sm font-bold" style={{ color }}>
           {currentValue.toLocaleString()} {unit}
         </span>
       </div>
@@ -297,12 +373,12 @@ function LiveGraph({
         className="flex justify-between text-xs mt-1"
         style={{ color: "var(--themed-text-muted)" }}
       >
-        <span>
+        {/* <span>
           Min: {minVal.toLocaleString()} {unit}
         </span>
         <span>
           Max: {maxVal.toLocaleString()} {unit}
-        </span>
+        </span> */}
       </div>
     </div>
   );
@@ -402,8 +478,10 @@ function ServerPreviewCard({
             className="flex gap-4 p-4 rounded-lg"
             style={{
               backgroundImage:
-                "url('/imgs/minecraftserverstatus/Dirt_background_BE2.png')",
+                "linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/imgs/minecraftserverstatus/Dirt_background_BE2.png')",
               backgroundRepeat: "repeat",
+              backgroundSize: "1000px", // zoom out
+              backgroundPosition: "center",
               imageRendering: "pixelated",
               fontFamily: "var(--font-minecraft)",
             }}
@@ -430,20 +508,20 @@ function ServerPreviewCard({
             </div>
 
             {/* Server Info */}
-            <div className="grow min-w-0 flex flex-col justify-center">
+            <div className="grow min-w-0 flex flex-col">
               {/* Top row: Server name and player count */}
               <div className="flex justify-between items-start gap-4">
                 <div
-                  className="text-white truncate"
+                  className="text-white truncate text-lg"
                   style={{
                     textShadow: "2px 2px 0px #3f3f3f",
-                    lineHeight: "1.4em",
+                    lineHeight: "1.3em",
                   }}
                 >
                   {displayAddress}
                 </div>
                 <div
-                  className="shrink-0 flex items-center gap-2"
+                  className="shrink-0 flex items-center gap-2 text-lg"
                   style={{
                     color: "#AAAAAA",
                     textShadow: "2px 2px 0px #2a2a2a",
@@ -457,26 +535,35 @@ function ServerPreviewCard({
                     <span>
                       {currentLatency !== null ? `${currentLatency} ms` : "..."}
                     </span>
-                    <SignalBar
-                      state={loading ? "polling" : signalState}
-                      pollingBar={pollingBar}
-                      pixelSize={2}
-                    />
+                    <span style={{ marginTop: "-2px" }}>
+                      <SignalBar
+                        state={loading ? "polling" : signalState}
+                        pollingBar={pollingBar}
+                        pixelSize={2}
+                      />
+                    </span>
                   </span>
                 </div>
               </div>
 
               {/* MOTD - preserve whitespace */}
               <div
-                className="overflow-x-auto"
+                className="overflow-x-auto text-lg -mt-1 minecraft-motd"
                 style={{
-                  lineHeight: "1.5em",
+                  lineHeight: "1em",
                   color: "#AAAAAA",
                   textShadow: "2px 2px 0px #2a2a2a",
                   whiteSpace: "pre-wrap",
                 }}
                 dangerouslySetInnerHTML={{ __html: motdHtml }}
               />
+              {/* Minecraft color shadows - each color's shadow is 1/4 brightness */}
+              <style jsx>{`
+                .minecraft-motd :global(span[style*="color"]) {
+                  text-shadow: 2px 2px 0px
+                    color-mix(in srgb, currentColor 25%, black);
+                }
+              `}</style>
             </div>
           </div>
         )}
@@ -485,18 +572,64 @@ function ServerPreviewCard({
   );
 }
 
+// Player sample item with head
+function PlayerSampleItem({ name }: { name: string }) {
+  return (
+    <a
+      href={`https://namemc.com/profile/${encodeURIComponent(name)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="hover:underline"
+      style={{ color: "var(--themed-heading)" }}
+    >
+      <div
+        className="flex items-center gap-2 px-2 py-1 rounded-lg"
+        style={{ backgroundColor: "var(--themed-nav-hover)" }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`https://vzge.me/face/256/${encodeURIComponent(name)}`}
+          alt={`${name}'s head`}
+          width={20}
+          height={20}
+          className="rounded-sm"
+          style={{ imageRendering: "pixelated" }}
+        />
+        <span
+          className="text-sm font-medium"
+          style={{ color: "var(--themed-heading)" }}
+        >
+          {name}
+        </span>
+      </div>
+    </a>
+  );
+}
+
 // Server details card
 function ServerDetailsCard({
   serverData,
+  liveData,
+  geoData,
+  geoLoading,
   loading,
 }: {
   serverData: ServerData | null;
+  liveData: LiveData | null;
+  geoData: GeoData | null;
+  geoLoading: boolean;
   loading: boolean;
 }) {
   if (loading || !serverData) return null;
 
-  // Safely get player samples
-  const playerSamples = serverData.players.sample ?? [];
+  // Use live player samples if available, otherwise fall back to initial data
+  const rawPlayerSamples =
+    liveData?.players?.sample ?? serverData.players.sample ?? [];
+
+  // Sort player samples alphabetically by name (case-insensitive)
+  const playerSamples = [...rawPlayerSamples].sort((a, b) =>
+    a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+  );
 
   return (
     <motion.div
@@ -525,42 +658,42 @@ function ServerDetailsCard({
           style={{ color: "var(--themed-heading)" }}
         >
           Server Details
+          {geoLoading && (
+            <Loader2
+              className="w-4 h-4 animate-spin"
+              style={{ color: "var(--themed-link)" }}
+            />
+          )}
         </h4>
       </div>
 
       {/* Content */}
       <div className="px-5 py-2">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-x-6">
+          {/* Server Info Column */}
           <div>
             <DataRow
               icon={Globe}
               label="Host"
               value={
-                <a
-                  href={`/ipgeolocation?ip=${encodeURIComponent(
+                <Link
+                  href={`https://bgp.tools/prefix/${encodeURIComponent(
                     serverData.host
                   )}`}
                   target="_blank"
-                  rel="noopener noreferrer"
                   className="hover:underline"
                   style={{ color: "var(--themed-accent)" }}
                 >
                   {serverData.host}
-                </a>
+                </Link>
               }
             />
             <DataRow icon={Hash} label="Port" value={String(serverData.port)} />
             <DataRow
               icon={Network}
               label="SRV Record"
-              value={
-                serverData.srvRecord
-                  ? `${serverData.srvRecord.host}:${serverData.srvRecord.port}`
-                  : "None"
-              }
+              value={serverData.srvRecord ? `${serverData.srvRecord}` : "None"}
             />
-          </div>
-          <div>
             <DataRow
               icon={Cpu}
               label="Version"
@@ -571,15 +704,108 @@ function ServerDetailsCard({
               label="Protocol"
               value={String(serverData.version.protocol)}
             />
+          </div>
+
+          {/* Location Column */}
+          <div>
             <DataRow
-              icon={Users}
-              label="Player Samples"
+              icon={MapPin}
+              label="Country"
+              value={geoLoading ? "Loading..." : geoData?.country || "Unknown"}
+            />
+            <DataRow
+              icon={MapPin}
+              label="Region"
+              value={geoLoading ? "Loading..." : geoData?.region || "Unknown"}
+            />
+            <DataRow
+              icon={Building2}
+              label="City"
+              value={geoLoading ? "Loading..." : geoData?.city || "Unknown"}
+            />
+            <DataRow
+              icon={Navigation}
+              label="Coordinates"
               value={
-                playerSamples.length > 0
-                  ? playerSamples.map((p) => p.name).join(", ")
-                  : "None"
+                geoLoading
+                  ? "Loading..."
+                  : geoData?.latitude && geoData?.longitude
+                  ? `${geoData.latitude}, ${geoData.longitude}`
+                  : "Unknown"
               }
             />
+          </div>
+
+          {/* Network Column */}
+          <div>
+            <DataRow
+              icon={Wifi}
+              label="ISP"
+              value={geoLoading ? "Loading..." : geoData?.isp || "Unknown"}
+            />
+            <DataRow
+              icon={Building2}
+              label="Organization"
+              value={
+                geoLoading ? "Loading..." : geoData?.organization || "Unknown"
+              }
+            />
+            <DataRow
+              icon={Hash}
+              label="ASN"
+              value={geoLoading ? "Loading..." : geoData?.asn || "Unknown"}
+            />
+            <DataRow
+              icon={Server}
+              label="Type"
+              value={
+                geoLoading
+                  ? "Loading..."
+                  : geoData?.type
+                  ? geoData.type.charAt(0).toUpperCase() + geoData.type.slice(1)
+                  : "Unknown"
+              }
+            />
+          </div>
+        </div>
+
+        {/* Player Samples Section */}
+        <div
+          className="mt-4 pt-4"
+          style={{ borderTop: "1px solid var(--themed-border)" }}
+        >
+          <div className="flex items-center gap-2 mb-4">
+            <div
+              className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center"
+              style={{ backgroundColor: "var(--themed-nav-hover)" }}
+            >
+              <Users
+                className="w-4 h-4"
+                style={{ color: "var(--themed-link)" }}
+              />
+            </div>
+            <span
+              className="text-sm"
+              style={{ color: "var(--themed-text-muted)" }}
+            >
+              Player Samples ({playerSamples.length}/{serverData.players.max})
+            </span>
+          </div>
+          <div className="flex items-center gap-2 mb-2">
+            {playerSamples.length > 0 ? (
+              <div className="flex flex-wrap gap-2">
+                {playerSamples.map((player) => (
+                  <PlayerSampleItem key={player.id} name={player.name} />
+                ))}
+              </div>
+            ) : (
+              <span
+                className="text-sm"
+                style={{ color: "var(--themed-text-muted)" }}
+              >
+                No player samples available
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -602,6 +828,10 @@ function MinecraftServerStatusContent() {
   const [error, setError] = useState<string | null>(null);
   const [pollingBar, setPollingBar] = useState(0);
 
+  // Geolocation data
+  const [geoData, setGeoData] = useState<GeoData | null>(null);
+  const [geoLoading, setGeoLoading] = useState(false);
+
   // Graph data
   const [playerHistory, setPlayerHistory] = useState<GraphPoint[]>([]);
   const [latencyHistory, setLatencyHistory] = useState<GraphPoint[]>([]);
@@ -619,6 +849,11 @@ function MinecraftServerStatusContent() {
     bedrock: boolean;
   } | null>(null);
   const urlLookupDoneRef = useRef(false);
+
+  // Geolocation WebSocket refs
+  const geoWsRef = useRef<WebSocket | null>(null);
+  const geoRequestIdRef = useRef<string | null>(null);
+  const lastGeoHostRef = useRef<string | null>(null);
 
   // Parse address into host and port
   const parseAddress = useCallback(
@@ -762,6 +997,106 @@ function MinecraftServerStatusContent() {
     }
   }, []);
 
+  // Connect to Geolocation WebSocket
+  const connectGeoWebSocket = useCallback(() => {
+    if (geoWsRef.current?.readyState === WebSocket.OPEN) return;
+
+    try {
+      const ws = new WebSocket("wss://ipgeows.foxomy.com");
+
+      ws.onmessage = (event) => {
+        try {
+          const response = JSON.parse(event.data);
+
+          // Check if this is our pending request
+          if (response.id === geoRequestIdRef.current) {
+            geoRequestIdRef.current = null;
+            setGeoLoading(false);
+
+            if (response.data) {
+              const geoData = parseIpinfoResponse(response.data);
+              setGeoData(geoData);
+            }
+          }
+        } catch {
+          // Ignore parse errors
+        }
+      };
+
+      ws.onerror = () => {
+        // Silent error handling
+      };
+
+      ws.onclose = () => {
+        // Auto-reconnect after 5 seconds
+        setTimeout(() => {
+          connectGeoWebSocket();
+        }, 5000);
+      };
+
+      geoWsRef.current = ws;
+    } catch {
+      // Connection failed
+    }
+  }, []);
+
+  // Fetch geolocation data for a host
+  const fetchGeoData = useCallback(
+    (host: string) => {
+      // Don't re-fetch for the same host
+      if (host === lastGeoHostRef.current) return;
+      lastGeoHostRef.current = host;
+
+      setGeoLoading(true);
+      setGeoData(null);
+
+      // Connect WebSocket if not connected
+      if (!geoWsRef.current || geoWsRef.current.readyState !== WebSocket.OPEN) {
+        connectGeoWebSocket();
+        // Retry after connection
+        setTimeout(() => fetchGeoData(host), 500);
+        return;
+      }
+
+      const id = generateId();
+      geoRequestIdRef.current = id;
+
+      geoWsRef.current.send(JSON.stringify({ api: "ipinfo", ip: host, id }));
+
+      // Set timeout
+      setTimeout(() => {
+        if (geoRequestIdRef.current === id) {
+          geoRequestIdRef.current = null;
+          setGeoLoading(false);
+        }
+      }, 10000);
+    },
+    [connectGeoWebSocket]
+  );
+
+  // Send unsubscribe request
+  const sendUnsubscribe = useCallback(() => {
+    if (
+      !wsRef.current ||
+      wsRef.current.readyState !== WebSocket.OPEN ||
+      !currentServerRef.current
+    ) {
+      return;
+    }
+
+    const unsubId = generateId();
+    wsRef.current.send(
+      JSON.stringify({
+        action: "unsubscribe",
+        address: currentServerRef.current.address,
+        port: currentServerRef.current.port,
+        bedrock: currentServerRef.current.bedrock,
+        id: unsubId,
+      })
+    );
+    subscribeIdRef.current = null;
+  }, []);
+
   // Send ping request
   const sendPing = useCallback(
     (address: string, port: number, bedrock: boolean) => {
@@ -777,18 +1112,23 @@ function MinecraftServerStatusContent() {
         currentServerRef.current.port === port &&
         currentServerRef.current.bedrock === bedrock;
 
+      // Unsubscribe from previous server if switching to a different one
+      if (!isSameServer && currentServerRef.current) {
+        sendUnsubscribe();
+      }
+
       // Reset state
       setLoading(true);
       setError(null);
       setServerData(null);
       setLiveData(null);
 
-      // Only clear graph data if it's a different server
+      // Only clear data if it's a different server
       if (!isSameServer) {
         setPlayerHistory([]);
         setLatencyHistory([]);
-        // Clear old subscription ID only for different servers
-        subscribeIdRef.current = null;
+        setGeoData(null);
+        lastGeoHostRef.current = null;
       }
 
       // Store current server info
@@ -817,12 +1157,13 @@ function MinecraftServerStatusContent() {
         }
       }, 15000);
     },
-    [connectWebSocket]
+    [connectWebSocket, sendUnsubscribe]
   );
 
-  // Connect WebSocket on mount
+  // Connect WebSockets on mount
   useEffect(() => {
     connectWebSocket();
+    connectGeoWebSocket();
 
     // Polling animation for signal bar
     pollingIntervalRef.current = setInterval(() => {
@@ -832,6 +1173,9 @@ function MinecraftServerStatusContent() {
     return () => {
       if (wsRef.current) {
         wsRef.current.close();
+      }
+      if (geoWsRef.current) {
+        geoWsRef.current.close();
       }
       if (pingIntervalRef.current) {
         clearInterval(pingIntervalRef.current);
@@ -843,7 +1187,14 @@ function MinecraftServerStatusContent() {
         clearTimeout(reconnectTimeoutRef.current);
       }
     };
-  }, [connectWebSocket]);
+  }, [connectWebSocket, connectGeoWebSocket]);
+
+  // Fetch geolocation when server data is received
+  useEffect(() => {
+    if (serverData?.host) {
+      fetchGeoData(serverData.host);
+    }
+  }, [serverData?.host, fetchGeoData]);
 
   // Auto-lookup from URL parameter
   useEffect(() => {
@@ -929,7 +1280,7 @@ function MinecraftServerStatusContent() {
               className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 transition-colors duration-300"
               style={{ color: "var(--themed-heading)" }}
             >
-              Minecraft Server Status
+              Minecraft Server Status Checker
             </motion.h1>
 
             <motion.p
@@ -940,8 +1291,7 @@ function MinecraftServerStatusContent() {
               style={{ color: "var(--themed-text-muted)" }}
             >
               Check the status of any Minecraft Java or Bedrock server because I
-              don't like how slow mcsrvstat.us is with that Cloudflare
-              challenge.
+              don't like the Cloudflare challenge on mcsrvstat.us.
             </motion.p>
 
             {/* Connection status */}
@@ -1069,7 +1419,13 @@ function MinecraftServerStatusContent() {
               />
 
               {/* Server Details Card */}
-              <ServerDetailsCard serverData={serverData} loading={loading} />
+              <ServerDetailsCard
+                serverData={serverData}
+                liveData={liveData}
+                geoData={geoData}
+                geoLoading={geoLoading}
+                loading={loading}
+              />
 
               {/* Live Graphs */}
               {serverData && !loading && !error && (

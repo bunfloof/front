@@ -10,18 +10,21 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "Minecraft Server Status Checker",
-  description: "Check the status of any Minecraft Java or Bedrock server because I don't like how slow mcsrvstat.us is with that Cloudflare challenge.",
+  description:
+    "Check the status of any Minecraft Java or Bedrock server because I don't like the Cloudflare challenge on mcsrvstat.us.",
   openGraph: {
     siteName: "Minecraft Server Status Checker",
     title: "Minecraft Server Status Checker",
-    description: "Check the status of any Minecraft Java or Bedrock server because I don't like how slow mcsrvstat.us is with that Cloudflare challenge.",
-    type: "website"
+    description:
+      "Check the status of any Minecraft Java or Bedrock server because I don't like the Cloudflare challenge on mcsrvstat.us.",
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Minecraft Server Status Checker",
-    description: "Check the status of any Minecraft Java or Bedrock server because I don't like how slow mcsrvstat.us is with that Cloudflare challenge.",
-    images:undefined,
+    description:
+      "Check the status of any Minecraft Java or Bedrock server because I don't like the Cloudflare challenge on mcsrvstat.us.",
+    images: undefined,
   },
 };
 

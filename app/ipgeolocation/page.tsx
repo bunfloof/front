@@ -906,8 +906,7 @@ function IPGeolocationContent() {
               style={{ color: "var(--themed-text-muted)" }}
             >
               Look up geolocation data for any IP address using multiple APIs
-              because I don't like how iplocation.net is filled with ads and
-              miners.
+              because I don't the ads and miners on iplocation.net.
             </motion.p>
 
             {/* Connection status */}

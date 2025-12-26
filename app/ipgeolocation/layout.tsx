@@ -11,19 +11,19 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "IP Location Lookup",
   description:
-    "Look up geolocation data for any IP address using multiple APIs because I don't like how iplocation.net is filled with ads and miners.",
+    "Look up geolocation data for any IP address using multiple APIs because I don't the ads and miners on iplocation.net.",
   openGraph: {
     siteName: "IP Location Lookup",
     title: "IP Location Lookup",
     description:
-      "Look up geolocation data for any IP address using multiple APIs because I don't like how iplocation.net is filled with ads and miners.",
+      "Look up geolocation data for any IP address using multiple APIs because I don't the ads and miners on iplocation.net.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "IP Location Lookup",
     description:
-      "Look up geolocation data for any IP address using multiple APIs because I don't like how iplocation.net is filled with ads and miners.",
+      "Look up geolocation data for any IP address using multiple APIs because I don't the ads and miners on iplocation.net.",
     images: undefined,
   },
 };
