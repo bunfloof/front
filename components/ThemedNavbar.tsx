@@ -101,7 +101,7 @@ export const ThemedNavbar = () => {
                           onClick={() =>
                             setResourcesDropdown(!resourcesDropdown)
                           }
-                          className="flex items-center justify-center text-sm px-4 py-2 h-8 rounded-md transition duration-200 gap-1"
+                          className="flex items-center justify-center text-sm px-4 py-2 h-8 rounded-md transition duration-200 gap-1 cursor-pointer"
                           style={{
                             color: "var(--themed-text-muted)",
                           }}
@@ -399,7 +399,7 @@ export const ThemedNavbar = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              className="absolute top-full left-4 right-4 mt-2 p-6 rounded-xl border backdrop-blur-2xl"
+              className="absolute top-full left-4 right-4 mt-2 p-6 rounded-xl border backdrop-blur-2xl max-h-[calc(100vh-80px)] overflow-y-auto"
               style={{
                 backgroundColor: "var(--themed-dropdown-bg)",
                 borderColor: "var(--themed-border)",
@@ -431,7 +431,7 @@ export const ThemedNavbar = () => {
                           onClick={() =>
                             setMobileResourcesExpanded(!mobileResourcesExpanded)
                           }
-                          className="flex items-center justify-between w-full text-sm px-4 py-2 rounded-md transition duration-200"
+                          className="flex items-center justify-between w-full text-sm px-4 py-2 rounded-md transition duration-200 cursor-pointer"
                           style={{ color: "var(--themed-text-muted)" }}
                           onMouseEnter={(e) => {
                             e.currentTarget.style.backgroundColor =

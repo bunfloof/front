@@ -11,6 +11,12 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.2.3
         version: 1.2.4(@types/react@19.2.7)(react@19.1.0)
+      '@sfirew/minecraft-motd-parser':
+        specifier: ^1.1.6
+        version: 1.1.6
+      chart.js:
+        specifier: ^4.5.1
+        version: 4.5.1
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -41,6 +47,9 @@ importers:
       react:
         specifier: 19.1.0
         version: 19.1.0
+      react-chartjs-2:
+        specifier: ^5.3.1
+        version: 5.3.1(chart.js@4.5.1)(react@19.1.0)
       react-dom:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
@@ -241,6 +250,9 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
+  '@kurkle/color@0.3.4':
+    resolution: {integrity: sha512-M5UknZPHRu3DEDWoipU6sE8PdkZ6Z/S+v4dD+Ke8IaNlpdSQah50lz1KtcFBa2vsdOnwbbnxJwVM4wty6udA5w==}
+
   '@next/env@16.0.10':
     resolution: {integrity: sha512-8tuaQkyDVgeONQ1MeT9Mkk8pQmZapMKFh5B+OrFUlG3rVmYTXcXlBetBgTurKXGaIZvkoqRT9JL5K3phXcgang==}
 
@@ -309,6 +321,9 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
+
+  '@sfirew/minecraft-motd-parser@1.1.6':
+    resolution: {integrity: sha512-DHh7sOD+o2RhzcCBxZGMwvNIq9ciUWNNuJ4ZYVmmSEzgaEI+dYhU1xp94UkEStH+/FFWNVYQm1cdHpsI8NCu5Q==}
 
   '@swc/helpers@0.5.15':
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
@@ -435,6 +450,10 @@ packages:
 
   caniuse-lite@1.0.30001760:
     resolution: {integrity: sha512-7AAMPcueWELt1p3mi13HR/LHH0TJLT11cnwDJEs3xA4+CK/PLKeO9Kl1oru24htkyUKtkGCvAx4ohB0Ttry8Dw==}
+
+  chart.js@4.5.1:
+    resolution: {integrity: sha512-GIjfiT9dbmHRiYi6Nl2yFCq7kkwdkp1W/lp2J99rX0yo9tgJGn3lKQATztIjb5tVtevcBtIdICNWqlq5+E8/Pw==}
+    engines: {pnpm: '>=8'}
 
   class-variance-authority@0.7.1:
     resolution: {integrity: sha512-Ka+9Trutv7G8M6WT6SeiRWz792K5qEqIGEGzXKhAE6xOWAY6pPH8U+9IY3oCMv6kqTmLsv7Xh/2w2RigkePMsg==}
@@ -687,6 +706,12 @@ packages:
   prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
 
+  react-chartjs-2@5.3.1:
+    resolution: {integrity: sha512-h5IPXKg9EXpjoBzUfyWJvllMjG2mQ4EiuHQFhms/AjUm0XSZHhyRy2xVmLXHKrtcdrPO4mnGqRtYoD0vp95A0A==}
+    peerDependencies:
+      chart.js: ^4.1.1
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
   react-dom@19.1.0:
     resolution: {integrity: sha512-Xs1hdnE+DyKgeHJeJznQmYMIBG3TKIHJJT95Q58nHLSrElKlGQqDTR2HQ9fx5CN/Gk6Vh/kupBTDLU11/nDk/g==}
     peerDependencies:
@@ -895,6 +920,8 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
+  '@kurkle/color@0.3.4': {}
+
   '@next/env@16.0.10': {}
 
   '@next/swc-darwin-arm64@16.0.10':
@@ -933,6 +960,8 @@ snapshots:
       react: 19.1.0
     optionalDependencies:
       '@types/react': 19.2.7
+
+  '@sfirew/minecraft-motd-parser@1.1.6': {}
 
   '@swc/helpers@0.5.15':
     dependencies:
@@ -1046,6 +1075,10 @@ snapshots:
       csstype: 3.2.3
 
   caniuse-lite@1.0.30001760: {}
+
+  chart.js@4.5.1:
+    dependencies:
+      '@kurkle/color': 0.3.4
 
   class-variance-authority@0.7.1:
     dependencies:
@@ -1263,6 +1296,11 @@ snapshots:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
+
+  react-chartjs-2@5.3.1(chart.js@4.5.1)(react@19.1.0):
+    dependencies:
+      chart.js: 4.5.1
+      react: 19.1.0
 
   react-dom@19.1.0(react@19.1.0):
     dependencies:

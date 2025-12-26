@@ -29,15 +29,17 @@ export const menuItems: MenuItem[] = [
     name: "Resources",
     children: [
       { name: "IP Location Lookup", href: "/ipgeolocation" },
-      { name: "Minecraft Server Status", href: "#" },
+      { name: "Minecraft Server Status", href: "/minecraftserverstatus" },
     ],
   },
 ];
 
 export const loginOptions: LoginOption[] = [
   { name: "Billing Panel", href: "https://foxomy.com/billing" },
-  { name: "Game Panel", href: "https://panel.foxomy.com/app" },
+  { name: "Pterodactyl Game Panel", href: "https://panel.foxomy.com/app" },
+  { name: "Old Pterodactyl Panel", href: "https://panel.foxomy.com/" },
   { name: "Webhosting Panel", href: "https://us1.rapidcpanelserver.com:2083" },
+  { name: "Tenantos Server Panel", href: "https://servercp.foxomy.com" },
 ];
 
 // ============================================
@@ -85,8 +87,12 @@ export const footerSections: FooterSection[] = [
         href: "https://foxomy.com/billing/submitticket.php",
       },
       {
-        label: "IP Lookup",
+        label: "IP Location Lookup",
         href: "/ipgeolocation",
+      },
+      {
+        label: "Minecraft Server Status",
+        href: "/minecraftserverstatus",
       },
     ],
   },

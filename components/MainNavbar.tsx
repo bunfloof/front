@@ -107,7 +107,7 @@ export const MainNavbar = ({ isDark = true }: MainNavbarProps) => {
                           onClick={() =>
                             setResourcesDropdown(!resourcesDropdown)
                           }
-                          className={`flex items-center justify-center text-sm px-4 py-2 h-8 rounded-md transition duration-200 gap-1 ${
+                          className={`flex items-center justify-center text-sm px-4 py-2 h-8 rounded-md transition duration-200 gap-1 cursor-pointer ${
                             isDark
                               ? "hover:bg-[#1A77AD]/20 text-[#BDE0F5]/70 hover:text-white"
                               : "hover:bg-gray-100 text-gray-600 hover:text-gray-900"
@@ -325,7 +325,7 @@ export const MainNavbar = ({ isDark = true }: MainNavbarProps) => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              className={`absolute top-full left-4 right-4 mt-2 p-6 rounded-xl border backdrop-blur-2xl ${
+              className={`absolute top-full left-4 right-4 mt-2 p-6 rounded-xl border backdrop-blur-2xl max-h-[calc(100vh-80px)] overflow-y-auto ${
                 isDark
                   ? "border-[#1A77AD]/30 bg-[#030F16]/90"
                   : "border-gray-200 bg-white/90"
@@ -357,7 +357,7 @@ export const MainNavbar = ({ isDark = true }: MainNavbarProps) => {
                           onClick={() =>
                             setMobileResourcesExpanded(!mobileResourcesExpanded)
                           }
-                          className={`flex items-center justify-between w-full text-sm px-4 py-2 rounded-md transition duration-200 ${
+                          className={`flex items-center justify-between w-full text-sm px-4 py-2 rounded-md transition duration-200 cursor-pointer ${
                             isDark
                               ? "hover:bg-[#1A77AD]/20 text-[#BDE0F5]/70 hover:text-white"
                               : "hover:bg-gray-100 text-gray-600 hover:text-gray-900"

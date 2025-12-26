@@ -348,7 +348,7 @@ export default function AkogenoActPage() {
                   className="space-y-4 leading-relaxed transition-colors duration-300"
                   style={{ color: "var(--themed-text)" }}
                 >
-                  <div
+                  {/* <div
                     className="rounded-lg p-6 transition-colors duration-300"
                     style={{
                       backgroundColor: "var(--themed-bg-secondary)",
@@ -377,7 +377,7 @@ export default function AkogenoActPage() {
                       treatment as she did.
                     </p>
                     <p className="mt-4 text-sm">
-                      Listen to our speech at UCLA (00:42:04):{" "}
+                      Listen to our speech at University of California (00:42:04):{" "}
                       <a
                         href="https://www.youtube.com/watch?v=p4KHxFzwYaM&t=6124"
                         className="hover:underline"
@@ -386,7 +386,7 @@ export default function AkogenoActPage() {
                         https://www.youtube.com/watch?v=p4KHxFzwYaM&t=6124
                       </a>
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </section>
 

@@ -304,7 +304,7 @@ function ApiResultCard({
         {data && !loading && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
             <div>
-              <DataRow icon={Earth} label="IP Address" value={data.ip} />
+              <DataRow icon={Globe} label="IP Address" value={data.ip} />
               <DataRow
                 icon={MapPin}
                 label="Country"
@@ -351,7 +351,7 @@ function QuickInfoCard({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-xl overflow-hidden max-w-3xl mx-auto transition-colors duration-300"
+      className="rounded-xl overflow-hidden max-w-2xl mx-auto transition-colors duration-300"
       style={{
         backgroundColor: "var(--themed-bg-secondary)",
         borderWidth: "1px",
@@ -895,7 +895,7 @@ function IPGeolocationContent() {
               className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 transition-colors duration-300"
               style={{ color: "var(--themed-heading)" }}
             >
-              IP Geolocation Lookup
+              IP Location Lookup
             </motion.h1>
 
             <motion.p
