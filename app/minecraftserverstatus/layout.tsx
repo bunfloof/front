@@ -9,7 +9,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Minecraft Server Status Checker",
+  title:
+    "Minecraft Server Status Checker - Best status checker for Minecraft servers",
   description:
     "Check the status of any Minecraft Java or Bedrock server because I don't like the Cloudflare challenge on mcsrvstat.us.",
   openGraph: {

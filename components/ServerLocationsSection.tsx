@@ -44,12 +44,12 @@ const locations: Location[] = [
     websocketUrl: "wss://dallas.tx.viterbi.foxomy.com/ws?",
   },
   {
-    name: "Chicago",
-    coordinates: [-87.6298, 41.8781],
-    arrowCoordinates: [-87.6298, 42.0781], // Arrow tip locked here
-    tipEdge: "bottom", // Arrow on bottom edge of badge
+    name: "San Jose",
+    coordinates: [-121.9681, 37.3382],
+    arrowCoordinates: [-121.9681, 37.5382], // Arrow tip locked here
+    tipEdge: "right", // Arrow on bottom edge of badge
     tipOffset: 0, // Centered on that edge
-    websocketUrl: "wss://chicago1.cabospeed.com:8080/ws?",
+    websocketUrl: "wss://san-jose.ca.viterbi.furweb.com/ws",
   },
   {
     name: "New York",
@@ -703,7 +703,7 @@ export function ServerLocationsSection() {
                             [
                               "Los Angeles",
                               "Dallas",
-                              "Chicago",
+                              "San Jose",
                               "New York",
                             ].includes(l.name)
                           )

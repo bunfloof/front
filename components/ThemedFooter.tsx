@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { footerSections, socialLinks } from "@/config/navigation";
+import { CdnLocationBadge } from "@/components/CdnLocationBadge";
 
 export function ThemedFooter() {
   return (
@@ -126,6 +127,8 @@ export function ThemedFooter() {
           ))}
         </div>
       </div>
+
+      <CdnLocationBadge themed />
     </footer>
   );
 }

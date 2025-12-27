@@ -10,6 +10,7 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
     "@sfirew/minecraft-motd-parser": "^1.1.6",
+    "airportsjs": "^0.3.1",
     "chart.js": "^4.5.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { footerSections, socialLinks } from "@/config/navigation";
+import { CdnLocationBadge } from "@/components/CdnLocationBadge";
 
 interface FooterProps {
   isDark?: boolean;
@@ -114,6 +115,8 @@ export function Footer({ isDark = true }: FooterProps) {
           ))}
         </div>
       </div>
+
+      <CdnLocationBadge isDark={isDark} />
     </footer>
   );
 }

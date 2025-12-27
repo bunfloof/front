@@ -527,6 +527,10 @@
   --themed-social-text: rgba(122, 194, 235, 0.6);
   --themed-footer-title: #d6fff9;
   --themed-logo-filter: none;
+  --themed-tooltip-bg: rgba(13, 58, 84, 0.8);
+  --themed-tooltip-text: #bde0f5;
+  --themed-tooltip-border: rgba(26, 119, 173, 0.3);
+  --themed-cdn-text: rgba(122, 194, 235, 0.5);
 }
 
 /* Light mode for blog */
@@ -553,6 +557,10 @@
   --themed-social-text: #6b7280;
   --themed-footer-title: #1f2937;
   --themed-logo-filter: invert(1);
+  --themed-tooltip-bg: rgba(30, 41, 59, 0.8);
+  --themed-tooltip-text: #e2e8f0;
+  --themed-tooltip-border: rgba(71, 85, 105, 0.5);
+  --themed-cdn-text: #6b7280;
 }
 
 /* Blog page selection color - only in dark mode */
@@ -561,6 +569,16 @@
 }
 .dark .themed-selection ::-moz-selection {
   background: rgba(56, 189, 248, 0.3);
+}
+
+/* Blog page selection color - only in light mode */
+.light .themed-selection ::selection {
+  background: rgba(180, 213, 255, 1);
+  color: #1f2937;
+}
+.light .themed-selection ::-moz-selection {
+  background: rgba(180, 213, 255, 1);
+  color: #1f2937;
 }
 
 /* Hide global footer on blog pages (they have their own themed footer) */
