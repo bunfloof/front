@@ -83,7 +83,7 @@ export const ThemedNavbar = () => {
                     alt="Foxomy"
                     width={24}
                     height={24}
-                    className="w-6 h-6 transition-all duration-300"
+                    className="w-6 h-6 transition-all duration-300 select-none"
                     style={{ filter: "var(--themed-logo-filter)" }}
                   />
                   <span

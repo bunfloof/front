@@ -500,7 +500,10 @@ export default function HowFoxomyUsesMXRoutePost() {
                 support team because it just works. MXRoute broke this record
                 because I had to open a ticket with them after we experienced
                 longer than usual delays in receiving emails from Discord that
-                the verification emails expired. Time to inbox was never a
+                the verification emails expired. Even with or without forwarding
+                to Gmail, emails were still received extremely late. The
+                catch-all forwarding to Gmail solution has always been our setup
+                on Mailgun for the past 5 years. Time to inbox was never a
                 problem with Mailgun's catch-all as Mailgun consistently
                 received and forwarded emails within a second.
               </p>
@@ -545,9 +548,10 @@ export default function HowFoxomyUsesMXRoutePost() {
 
               <p>
                 This did eventually resolve itself, but we stopped using MXRoute
-                for receiving email because MXRoute's spam filters were too
-                strict. MXRoute is now purely one of our outbound SMTP
-                providers.
+                for receiving or forwarding emails because it was too slow.
+                MXRoute is now only one of our outbound SMTP providers while we
+                use email forwarding via Cloudflare as they were proven more
+                reliable than MXRoute.
               </p>
 
               <h2
@@ -563,8 +567,7 @@ export default function HowFoxomyUsesMXRoutePost() {
               <p>
                 For the price of $10 every 3 years, we can't complain. We would
                 recommend MXRoute as one of our outbound SMTP providers for
-                reliable email delivery and strong sender IP reputation but
-                would not recommend it for forwarding emails to Gmail.
+                reliable email delivery and strong sender IP reputation.
               </p>
             </div>
           </article>

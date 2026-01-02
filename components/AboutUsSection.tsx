@@ -121,7 +121,7 @@ export function AboutUsSection() {
                   (staff, index) => (
                     <div
                       key={`${staff.name}-${index}`}
-                      className="flex-shrink-0 w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 mx-1.5 md:mx-1.5"
+                      className="flex-shrink-0 w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 mx-1 md:mx-1.5"
                     >
                       <img
                         src={staff.src}

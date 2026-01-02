@@ -17,6 +17,8 @@ import {
   AlertCircle,
   CheckCircle2,
   RefreshCw,
+  Copy,
+  Check,
 } from "lucide-react";
 import "flag-icons/css/flag-icons.min.css";
 
@@ -347,6 +349,27 @@ function QuickInfoCard({
   data: GeoData | null;
   loading: boolean;
 }) {
+  const [copied, setCopied] = useState(false);
+
+  const copyIP = async () => {
+    if (!data?.ip) return;
+    try {
+      await navigator.clipboard.writeText(data.ip);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback for older browsers
+      const textarea = document.createElement("textarea");
+      textarea.value = data.ip;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -403,7 +426,51 @@ function QuickInfoCard({
         {data && !loading && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
             <div>
-              <DataRow icon={Globe} label="IP Address" value={data.ip} />
+              {/* IP Address row with copy button */}
+              <div className="flex items-center gap-3 py-0.75">
+                <div
+                  className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center"
+                  style={{ backgroundColor: "var(--themed-nav-hover)" }}
+                >
+                  <Globe
+                    className="w-4 h-4"
+                    style={{ color: "var(--themed-link)" }}
+                  />
+                </div>
+                <div className="grow min-w-0">
+                  <span
+                    className="text-sm"
+                    style={{ color: "var(--themed-text-muted)" }}
+                  >
+                    IP Address
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="font-medium truncate"
+                      style={{ color: "var(--themed-heading)" }}
+                    >
+                      {data.ip}
+                    </span>
+                    <button
+                      onClick={copyIP}
+                      className="shrink-0 p-1 rounded-md transition-colors hover:opacity-80 cursor-pointer"
+                      title="Copy IP address"
+                    >
+                      {copied ? (
+                        <Check
+                          className="w-3.5 h-3.5"
+                          style={{ color: "var(--themed-accent)" }}
+                        />
+                      ) : (
+                        <Copy
+                          className="w-3.5 h-3.5"
+                          style={{ color: "var(--themed-link)" }}
+                        />
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
               <DataRow
                 icon={MapPin}
                 label="Country"
