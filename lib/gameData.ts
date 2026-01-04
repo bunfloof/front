@@ -114,7 +114,7 @@ export const locations: Location[] = [
     apiKey: "fra",
     name: "Frankfurt, Germany",
     flagIcon: "/imgs/flags/deflag.svg",
-    wsUrl: "wss://fra-eq5-tptest1.31173.se:8080/ws?",
+    wsUrl: "wss://frankfurt.de.viterbi.foxomy.com/ws?",
     outOfStock: false,
     tier: "premium",
     cpu: "Intel Core i9-14900KS",

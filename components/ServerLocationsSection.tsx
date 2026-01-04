@@ -65,7 +65,7 @@ const locations: Location[] = [
     arrowCoordinates: [8.6821, 50.3555], // Arrow tip locked here
     tipEdge: "bottom", // Arrow on bottom edge of badge
     tipOffset: 0, // Centered on that edge
-    websocketUrl: "wss://fra-eq5-tptest1.31173.se:8080/ws?",
+    websocketUrl: "wss://frankfurt.de.viterbi.foxomy.com/ws?",
   },
   {
     name: "Helsinki",
