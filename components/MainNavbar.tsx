@@ -206,7 +206,7 @@ export const MainNavbar = ({ isDark = true }: MainNavbarProps) => {
                 <div className="relative" ref={loginRef}>
                   <button
                     onClick={() => setLoginDropdown(!loginDropdown)}
-                    className={`group relative z-10 text-sm transition font-medium duration-200 rounded-md px-4 py-2 flex items-center justify-center h-8 gap-1.5 ${
+                    className={`group relative z-10 text-sm transition font-medium duration-200 rounded-md px-4 py-2 flex items-center justify-center h-8 gap-1.5 cursor-pointer ${
                       isDark
                         ? "bg-[#071F2C] hover:bg-[#0D3A54] border border-[#1A77AD]/40 text-[#BDE0F5]"
                         : "bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-700"

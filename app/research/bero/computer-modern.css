@@ -1,0 +1,122 @@
+/* Computer Modern Fonts for LaTeX-style rendering */
+
+@font-face {
+  font-family: "Computer Modern Serif";
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+  src: url("/fonts/computer-modern/CMUSerif-Roman.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Computer Modern Serif";
+  font-style: normal;
+  font-weight: bold;
+  font-display: swap;
+  src: url("/fonts/computer-modern/CMUSerif-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Computer Modern Serif";
+  font-style: italic;
+  font-weight: normal;
+  font-display: swap;
+  src: url("/fonts/computer-modern/CMUSerif-Italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Computer Modern Serif";
+  font-style: italic;
+  font-weight: bold;
+  font-display: swap;
+  src: url("/fonts/computer-modern/CMUSerif-BoldItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Computer Modern Sans";
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+  src: url("/fonts/computer-modern/CMUSansSerif.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Computer Modern Sans";
+  font-style: normal;
+  font-weight: bold;
+  font-display: swap;
+  src: url("/fonts/computer-modern/CMUSansSerif-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Computer Modern Sans";
+  font-style: oblique;
+  font-weight: normal;
+  font-display: swap;
+  src: url("/fonts/computer-modern/CMUSansSerif-Oblique.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Computer Modern Typewriter";
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+  src: url("/fonts/computer-modern/CMUTypewriter-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Computer Modern Typewriter";
+  font-style: normal;
+  font-weight: bold;
+  font-display: swap;
+  src: url("/fonts/computer-modern/CMUTypewriter-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Computer Modern Typewriter";
+  font-style: italic;
+  font-weight: normal;
+  font-display: swap;
+  src: url("/fonts/computer-modern/CMUTypewriter-Italic.woff2") format("woff2");
+}
+
+.paper-content {
+  font-family: "Computer Modern Serif", serif;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  -webkit-text-stroke: 0.3px currentColor;
+}
+
+/* Light mode: use black text for better readability */
+:root.light .paper-content {
+  --themed-text: #000000;
+  --themed-text-muted: #000000;
+  color: #000000;
+}
+
+:root.light .paper-content p,
+:root.light .paper-content li,
+:root.light .paper-content span:not(.katex *),
+:root.light .paper-content div:not(.katex *),
+:root.light .paper-content code,
+:root.light .paper-content figcaption {
+  color: #000000 !important;
+}
+
+/* Make KaTeX slightly thinner to blend with body text */
+.paper-content .katex {
+  font-weight: 400;
+  -webkit-text-stroke: 0px;
+}
+
+.paper-content .katex .mathnormal,
+.paper-content .katex .mathit {
+  -webkit-text-stroke: 0px;
+}
+
+.paper-content h1,
+.paper-content h2,
+.paper-content h3 {
+  font-family: "Computer Modern Serif", serif;
+  -webkit-text-stroke: 0.4px currentColor;
+}

@@ -280,7 +280,7 @@ export default function AkogenoActPage() {
                     protection, any user could be targeted by:
                   </p>
                   <ul className="list-disc list-inside space-y-2 ml-4">
-                    <li>Ian Kim Pham / Akogeno</li>
+                    <a href="https://akogeno.pcdomain.com"><li>Ian Kim Pham / Akogeno</li></a>
                     <li>
                       Individuals with personal vendettas seeking to weaponize
                       moderation against them

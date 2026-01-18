@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 type Theme = "dark" | "light";
 
@@ -23,14 +24,24 @@ export function ThemeProvider({
   brandName = "Foxomy",
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>("dark");
+  const searchParams = useSearchParams();
 
-  // Load theme from localStorage on mount
+  // Load theme from URL query parameter or localStorage on mount
   useEffect(() => {
+    // Check for ?mode=light or ?mode=dark query parameter
+    const modeParam = searchParams.get("mode");
+    if (modeParam === "light" || modeParam === "dark") {
+      setTheme(modeParam);
+      localStorage.setItem("blog-theme", modeParam);
+      return;
+    }
+
+    // Fall back to localStorage
     const savedTheme = localStorage.getItem("blog-theme") as Theme | null;
     if (savedTheme) {
       setTheme(savedTheme);
     }
-  }, []);
+  }, [searchParams]);
 
   // Apply theme class to document
   useEffect(() => {

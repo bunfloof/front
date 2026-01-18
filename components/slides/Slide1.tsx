@@ -84,7 +84,7 @@ export function Slide1() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span>50 Backup Slots</span>
+                <span>30 Backup Slots</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>

@@ -1,5 +1,6 @@
 import type { Viewport, Metadata } from "next";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { Suspense } from "react";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -35,10 +36,12 @@ export default function MinecraftServerStatusLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ThemeProvider>
-      <div className="themed-selection hide-global-footer themed-page">
-        {children}
-      </div>
-    </ThemeProvider>
+    <Suspense>
+      <ThemeProvider>
+        <div className="themed-selection hide-global-footer themed-page">
+          {children}
+        </div>
+      </ThemeProvider>
+    </Suspense>
   );
 }

@@ -137,8 +137,7 @@ export default function StrategicRelationsGuidelinesPost() {
                 <li>
                   Never comment, question, or participate in other hosting
                   providers' community spaces or Discord servers unless you are
-                  a genuine customer of their services. (Please fucking stop,
-                  Kayla)
+                  a genuine customer of their services.
                 </li>
                 <li>
                   Never talk negatively about other hosting providers anywhere,

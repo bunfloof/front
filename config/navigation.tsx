@@ -25,6 +25,7 @@ export const menuItems: MenuItem[] = [
   { name: "Web", href: "/web" },
   { name: "Team", href: "/team" },
   { name: "Blog", href: "/blog" },
+  { name: "Research", href: "/research" },
   {
     name: "Resources",
     children: [
@@ -36,8 +37,7 @@ export const menuItems: MenuItem[] = [
 
 export const loginOptions: LoginOption[] = [
   { name: "Billing Panel", href: "https://foxomy.com/billing" },
-  { name: "Pterodactyl Game Panel", href: "https://panel.foxomy.com/app" },
-  { name: "Old Pterodactyl Panel", href: "https://panel.foxomy.com/" },
+  { name: "Pterodactyl Panel", href: "https://panel.foxomy.com/app" },
   { name: "Webhosting Panel", href: "https://us1.rapidcpanelserver.com:2083" },
   { name: "Tenantos Server Panel", href: "https://servercp.foxomy.com" },
 ];
@@ -68,6 +68,7 @@ export const footerSections: FooterSection[] = [
     links: [
       { label: "Game Hosting", href: "/game" },
       { label: "Minecraft Hosting", href: "/game" },
+      { label: "Hytale Hosting", href: "/game" },
       { label: "Web Hosting", href: "/web" },
     ],
   },
@@ -76,7 +77,10 @@ export const footerSections: FooterSection[] = [
     links: [
       { label: "Team", href: "/team" },
       { label: "Blog", href: "/blog" },
+      { label: "Research", href: "/research" },
+      { label: "Ilomantis' Corner", href: "https://forlorn.day" },
       { label: "The Akogeno Act", href: "/akogeno" },
+      { label: "Akogeno Police Report", href: "https://akogeno.pcdomain.com" },
     ],
   },
   {
