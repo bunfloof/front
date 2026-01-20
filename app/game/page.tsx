@@ -1032,124 +1032,239 @@ export default function GameHostingPage() {
                 </div>
               </div>
 
-              {/* Summary Card */}
-              <div className="max-w-xl mx-auto">
-                <div className="bg-[#071F2C] border border-[#1A77AD]/30 rounded-sm p-6">
-                  {/* Plan Details */}
-                  <div className="space-y-3 mb-6">
-                    <div className="flex justify-between items-center">
-                      <span className="text-[#BDE0F5]/70">Location</span>
-                      <span className="text-white font-medium">
-                        {selectedLocation.name}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-[#BDE0F5]/70">CPU</span>
-                      <span className="text-white font-medium">
-                        {selectedLocation.cpu}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-[#BDE0F5]/70">Plan</span>
-                      <span className="text-white font-medium">
-                        {selectedPlan.ram} GB of RAM
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-[#BDE0F5]/70">vCores</span>
-                      <span className="text-white font-medium">
-                        {selectedPlan.vCores} shared vCores
-                      </span>
-                    </div>
+              {/* Hosting Facts Label */}
+              <div className="max-w-md mx-auto">
+                <div className="bg-[#071F2C] border-2 border-[#1A77AD]/50 font-sans">
+                  {/* Header */}
+                  <div className="px-4 pt-3 pb-2">
+                    <h3 className="text-white text-2xl font-black tracking-tight leading-none">
+                      Hosting Facts
+                    </h3>
+                  </div>
+                  <div className="border-t border-[#1A77AD]/30 mx-2" />
 
-                    <div className="flex justify-between items-center">
-                      <span className="text-[#BDE0F5]/70">Storage</span>
-                      <span className="text-white font-medium">
-                        {selectedPlan.storage}
-                      </span>
-                    </div>
+                  {/* Provider & Plan Info */}
+                  <div className="px-4 py-2">
+                    <p className="text-white text-lg font-bold">Foxomy</p>
+                    <p className="text-white text-base font-semibold">
+                      {selectedPlan.ram}GB RAM Plan
+                    </p>
+                    <p className="text-[#BDE0F5]/60 text-xs mt-1">
+                      Fixed Hosting Consumer Disclosure
+                    </p>
+                  </div>
+                  <div className="border-t-4 border-[#1A77AD]/50 mx-2" />
 
-                    <div className="flex justify-between items-center">
-                      <span className="text-[#BDE0F5]/70">Backups</span>
-                      <span className="text-white font-medium">
-                        {selectedPlan.backupSlots} backups
+                  {/* Final Monthly Price */}
+                  <div className="px-4 py-3">
+                    <div className="flex justify-between items-baseline">
+                      <span className="text-white text-lg font-bold">
+                        Final Monthly Price
                       </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-[#BDE0F5]/70">
-                        Container Splits
-                      </span>
-                      <span className="text-white font-medium">
-                        {selectedPlan.containerSplits} splits
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-[#BDE0F5]/70">Base Price</span>
-                      <span className="text-white font-medium">
-                        ${selectedPlan.price}/mo
+                      <span className="text-white text-2xl font-black">
+                        {getTotalPrice()}
                       </span>
                     </div>
                   </div>
+                  <div className="border-t border-[#1A77AD]/30 mx-2" />
 
-                  {/* Addons */}
-                  {selectedAddons.length > 0 && (
-                    <div className="border-t border-[#1A77AD]/30 pt-4 mb-4">
-                      <p className="text-[#BDE0F5]/50 text-sm mb-3">Addons</p>
-                      <div className="space-y-2">
-                        {selectedAddons.map((addonId) => {
-                          const addon = addons.find((a) => a.id === addonId);
-                          if (!addon) return null;
-                          return (
-                            <div
-                              key={addonId}
-                              className="flex justify-between items-center"
-                            >
-                              <span className="text-[#BDE0F5]/70">
-                                {addon.name}
-                              </span>
-                              <span className="text-white font-medium">
-                                {formatAddonPrice(addon.price)}
-                              </span>
-                            </div>
-                          );
-                        })}
+                  {/* Price Disclaimer */}
+                  <div className="px-4 py-2">
+                    <p className="text-[#BDE0F5]/60 text-xs leading-tight">
+                      This price is not an introductory rate and does not include
+                      any other discounts or promotions. This price does not
+                      require a contract.
+                    </p>
+                  </div>
+                  <div className="border-t border-[#1A77AD]/30 mx-2" />
+
+                  {/* Service Details Section */}
+                  <div className="px-4 py-2">
+                    <p className="text-white text-sm font-bold mb-2">
+                      Service Specifications
+                    </p>
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[#BDE0F5]/70">Location</span>
+                        <span className="text-white font-semibold">
+                          {selectedLocation.name}
+                        </span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[#BDE0F5]/70">CPU</span>
+                        <span className="text-white font-semibold">
+                          {selectedLocation.cpu}
+                        </span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[#BDE0F5]/70">vCores</span>
+                        <span className="text-white font-semibold">
+                          {selectedPlan.vCores} shared vCores
+                        </span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[#BDE0F5]/70">Memory (RAM)</span>
+                        <span className="text-white font-semibold">
+                          {selectedPlan.ram} GB
+                        </span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[#BDE0F5]/70">Storage</span>
+                        <span className="text-white font-semibold">
+                          {selectedPlan.storage}
+                        </span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[#BDE0F5]/70">Backup Slots</span>
+                        <span className="text-white font-semibold">
+                          {selectedPlan.backupSlots} backups
+                        </span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[#BDE0F5]/70">Container Splits</span>
+                        <span className="text-white font-semibold">
+                          {selectedPlan.containerSplits} splits
+                        </span>
                       </div>
                     </div>
+                  </div>
+                  <div className="border-t border-[#1A77AD]/30 mx-2" />
+
+                  {/* Selected Addons */}
+                  {selectedAddons.length > 0 && (
+                    <>
+                      <div className="px-4 py-2">
+                        <p className="text-white text-sm font-bold mb-2">
+                          Selected Add-ons
+                        </p>
+                        <div className="space-y-1">
+                          {selectedAddons.map((addonId) => {
+                            const addon = addons.find((a) => a.id === addonId);
+                            if (!addon) return null;
+                            return (
+                              <div
+                                key={addonId}
+                                className="flex justify-between text-xs"
+                              >
+                                <span className="text-[#BDE0F5]/70">{addon.name}</span>
+                                <span className="text-white font-semibold">
+                                  {addon.price === 0 ? "Free" : `+$${addon.price}/mo`}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                      <div className="border-t border-[#1A77AD]/30 mx-2" />
+                    </>
                   )}
 
-                  {/* Total */}
-                  <div className="border-t border-[#1A77AD]/30 pt-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-white font-bold text-lg">
-                        Total
-                      </span>
-                      <span className="text-[#00c4aa] font-bold text-2xl">
-                        {getTotalPrice()}/month
-                      </span>
+                  {/* Additional Charges */}
+                  <div className="px-4 py-2">
+                    <p className="text-white text-sm font-bold mb-2">
+                      Additional Charges &amp; Terms
+                    </p>
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[#BDE0F5]/70">Provider Monthly Fees</span>
+                        <span className="text-white font-semibold">$0</span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[#BDE0F5]/70">One-Time Setup Fees</span>
+                        <span className="text-white font-semibold">$0</span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[#BDE0F5]/70">Late Fees</span>
+                        <span className="text-white font-semibold">$0</span>
+                      </div>
+                      <p className="text-[#BDE0F5]/70 text-xs leading-tight mt-1 ml-auto text-right">
+                        Invoices are sent 2 weeks before the due date. If you miss payments by more than a month, please contact us to cancel past invoices.
+                      </p>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[#BDE0F5]/70">Early Termination Fee</span>
+                        <span className="text-white font-semibold">$0</span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[#BDE0F5]/70">Government Taxes</span>
+                        <span className="text-white font-semibold">Included</span>
+                      </div>
                     </div>
                   </div>
+                  <div className="border-t border-[#1A77AD]/30 mx-2" />
 
-                  {/* Checkout Button */}
-                  <a
-                    href={
-                      selectedLocation.outOfStock ? undefined : getCheckoutUrl()
-                    }
-                    className={`block w-full mt-6 py-3 px-6 rounded-sm font-semibold transition-all text-center cursor-pointer ${
-                      selectedLocation.outOfStock
-                        ? "bg-red-500/20 text-red-400 border border-red-500/30 cursor-not-allowed pointer-events-none"
-                        : "bg-[#00c4aa] text-[#030F16] hover:bg-[#00d4b8] hover:shadow-[0_0_20px_rgba(0,196,170,0.3)]"
-                    }`}
-                  >
-                    {selectedLocation.outOfStock
-                      ? "Out of Stock"
-                      : "Continue to Checkout"}
-                  </a>
+                  {/* Legal Links */}
+                  <div className="px-4 py-2">
+                    <div className="flex gap-4 text-xs">
+                      <a
+                        href="https://foxomy.com/terms"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#7AC2EB] hover:text-[#00c4aa] hover:underline transition-colors"
+                      >
+                        Terms of Service
+                      </a>
+                      <a
+                        href="https://foxomy.com/privacy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#7AC2EB] hover:text-[#00c4aa] hover:underline transition-colors"
+                      >
+                        Privacy Policy
+                      </a>
+                    </div>
+                  </div>
+                  <div className="border-t-4 border-[#1A77AD]/50 mx-2" />
 
-                  <p className="text-[#7AC2EB]/40 text-xs text-center mt-4">
-                    You&apos;ll be redirected to our WHMCS billing panel to
-                    complete your order.
-                  </p>
+                  {/* Customer Support */}
+                  <div className="px-4 py-3">
+                    <p className="text-white text-sm font-bold mb-2">
+                      Customer Support
+                    </p>
+                    <div className="space-y-1 text-xs">
+                      <div className="flex justify-between">
+                        <span className="text-[#BDE0F5]/70">Email</span>
+                        <a
+                          href="mailto:support@foxomy.com"
+                          className="text-[#7AC2EB] hover:text-[#00c4aa] hover:underline transition-colors"
+                        >
+                          support@foxomy.com
+                        </a>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-[#BDE0F5]/70">Support Portal</span>
+                        <a
+                          href="https://foxomy.com/billing/submitticket.php?step=2&deptid=2"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#7AC2EB] hover:text-[#00c4aa] hover:underline transition-colors"
+                        >
+                          Submit a Ticket
+                        </a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+
+                {/* Checkout Button - Outside the facts label */}
+                <a
+                  href={
+                    selectedLocation.outOfStock ? undefined : getCheckoutUrl()
+                  }
+                  className={`block w-full mt-6 py-3 px-6 rounded-sm font-semibold transition-all text-center cursor-pointer ${
+                    selectedLocation.outOfStock
+                      ? "bg-red-500/20 text-red-400 border border-red-500/30 cursor-not-allowed pointer-events-none"
+                      : "bg-[#00c4aa] text-[#030F16] hover:bg-[#00d4b8] hover:shadow-[0_0_20px_rgba(0,196,170,0.3)]"
+                  }`}
+                >
+                  {selectedLocation.outOfStock
+                    ? "Out of Stock"
+                    : "Continue to Checkout"}
+                </a>
+
+                <p className="text-[#7AC2EB]/40 text-xs text-center mt-4">
+                  You&apos;ll be redirected to our WHMCS billing panel to
+                  complete your order.
+                </p>
               </div>
             </div>
           </motion.section>
