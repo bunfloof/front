@@ -1032,8 +1032,96 @@ export default function GameHostingPage() {
                 </div>
               </div>
 
-              {/* Hosting Facts Label */}
-              <div className="max-w-md mx-auto">
+              {/* Two Column Layout */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                {/* Left Column - Order Card with Checkout */}
+                <div className="bg-[#071F2C] border border-[#1A77AD]/30 rounded-sm p-6">
+
+                  {/* Plan Details */}
+                  <div className="space-y-3 mb-6">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#BDE0F5]/70">Location</span>
+                      <span className="text-white font-medium">{selectedLocation.name}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#BDE0F5]/70">CPU</span>
+                      <span className="text-white font-medium">{selectedLocation.cpu}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#BDE0F5]/70">RAM</span>
+                      <span className="text-white font-medium">{selectedPlan.ram} GB of RAM</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#BDE0F5]/70">vCores</span>
+                      <span className="text-white font-medium">{selectedPlan.vCores} shared vCores</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#BDE0F5]/70">Storage</span>
+                      <span className="text-white font-medium">{selectedPlan.storage}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#BDE0F5]/70">Backups</span>
+                      <span className="text-white font-medium">{selectedPlan.backupSlots} backups</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#BDE0F5]/70">Container Splits</span>
+                      <span className="text-white font-medium">{selectedPlan.containerSplits} splits</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#BDE0F5]/70">Base Price</span>
+                      <span className="text-white font-medium">${selectedPlan.price}/mo</span>
+                    </div>
+                  </div>
+
+                  {/* Addons */}
+                  {selectedAddons.length > 0 && (
+                    <div className="border-t border-[#1A77AD]/30 pt-4 mb-4">
+                      <p className="text-[#BDE0F5]/50 text-sm mb-3">Addons</p>
+                      <div className="space-y-2">
+                        {selectedAddons.map((addonId) => {
+                          const addon = addons.find((a) => a.id === addonId);
+                          if (!addon) return null;
+                          return (
+                            <div key={addonId} className="flex justify-between items-center">
+                              <span className="text-[#BDE0F5]/70">{addon.name}</span>
+                              <span className="text-white font-medium">
+                                {addon.price === 0 ? "Free" : `+$${addon.price}/mo`}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Total */}
+                  <div className="border-t border-[#1A77AD]/30 pt-4 mb-6">
+                    <div className="flex justify-between items-center">
+                      <span className="text-white font-bold text-lg">Total</span>
+                      <span className="text-[#00c4aa] font-bold text-2xl">
+                        {getTotalPrice()}/month
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Checkout Button */}
+                  <a
+                    href={selectedLocation.outOfStock ? undefined : getCheckoutUrl()}
+                    className={`block w-full py-3 px-6 rounded-sm font-semibold transition-all text-center cursor-pointer ${
+                      selectedLocation.outOfStock
+                        ? "bg-red-500/20 text-red-400 border border-red-500/30 cursor-not-allowed pointer-events-none"
+                        : "bg-[#00c4aa] text-[#030F16] hover:bg-[#00d4b8] hover:shadow-[0_0_20px_rgba(0,196,170,0.3)]"
+                    }`}
+                  >
+                    {selectedLocation.outOfStock ? "Out of Stock" : "Continue to Checkout"}
+                  </a>
+
+                  <p className="text-[#7AC2EB]/40 text-xs text-center mt-3">
+                    You&apos;ll be redirected to our WHMCS billing panel to complete your order.
+                  </p>
+                </div>
+
+                {/* Right Column - Hosting Facts */}
                 <div className="bg-[#071F2C] border-2 border-[#1A77AD]/50 font-sans">
                   {/* Header */}
                   <div className="px-4 pt-3 pb-2">
@@ -1059,7 +1147,7 @@ export default function GameHostingPage() {
                   <div className="px-4 py-3">
                     <div className="flex justify-between items-baseline">
                       <span className="text-white text-lg font-bold">
-                        Final Monthly Price
+                        Monthly Price
                       </span>
                       <span className="text-white text-2xl font-black">
                         {getTotalPrice()}
@@ -1114,10 +1202,25 @@ export default function GameHostingPage() {
                           {selectedPlan.storage}
                         </span>
                       </div>
+                      <p className="text-[#BDE0F5]/50 text-[10px] leading-tight mt-1">
+                        Soft limit of {selectedPlan.storage.split("/")[0]} GB guaranteed and can be raised for free. Unlimited or unmetered specifications goes towards the fair usage policy.
+                      </p>
                       <div className="flex justify-between text-xs">
                         <span className="text-[#BDE0F5]/70">Backup Slots</span>
                         <span className="text-white font-semibold">
-                          {selectedPlan.backupSlots} backups
+                          {selectedPlan.backupSlots} offsite backups per server
+                        </span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[#BDE0F5]/70">Port Allocations</span>
+                        <span className="text-white font-semibold">
+                          10 ports per server
+                        </span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[#BDE0F5]/70">SQL Databases</span>
+                        <span className="text-white font-semibold">
+                          10 databases per server
                         </span>
                       </div>
                       <div className="flex justify-between text-xs">
@@ -1177,8 +1280,8 @@ export default function GameHostingPage() {
                         <span className="text-[#BDE0F5]/70">Late Fees</span>
                         <span className="text-white font-semibold">$0</span>
                       </div>
-                      <p className="text-[#BDE0F5]/70 text-xs leading-tight mt-1 ml-auto text-right">
-                        Invoices are sent 2 weeks before the due date. If you miss payments by more than a month, please contact us to cancel past invoices.
+                      <p className="text-[#BDE0F5]/50 text-[10px] leading-tight mt-1">
+                        Invoices are sent 2 weeks before due date. If you miss payments by more than a month, please contact us.
                       </p>
                       <div className="flex justify-between text-xs">
                         <span className="text-[#BDE0F5]/70">Early Termination Fee</span>
@@ -1186,7 +1289,7 @@ export default function GameHostingPage() {
                       </div>
                       <div className="flex justify-between text-xs">
                         <span className="text-[#BDE0F5]/70">Government Taxes</span>
-                        <span className="text-white font-semibold">Included</span>
+                        <span className="text-white font-semibold">$0</span>
                       </div>
                     </div>
                   </div>
@@ -1244,27 +1347,6 @@ export default function GameHostingPage() {
                     </div>
                   </div>
                 </div>
-
-                {/* Checkout Button - Outside the facts label */}
-                <a
-                  href={
-                    selectedLocation.outOfStock ? undefined : getCheckoutUrl()
-                  }
-                  className={`block w-full mt-6 py-3 px-6 rounded-sm font-semibold transition-all text-center cursor-pointer ${
-                    selectedLocation.outOfStock
-                      ? "bg-red-500/20 text-red-400 border border-red-500/30 cursor-not-allowed pointer-events-none"
-                      : "bg-[#00c4aa] text-[#030F16] hover:bg-[#00d4b8] hover:shadow-[0_0_20px_rgba(0,196,170,0.3)]"
-                  }`}
-                >
-                  {selectedLocation.outOfStock
-                    ? "Out of Stock"
-                    : "Continue to Checkout"}
-                </a>
-
-                <p className="text-[#7AC2EB]/40 text-xs text-center mt-4">
-                  You&apos;ll be redirected to our WHMCS billing panel to
-                  complete your order.
-                </p>
               </div>
             </div>
           </motion.section>

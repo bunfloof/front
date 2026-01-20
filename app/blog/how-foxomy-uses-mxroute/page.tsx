@@ -368,8 +368,8 @@ export default function HowFoxomyUsesMXRoutePost() {
               </h2>
 
               <p>
-                MXRoute is a couple seconds slower than Mailgun in time to
-                inbox. Gmail reports a delivery of <strong>4-7 seconds</strong>,
+                MXRoute averages 10 seconds slower than Mailgun in time to
+                inbox. Gmail reports a delivery of <strong>8-12 seconds</strong>,
                 whereas it used to be <strong>1 second</strong> on Mailgun. We
                 also tested NameCrane, and it was the slowest at 21 seconds.
               </p>
@@ -565,8 +565,8 @@ export default function HowFoxomyUsesMXRoutePost() {
               </h2>
 
               <p>
-                For the price of $10 every 3 years, we can't complain. We would
-                recommend MXRoute as one of our outbound SMTP providers for
+                For the price of $10 every 3 years, we can't complain about the 10 second delay. We would
+                lightly recommend MXRoute as one of our outbound SMTP providers for
                 reliable email delivery and strong sender IP reputation.
               </p>
             </div>
