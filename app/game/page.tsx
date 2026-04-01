@@ -1036,40 +1036,57 @@ export default function GameHostingPage() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
                 {/* Left Column - Order Card with Checkout */}
                 <div className="bg-[#071F2C] border border-[#1A77AD]/30 rounded-sm p-6">
-
                   {/* Plan Details */}
                   <div className="space-y-3 mb-6">
                     <div className="flex justify-between items-center">
                       <span className="text-[#BDE0F5]/70">Location</span>
-                      <span className="text-white font-medium">{selectedLocation.name}</span>
+                      <span className="text-white font-medium">
+                        {selectedLocation.name}
+                      </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-[#BDE0F5]/70">CPU</span>
-                      <span className="text-white font-medium">{selectedLocation.cpu}</span>
+                      <span className="text-white font-medium">
+                        {selectedLocation.cpu}
+                      </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-[#BDE0F5]/70">RAM</span>
-                      <span className="text-white font-medium">{selectedPlan.ram} GB of RAM</span>
+                      <span className="text-white font-medium">
+                        {selectedPlan.ram} GB of RAM
+                      </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-[#BDE0F5]/70">vCores</span>
-                      <span className="text-white font-medium">{selectedPlan.vCores} shared vCores</span>
+                      <span className="text-white font-medium">
+                        {selectedPlan.vCores} shared vCores
+                      </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-[#BDE0F5]/70">Storage</span>
-                      <span className="text-white font-medium">{selectedPlan.storage}</span>
+                      <span className="text-white font-medium">
+                        {selectedPlan.storage}
+                      </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-[#BDE0F5]/70">Backups</span>
-                      <span className="text-white font-medium">{selectedPlan.backupSlots} backups</span>
+                      <span className="text-white font-medium">
+                        {selectedPlan.backupSlots} backups
+                      </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-[#BDE0F5]/70">Container Splits</span>
-                      <span className="text-white font-medium">{selectedPlan.containerSplits} splits</span>
+                      <span className="text-[#BDE0F5]/70">
+                        Container Splits
+                      </span>
+                      <span className="text-white font-medium">
+                        {selectedPlan.containerSplits} splits
+                      </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-[#BDE0F5]/70">Base Price</span>
-                      <span className="text-white font-medium">${selectedPlan.price}/mo</span>
+                      <span className="text-white font-medium">
+                        ${selectedPlan.price}/mo
+                      </span>
                     </div>
                   </div>
 
@@ -1082,10 +1099,17 @@ export default function GameHostingPage() {
                           const addon = addons.find((a) => a.id === addonId);
                           if (!addon) return null;
                           return (
-                            <div key={addonId} className="flex justify-between items-center">
-                              <span className="text-[#BDE0F5]/70">{addon.name}</span>
+                            <div
+                              key={addonId}
+                              className="flex justify-between items-center"
+                            >
+                              <span className="text-[#BDE0F5]/70">
+                                {addon.name}
+                              </span>
                               <span className="text-white font-medium">
-                                {addon.price === 0 ? "Free" : `+$${addon.price}/mo`}
+                                {addon.price === 0
+                                  ? "Free"
+                                  : `+$${addon.price}/mo`}
                               </span>
                             </div>
                           );
@@ -1097,7 +1121,9 @@ export default function GameHostingPage() {
                   {/* Total */}
                   <div className="border-t border-[#1A77AD]/30 pt-4 mb-6">
                     <div className="flex justify-between items-center">
-                      <span className="text-white font-bold text-lg">Total</span>
+                      <span className="text-white font-bold text-lg">
+                        Total
+                      </span>
                       <span className="text-[#00c4aa] font-bold text-2xl">
                         {getTotalPrice()}/month
                       </span>
@@ -1106,18 +1132,23 @@ export default function GameHostingPage() {
 
                   {/* Checkout Button */}
                   <a
-                    href={selectedLocation.outOfStock ? undefined : getCheckoutUrl()}
+                    href={
+                      selectedLocation.outOfStock ? undefined : getCheckoutUrl()
+                    }
                     className={`block w-full py-3 px-6 rounded-sm font-semibold transition-all text-center cursor-pointer ${
                       selectedLocation.outOfStock
                         ? "bg-red-500/20 text-red-400 border border-red-500/30 cursor-not-allowed pointer-events-none"
                         : "bg-[#00c4aa] text-[#030F16] hover:bg-[#00d4b8] hover:shadow-[0_0_20px_rgba(0,196,170,0.3)]"
                     }`}
                   >
-                    {selectedLocation.outOfStock ? "Out of Stock" : "Continue to Checkout"}
+                    {selectedLocation.outOfStock
+                      ? "Out of Stock"
+                      : "Continue to Checkout"}
                   </a>
 
                   <p className="text-[#7AC2EB]/40 text-xs text-center mt-3">
-                    You&apos;ll be redirected to our WHMCS billing panel to complete your order.
+                    You&apos;ll be redirected to our WHMCS billing panel to
+                    complete your order.
                   </p>
                 </div>
 
@@ -1159,9 +1190,9 @@ export default function GameHostingPage() {
                   {/* Price Disclaimer */}
                   <div className="px-4 py-2">
                     <p className="text-[#BDE0F5]/60 text-xs leading-tight">
-                      This price is not an introductory rate and does not include
-                      any other discounts or promotions. This price does not
-                      require a contract.
+                      This price is not an introductory rate and does not
+                      include any other discounts or promotions. This price does
+                      not require a contract.
                     </p>
                   </div>
                   <div className="border-t border-[#1A77AD]/30 mx-2" />
@@ -1203,7 +1234,10 @@ export default function GameHostingPage() {
                         </span>
                       </div>
                       <p className="text-[#BDE0F5]/50 text-[10px] leading-tight mt-1">
-                        Soft limit of {selectedPlan.storage.split("/")[0]} GB guaranteed and can be raised for free. Unlimited or unmetered specifications goes towards the fair usage policy.
+                        Soft limit of {selectedPlan.storage.split("/")[0]} GB
+                        guaranteed and can be raised for free. Unlimited or
+                        unmetered specifications goes towards the fair usage
+                        policy.
                       </p>
                       <div className="flex justify-between text-xs">
                         <span className="text-[#BDE0F5]/70">Backup Slots</span>
@@ -1212,7 +1246,9 @@ export default function GameHostingPage() {
                         </span>
                       </div>
                       <div className="flex justify-between text-xs">
-                        <span className="text-[#BDE0F5]/70">Port Allocations</span>
+                        <span className="text-[#BDE0F5]/70">
+                          Port Allocations
+                        </span>
                         <span className="text-white font-semibold">
                           10 ports per server
                         </span>
@@ -1224,7 +1260,9 @@ export default function GameHostingPage() {
                         </span>
                       </div>
                       <div className="flex justify-between text-xs">
-                        <span className="text-[#BDE0F5]/70">Container Splits</span>
+                        <span className="text-[#BDE0F5]/70">
+                          Container Splits
+                        </span>
                         <span className="text-white font-semibold">
                           {selectedPlan.containerSplits} splits
                         </span>
@@ -1249,9 +1287,13 @@ export default function GameHostingPage() {
                                 key={addonId}
                                 className="flex justify-between text-xs"
                               >
-                                <span className="text-[#BDE0F5]/70">{addon.name}</span>
+                                <span className="text-[#BDE0F5]/70">
+                                  {addon.name}
+                                </span>
                                 <span className="text-white font-semibold">
-                                  {addon.price === 0 ? "Free" : `+$${addon.price}/mo`}
+                                  {addon.price === 0
+                                    ? "Free"
+                                    : `+$${addon.price}/mo`}
                                 </span>
                               </div>
                             );
@@ -1269,11 +1311,15 @@ export default function GameHostingPage() {
                     </p>
                     <div className="space-y-1">
                       <div className="flex justify-between text-xs">
-                        <span className="text-[#BDE0F5]/70">Provider Monthly Fees</span>
+                        <span className="text-[#BDE0F5]/70">
+                          Provider Monthly Fees
+                        </span>
                         <span className="text-white font-semibold">$0</span>
                       </div>
                       <div className="flex justify-between text-xs">
-                        <span className="text-[#BDE0F5]/70">One-Time Setup Fees</span>
+                        <span className="text-[#BDE0F5]/70">
+                          One-Time Setup Fees
+                        </span>
                         <span className="text-white font-semibold">$0</span>
                       </div>
                       <div className="flex justify-between text-xs">
@@ -1281,14 +1327,20 @@ export default function GameHostingPage() {
                         <span className="text-white font-semibold">$0</span>
                       </div>
                       <p className="text-[#BDE0F5]/50 text-[10px] leading-tight mt-1">
-                        Invoices are sent 2 weeks before due date. If you miss payments by more than a month, please contact us.
+                        Invoices are sent 2 weeks before due date. If you miss
+                        payments by more than a month, please contact us to
+                        cancel all past due invoices.
                       </p>
                       <div className="flex justify-between text-xs">
-                        <span className="text-[#BDE0F5]/70">Early Termination Fee</span>
+                        <span className="text-[#BDE0F5]/70">
+                          Early Termination Fee
+                        </span>
                         <span className="text-white font-semibold">$0</span>
                       </div>
                       <div className="flex justify-between text-xs">
-                        <span className="text-[#BDE0F5]/70">Government Taxes</span>
+                        <span className="text-[#BDE0F5]/70">
+                          Government Taxes
+                        </span>
                         <span className="text-white font-semibold">$0</span>
                       </div>
                     </div>
@@ -1334,7 +1386,9 @@ export default function GameHostingPage() {
                         </a>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-[#BDE0F5]/70">Support Portal</span>
+                        <span className="text-[#BDE0F5]/70">
+                          Support Portal
+                        </span>
                         <a
                           href="https://foxomy.com/billing/submitticket.php?step=2&deptid=2"
                           target="_blank"

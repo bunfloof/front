@@ -204,6 +204,7 @@ interface TeamMember {
   handle: string;
   avatar: string;
   portfolioBg?: string;
+  hasPeek?: boolean;
 }
 
 interface Department {
@@ -483,6 +484,88 @@ function TeamMemberCard({
   );
 }
 
+interface PeekPortfolioProps {
+  memberId: string;
+  portfolioBg: string;
+  globalIndex: number;
+  gridRef: React.RefObject<HTMLDivElement | null>;
+  onFinished: () => void;
+}
+
+function PeekPortfolio({
+  memberId,
+  portfolioBg,
+  globalIndex,
+  gridRef,
+  onFinished,
+}: PeekPortfolioProps) {
+  const [notchX, setNotchX] = useState(0);
+  const PortfolioComponent = portfolioComponents[memberId];
+  const triangleSize = 20;
+  const peekDuration = 3.5;
+  const peekRepeatDelay = 3;
+  const peekRepeats = 1;
+
+  useEffect(() => {
+    const updateNotch = () => {
+      if (gridRef.current) {
+        const card = gridRef.current.querySelector(
+          `[data-team-card][data-index="${globalIndex}"]`
+        );
+        if (card) {
+          const rect = card.getBoundingClientRect();
+          setNotchX(rect.left + rect.width / 2);
+        }
+      }
+    };
+    updateNotch();
+    window.addEventListener("resize", updateNotch);
+    return () => window.removeEventListener("resize", updateNotch);
+  }, [globalIndex, gridRef]);
+
+  useEffect(() => {
+    const totalTime =
+      peekDuration + peekRepeats * (peekDuration + peekRepeatDelay);
+    const timer = setTimeout(onFinished, totalTime * 1000);
+    return () => clearTimeout(timer);
+  }, [onFinished]);
+
+  if (!PortfolioComponent || notchX === 0) return null;
+
+  const clipPath = `polygon(
+    0% ${triangleSize}px,
+    ${notchX - triangleSize}px ${triangleSize}px,
+    ${notchX}px 0%,
+    ${notchX + triangleSize}px ${triangleSize}px,
+    100% ${triangleSize}px,
+    100% 100%,
+    0% 100%
+  )`;
+
+  return (
+    <motion.div
+      className="w-full overflow-hidden relative pointer-events-none"
+      animate={{
+        height: ["0px", "0px", "150px", "150px", "0px"],
+      }}
+      transition={{
+        duration: peekDuration,
+        times: [0, 0.05, 0.25, 0.75, 1],
+        repeat: peekRepeats,
+        repeatDelay: peekRepeatDelay,
+        ease: "easeInOut",
+      }}
+    >
+      <div
+        className={`relative w-full ${portfolioBg || "bg-[#071F2C]"}`}
+        style={{ clipPath, paddingTop: triangleSize }}
+      >
+        <PortfolioComponent />
+      </div>
+    </motion.div>
+  );
+}
+
 interface CrackWithPortfolioProps {
   memberId: string;
   portfolioBg: string;
@@ -562,7 +645,7 @@ function CrackWithPortfolio({
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-10 right-4 z-20 p-2 text-white/60 hover:text-white transition-colors rounded-lg hover:bg-white/10"
+            className="absolute top-10 right-4 z-20 p-2 text-white/60 hover:text-white transition-colors rounded-lg hover:bg-white/10 cursor-pointer"
           >
             <X className="w-6 h-6" />
           </button>
@@ -582,12 +665,14 @@ interface DepartmentSectionProps {
   selectedGlobalIndex: number;
   notchPositionX: number;
   columnsPerRow: number;
+  peekEnabled: boolean;
   onSelectMember: (
     member: TeamMember,
     globalIndex: number,
     cardEl: HTMLButtonElement
   ) => void;
   onClose: () => void;
+  onPeekFinished: () => void;
   gridRef: React.RefObject<HTMLDivElement | null>;
 }
 
@@ -598,8 +683,10 @@ function DepartmentSection({
   selectedGlobalIndex,
   notchPositionX,
   columnsPerRow,
+  peekEnabled,
   onSelectMember,
   onClose,
+  onPeekFinished,
   gridRef,
 }: DepartmentSectionProps) {
   // Don't render empty departments
@@ -640,6 +727,10 @@ function DepartmentSection({
       <div ref={gridRef}>
         {rows.map((rowMembers, rowIndex) => {
           const rowStartIndex = globalIndexStart + rowIndex * columnsPerRow;
+          const peekMember = rowMembers.find((m) => m.hasPeek);
+          const peekGlobalIndex = peekMember
+            ? rowStartIndex + rowMembers.indexOf(peekMember)
+            : -1;
 
           return (
             <div key={rowIndex}>
@@ -677,6 +768,19 @@ function DepartmentSection({
                 )}
               </AnimatePresence>
 
+              {/* Peek animation for members with hasPeek */}
+              {peekEnabled && !selectedMemberId && peekMember && (
+                <div className="mt-2">
+                  <PeekPortfolio
+                    memberId={peekMember.id}
+                    portfolioBg={portfolioBackgrounds[peekMember.id]}
+                    globalIndex={peekGlobalIndex}
+                    gridRef={gridRef}
+                    onFinished={onPeekFinished}
+                  />
+                </div>
+              )}
+
               {/* Spacing between rows */}
               {selectedLocalRow !== rowIndex && rowIndex < rows.length - 1 && (
                 <div className="h-6" />
@@ -694,6 +798,7 @@ export function TeamSection() {
   const [selectedGlobalIndex, setSelectedGlobalIndex] = useState<number>(-1);
   const [notchPositionX, setNotchPositionX] = useState<number>(0);
   const [columnsPerRow, setColumnsPerRow] = useState<number>(4);
+  const [peekEnabled, setPeekEnabled] = useState(true);
   const gridRef = useRef<HTMLDivElement>(null);
   const pendingSelectionRef = useRef<{
     memberId: string;
@@ -770,8 +875,9 @@ export function TeamSection() {
     globalIndex: number,
     cardElement: HTMLButtonElement
   ) => {
+    setPeekEnabled(false);
+
     if (selectedMemberId === member.id) {
-      // Clicking same member - close
       setSelectedMemberId(null);
       setSelectedGlobalIndex(-1);
       return;
@@ -861,6 +967,12 @@ export function TeamSection() {
             their best to keep the service up and running. Click on a team
             member to learn more about them.
           </p>
+
+          <div className="mt-6 rounded-lg border border-yellow-500/30 bg-yellow-500/10 px-5 py-4 text-yellow-200 text-sm leading-relaxed max-w-3xl">
+            <strong className="text-yellow-400">Note:</strong> The information
+            displayed on this page may not be accurate as anyone can edit this
+            page, including those who are not officially part of the team.
+          </div>
         </div>
 
         {/* Team Departments */}
@@ -874,8 +986,10 @@ export function TeamSection() {
               selectedGlobalIndex={selectedGlobalIndex}
               notchPositionX={notchPositionX}
               columnsPerRow={columnsPerRow}
+              peekEnabled={peekEnabled}
               onSelectMember={handleSelectMember}
               onClose={handleClose}
+              onPeekFinished={() => setPeekEnabled(false)}
               gridRef={gridRef}
             />
           ))}

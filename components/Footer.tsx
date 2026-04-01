@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { footerSections, socialLinks } from "@/config/navigation";
 import { CdnLocationBadge } from "@/components/CdnLocationBadge";
+import { DiscordDisabledModal } from "@/components/DiscordDisabledModal";
 
 interface FooterProps {
   isDark?: boolean;
@@ -50,22 +51,36 @@ export function Footer({ isDark = true }: FooterProps) {
 
             {/* Social icons */}
             <div className="flex items-center gap-3">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.name}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.name}
-                  className={`flex items-center justify-center w-9 h-9 rounded-lg transition-colors duration-200 ${
-                    isDark
-                      ? "bg-[#0D3A54]/50 text-[#7AC2EB]/60 hover:bg-[#00c4aa]/20 hover:text-[#00c4aa]"
-                      : "bg-gray-200 text-gray-500 hover:bg-sky-100 hover:text-sky-600"
-                  }`}
-                >
-                  {social.icon}
-                </a>
-              ))}
+              {socialLinks.map((social) => {
+                const iconClasses = `flex items-center justify-center w-9 h-9 rounded-lg transition-colors duration-200 cursor-pointer ${
+                  isDark
+                    ? "bg-[#0D3A54]/50 text-[#7AC2EB]/60 hover:bg-[#00c4aa]/20 hover:text-[#00c4aa]"
+                    : "bg-gray-200 text-gray-500 hover:bg-sky-100 hover:text-sky-600"
+                }`;
+
+                if (social.disabled) {
+                  return (
+                    <DiscordDisabledModal key={social.name}>
+                      <button aria-label={social.name} className={iconClasses}>
+                        {social.icon}
+                      </button>
+                    </DiscordDisabledModal>
+                  );
+                }
+
+                return (
+                  <a
+                    key={social.name}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.name}
+                    className={iconClasses}
+                  >
+                    {social.icon}
+                  </a>
+                );
+              })}
             </div>
           </div>
 

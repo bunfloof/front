@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { footerSections, socialLinks } from "@/config/navigation";
 import { CdnLocationBadge } from "@/components/CdnLocationBadge";
+import { DiscordDisabledModal } from "@/components/DiscordDisabledModal";
 
 export function ThemedFooter() {
   return (
@@ -43,32 +44,62 @@ export function ThemedFooter() {
 
             {/* Social icons */}
             <div className="flex items-center gap-3">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.name}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.name}
-                  className="flex items-center justify-center w-9 h-9 rounded-lg transition-colors duration-200"
-                  style={{
-                    backgroundColor: "var(--themed-social-bg)",
-                    color: "var(--themed-social-text)",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor =
-                      "var(--themed-nav-hover)";
-                    e.currentTarget.style.color = "var(--themed-accent)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor =
-                      "var(--themed-social-bg)";
-                    e.currentTarget.style.color = "var(--themed-social-text)";
-                  }}
-                >
-                  {social.icon}
-                </a>
-              ))}
+              {socialLinks.map((social) => {
+                if (social.disabled) {
+                  return (
+                    <DiscordDisabledModal key={social.name}>
+                      <button
+                        aria-label={social.name}
+                        className="flex items-center justify-center w-9 h-9 rounded-lg transition-colors duration-200"
+                        style={{
+                          backgroundColor: "var(--themed-social-bg)",
+                          color: "var(--themed-social-text)",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor =
+                            "var(--themed-nav-hover)";
+                          e.currentTarget.style.color = "var(--themed-accent)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor =
+                            "var(--themed-social-bg)";
+                          e.currentTarget.style.color =
+                            "var(--themed-social-text)";
+                        }}
+                      >
+                        {social.icon}
+                      </button>
+                    </DiscordDisabledModal>
+                  );
+                }
+
+                return (
+                  <a
+                    key={social.name}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.name}
+                    className="flex items-center justify-center w-9 h-9 rounded-lg transition-colors duration-200"
+                    style={{
+                      backgroundColor: "var(--themed-social-bg)",
+                      color: "var(--themed-social-text)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor =
+                        "var(--themed-nav-hover)";
+                      e.currentTarget.style.color = "var(--themed-accent)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor =
+                        "var(--themed-social-bg)";
+                      e.currentTarget.style.color = "var(--themed-social-text)";
+                    }}
+                  >
+                    {social.icon}
+                  </a>
+                );
+              })}
             </div>
           </div>
 

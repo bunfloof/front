@@ -44,8 +44,8 @@ const faqs: FAQ[] = [
     answer: (
       <p>
         No, Bun is not a pedophile or zoophile. Those are unsubstantiated
-        allegations made by competitors such as Brandon from Springracks Hosting
-        and XandarYT.
+        allegations made by non-customers such as Brandon from Springracks
+        Hosting and XandarYT.
       </p>
     ),
   },
@@ -68,14 +68,14 @@ const faqs: FAQ[] = [
     ),
   },
   {
-    question: "Did Foxomy hack Springracks?",
+    question: "Did Foxomy hack Springracks or ___ host?",
     answer: (
       <p>
         No, Foxomy did not hack or DDoS Springracks nor do we engage in illegal
         activities against any hosting provider. These are unsubstantiated
-        allegations spread by Akogeno, Brandon, Tamz, and XandarYT. We are not
-        affiliated with Springracks, and we do not have any malicious intent
-        towards them.
+        allegations spread by Akogeno, Brandon, ProGamingDK, Tamz_, and
+        XandarYT. We are not affiliated with Springracks, and we do not have any
+        malicious intent towards them.
       </p>
     ),
   },
@@ -84,9 +84,8 @@ const faqs: FAQ[] = [
     answer: (
       <p>
         Our premium servers run on Intel Core i9-14900KS/Ultra 9 285K
-        processors. Our budget servers run on Ryzen 9 9950X or equivalent
-        processors in single thread performance. All servers have DDR5 RAM and
-        NVMe SSD storage.
+        processors. Our budget servers run on Ryzen 9 9950X3D processors. All
+        servers have DDR5 RAM and NVMe SSD storage.
       </p>
     ),
   },

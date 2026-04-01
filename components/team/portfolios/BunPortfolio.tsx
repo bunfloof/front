@@ -7,7 +7,7 @@ import "photoswipe/dist/photoswipe.css";
 export const memberData = {
   id: "bun",
   name: "Bun",
-  role: "Local Team Member",
+  role: "Misses Brandon from Springracks",
   handle: "@bunarcticfloof",
   avatar: "/imgs/portfolios/bun/IMG_0308.png",
   portfolioBg: "bg-[#2d74aa]",
@@ -40,7 +40,7 @@ export function BunPortfolio() {
             </div>
 
             <p className="text-white/90 leading-relaxed mb-6">
-              I have over 13 years of experience in hosting Minecraft servers.
+              I have over a decade of experience in hosting Minecraft servers.
               My first public server opened in 2012 and was called the{" "}
               <a
                 href="https://www.planetminecraft.com/forums/minecraft/servers/piratebay-server-need-132042/"
@@ -55,7 +55,8 @@ export function BunPortfolio() {
               Eventually, I founded Foxomy in September 2020 while I was still
               in high school. I went on to earn my Bachelor's degree in Computer
               Engineering in 2024 at the University of California and am
-              currently pursuing a Master's in Computer Science and Engineering.
+              currently pursuing my Master's and Doctorate in Computer Science
+              and Engineering at the University of Southern California.
             </p>
           </div>
 

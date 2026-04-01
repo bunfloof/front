@@ -8,6 +8,7 @@ export const memberData = {
   handle: "@crab",
   avatar: "/imgs/portfolios/crab/2c3354428687d37144951caa2907ba30.png",
   portfolioBg: "bg-black",
+  hasPeek: true,
 };
 
 export function CrabPortfolio() {

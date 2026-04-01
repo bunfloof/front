@@ -33,7 +33,7 @@ export default function Home() {
       {/* Features Section */}
       <FeaturesSection />
       {/* Reviews Section */}
-      <ReviewsSection />
+      {/* <ReviewsSection /> */}
 
       {/* Featured Partner Section */}
       <FeaturedPartnerSection />
