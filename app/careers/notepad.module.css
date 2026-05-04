@@ -1,0 +1,332 @@
+.page {
+  min-height: 100vh;
+  background-color: #6b5b45;
+  background-image: url("/imgs/careers/bg-texture.png");
+  background-size: auto;
+  background-repeat: repeat;
+  overflow-x: hidden;
+}
+
+/* Scrolling hire banner */
+.banner {
+  background-color: #003333;
+  border-top: 3px solid #006666;
+  border-bottom: 3px solid #006666;
+  padding: 8px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.bannerTrack {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 18s linear infinite;
+}
+
+.bannerText {
+  font-family: "Lucida Console", "Consolas", "Courier New", monospace;
+  font-size: 15px;
+  color: #ffd700;
+  letter-spacing: 3px;
+  padding: 0 24px;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Main content area */
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 20px 20px;
+}
+
+/* Notepad outer wrapper (holds decorations) */
+.notepadWrapper {
+  position: relative;
+  max-width: 660px;
+  width: 100%;
+  transform: rotate(-0.7deg);
+}
+
+/* Decoration images - hidden gracefully when missing */
+.coffeeStain {
+  position: absolute;
+  right: -50px;
+  top: 80px;
+  width: 130px;
+  height: 130px;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.tape {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%) rotate(1.5deg);
+  width: 130px;
+  height: 45px;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.pencil {
+  position: absolute;
+  right: -80px;
+  bottom: 30px;
+  width: 220px;
+  transform: rotate(30deg);
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0.9;
+}
+
+.happyEmoji {
+  position: absolute;
+  left: -100px;
+  top: 120px;
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  transform: rotate(-8deg);
+  pointer-events: none;
+  z-index: 10;
+  filter: drop-shadow(2px 3px 5px rgba(0, 0, 0, 0.3));
+}
+
+/* Spiral binding strip */
+.spiralBinding {
+  background-color: #5c4a3a;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 3px 3px 0 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.spiralRing {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2.5px solid #a8a8a8;
+  background-color: #4a3a2a;
+  flex-shrink: 0;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* Yellow ruled paper */
+.paper {
+  position: relative;
+  background-color: #fff8b0;
+  min-height: 750px;
+  padding: 20px 28px 28px 78px;
+  box-shadow:
+    3px 4px 10px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(0, 0, 0, 0.08);
+  background-image:
+    url("/imgs/careers/paper-texture.png"),
+    repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 27px,
+      #c5d8e8 27px,
+      #c5d8e8 28px
+    );
+  background-size: cover, auto;
+  background-blend-mode: multiply, normal;
+  background-position: center, 0 19px;
+  line-height: 28px;
+}
+
+/* Red margin line */
+.paper::before {
+  content: "";
+  position: absolute;
+  left: 66px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #d4a0a0;
+  z-index: 1;
+}
+
+/* Editable notepad text */
+.content {
+  position: relative;
+  z-index: 2;
+  font-family: "Lucida Console", "Consolas", "Courier New", monospace;
+  font-size: 14px;
+  color: #1a1a1a;
+  line-height: 28px;
+  white-space: pre-wrap;
+  outline: none;
+  min-height: 650px;
+  word-wrap: break-word;
+  caret-color: #333;
+}
+
+.content::selection {
+  background-color: #b8d4e3;
+  color: #000;
+}
+
+.content::-moz-selection {
+  background-color: #b8d4e3;
+  color: #000;
+}
+
+/* Sticky notes row */
+.stickyRow {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 40px;
+  padding: 0 20px;
+  flex-wrap: wrap;
+}
+
+.sticky {
+  width: 180px;
+  min-height: 155px;
+  padding: 14px 14px;
+  font-family: "Caveat", cursive;
+  font-size: 19px;
+  font-weight: 500;
+  color: #2a2a2a;
+  line-height: 1.45;
+  outline: none;
+  white-space: pre-wrap;
+  box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.35);
+  cursor: text;
+}
+
+.stickyPink {
+  background-color: #ffb8c0;
+  transform: rotate(-3deg);
+}
+
+.stickyBlue {
+  background-color: #b8d8ff;
+  transform: rotate(2deg);
+}
+
+.stickyGreen {
+  background-color: #b8ffd0;
+  transform: rotate(-1.5deg);
+}
+
+/* Neocities-style footer */
+.neoFooter {
+  text-align: center;
+  padding: 40px 20px 30px;
+  font-family: "Lucida Console", "Consolas", "Courier New", monospace;
+  font-size: 11px;
+  color: #c8b898;
+  line-height: 2.2;
+}
+
+.divider {
+  color: #a89878;
+  font-size: 11px;
+  letter-spacing: 3px;
+  margin: 8px 0;
+  user-select: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .notepadWrapper {
+    transform: none;
+    max-width: 100%;
+  }
+
+  .paper {
+    padding: 20px 16px 28px 56px;
+    min-height: 500px;
+  }
+
+  .paper::before {
+    left: 44px;
+  }
+
+  .content {
+    font-size: 13px;
+    min-height: 450px;
+  }
+
+  .coffeeStain,
+  .pencil,
+  .happyEmoji {
+    display: none;
+  }
+
+  .tape {
+    width: 100px;
+    height: 35px;
+    top: -14px;
+  }
+
+  .sticky {
+    width: 155px;
+    min-height: 130px;
+    font-size: 17px;
+  }
+
+  .stickyRow {
+    gap: 16px;
+    margin-top: 28px;
+  }
+
+  .spiralBinding {
+    padding: 6px 10px;
+  }
+
+  .spiralRing {
+    width: 14px;
+    height: 14px;
+    border-width: 2px;
+  }
+
+  .bannerText {
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 30px 10px 10px;
+  }
+
+  .paper {
+    padding: 16px 12px 24px 48px;
+  }
+
+  .paper::before {
+    left: 38px;
+  }
+
+  .content {
+    font-size: 12px;
+    line-height: 26px;
+  }
+
+  .paper {
+    background-position: center, 0 17px;
+  }
+
+  .sticky {
+    width: 140px;
+    min-height: 120px;
+  }
+}

@@ -78,7 +78,7 @@ export const footerSections: FooterSection[] = [
       { label: "Team", href: "/team" },
       { label: "Blog", href: "/blog" },
       { label: "Research", href: "/research" },
-      { label: "Ilomantis' Corner", href: "https://forlorn.day" },
+      { label: "Careers", href: "/careers" },
       // { label: "The Akogeno Act", href: "/akogeno" },
       
     ],

@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
 
 // Import portfolios and their data
-import { BunPortfolio, memberData as bunData } from "./portfolios/BunPortfolio";
+//import { BunPortfolio, memberData as bunData } from "./portfolios/BunPortfolio";
 
 import {
   CozmoPortfolio,
@@ -38,7 +38,10 @@ import {
   NxifyPortfolio,
   memberData as nxifyData,
 } from "./portfolios/NxifyPortfolio";
-
+import {
+  BlstmoPortfolio,
+  memberData as blstmoData,
+} from "./portfolios/BlstmoPortfolio";
 // Business Team
 import {
   CheesePortfolio,
@@ -133,15 +136,6 @@ import {
   BenjaminCarterPortfolio,
   memberData as benjamincarterData,
 } from "./portfolios/BenjaminCarterPortfolio";
-import {
-  FlyingDraegonPortfolio,
-  memberData as flyingdraegonData,
-} from "./portfolios/FlyingDraegonPortfolio";
-import {
-  GuruduruPortfolio,
-  memberData as guruduruData,
-} from "./portfolios/GuruduruPortfolio";
-import { PooPortfolio, memberData as pooData } from "./portfolios/PooPortfolio";
 
 // Marketing Team
 import {
@@ -215,7 +209,7 @@ interface Department {
 
 // Map member IDs to their portfolio components
 const portfolioComponents: Record<string, React.ComponentType> = {
-  bun: BunPortfolio,
+  //bun: BunPortfolio,
   feliix: FeliixPortfolio,
   cozmo: CozmoPortfolio,
   // Backend Team
@@ -225,6 +219,7 @@ const portfolioComponents: Record<string, React.ComponentType> = {
   halo: HaloPortfolio,
   mrw4ve: MrW4vePortfolio,
   nxify: NxifyPortfolio,
+  blstmo: BlstmoPortfolio,
   // Business Team
   cheese: CheesePortfolio,
   davidtucker: DavidTuckerPortfolio,
@@ -252,9 +247,7 @@ const portfolioComponents: Record<string, React.ComponentType> = {
   papatonydeep: PapatonydeepPortfolio,
   // Local Team
   benjamincarter: BenjaminCarterPortfolio,
-  flyingdraegon: FlyingDraegonPortfolio,
-  guruduru: GuruduruPortfolio,
-  poo: PooPortfolio,
+
   // Marketing Team
   solidsmm: SolidSMMPortfolio,
   graysongorney: GraysonGorneyPortfolio,
@@ -276,7 +269,7 @@ const portfolioComponents: Record<string, React.ComponentType> = {
 
 // Map member IDs to their background colors
 const portfolioBackgrounds: Record<string, string> = {
-  bun: bunData.portfolioBg,
+  //bun: bunData.portfolioBg,
   cozmo: cozmoData.portfolioBg,
   // Backend Team
   crab: crabData.portfolioBg,
@@ -285,6 +278,7 @@ const portfolioBackgrounds: Record<string, string> = {
   kobi: kobiData.portfolioBg,
   mrw4ve: mrw4veData.portfolioBg,
   nxify: nxifyData.portfolioBg,
+  blstmo: blstmoData.portfolioBg,
   // Business Team
   cheese: cheeseData.portfolioBg,
   ilomantis: ilomantisData.portfolioBg,
@@ -312,9 +306,7 @@ const portfolioBackgrounds: Record<string, string> = {
   papatonydeep: papatonydeepData.portfolioBg,
   // Local Team
   benjamincarter: benjamincarterData.portfolioBg,
-  flyingdraegon: flyingdraegonData.portfolioBg,
-  guruduru: guruduruData.portfolioBg,
-  poo: pooData.portfolioBg,
+
   // Marketing Team
   solidsmm: solidsmmData.portfolioBg,
   graysongorney: graysongorneyData.portfolioBg,
@@ -392,11 +384,9 @@ const departments: Department[] = [
     name: "Local Team",
     members: [
       benjamincarterData,
-      bunData,
+      //bunData,
       cozmoData,
-      flyingdraegonData,
-      guruduruData,
-      pooData,
+
     ],
   },
   {
@@ -428,6 +418,11 @@ const departments: Department[] = [
     id: "support",
     name: "Support Team",
     members: [trishData],
+  },
+  {
+    id: "system-administration",
+    name: "System Administration Team",
+    members: [blstmoData],
   },
 ];
 

@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Foxomy",
+  title: "Foxomy: The World's Furry Host in Progress and Research Excellence",
   icons: {
     icon: {
       url: "/icon.svg",
@@ -22,9 +22,9 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Foxomy",
+    title: "Foxomy: The World's Furry Host in Progress and Research Excellence",
     description:
-      "The best Minecraft server hosting provider with powerful hardware, 24/7 support, mods, and plugins. Start your server and play with friends today!",
+      "Foxomy provides hosting services with 24x7x365 power and uptime guarantees, top-of-the-line equipment, and round-the-clock customer support. Start your server and play with friends today!",
     siteName: "Foxomy",
     locale: "en_US",
     type: "website",
@@ -39,13 +39,13 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Foxomy",
+    title: "Foxomy: The World's Furry Host in Progress and Research Excellence",
     description:
-      "The best Minecraft server hosting provider with powerful hardware, 24/7 support, mods, and plugins. Start your server and play with friends today!",
+      "Foxomy provides hosting services with 24x7x365 power and uptime guarantees, top-of-the-line equipment, and round-the-clock customer support. Start your server and play with friends today!",
     images: ["https://fur1.foxomy.com/fapublicimgs/foxomybanner.jpg"],
   },
   description:
-    "The best Minecraft server hosting provider with powerful hardware, 24/7 support, mods, and plugins. Start your server and play with friends today!",
+    "Foxomy provides hosting services with 24x7x365 power and uptime guarantees, top-of-the-line equipment, and round-the-clock customer support. Start your server and play with friends today!",
 };
 
 export default function RootLayout({

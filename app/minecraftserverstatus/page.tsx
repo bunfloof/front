@@ -402,8 +402,8 @@ function ServerPreviewCard({
 }) {
   // Use live data if available, otherwise use initial server data
   const currentPlayers =
-    liveData?.players?.online ?? serverData?.players.online ?? 0;
-  const maxPlayers = liveData?.players?.max ?? serverData?.players.max ?? 0;
+    liveData?.players?.online ?? serverData?.players?.online ?? 0;
+  const maxPlayers = liveData?.players?.max ?? serverData?.players?.max ?? 0;
   const currentLatency = liveData?.latency ?? serverData?.latency ?? null;
   const signalState = pingToSignalState(currentLatency);
 
@@ -624,7 +624,7 @@ function ServerDetailsCard({
 
   // Use live player samples if available, otherwise fall back to initial data
   const rawPlayerSamples =
-    liveData?.players?.sample ?? serverData.players.sample ?? [];
+    liveData?.players?.sample ?? serverData?.players?.sample ?? [];
 
   // Sort player samples alphabetically by name (case-insensitive)
   const playerSamples = [...rawPlayerSamples].sort((a, b) =>
@@ -697,12 +697,12 @@ function ServerDetailsCard({
             <DataRow
               icon={Cpu}
               label="Version"
-              value={serverData.version.name}
+              value={serverData?.version?.name ?? "Unknown"}
             />
             <DataRow
               icon={Hash}
               label="Protocol"
-              value={String(serverData.version.protocol)}
+              value={String(serverData?.version?.protocol ?? "N/A")}
             />
           </div>
 
@@ -788,7 +788,7 @@ function ServerDetailsCard({
               className="text-sm"
               style={{ color: "var(--themed-text-muted)" }}
             >
-              Player Samples ({playerSamples.length}/{serverData.players.max})
+              Player Samples ({playerSamples.length}/{serverData?.players?.max ?? 0})
             </span>
           </div>
           <div className="flex items-center gap-2 mb-2">
@@ -1473,11 +1473,11 @@ function MinecraftServerStatusContent() {
                   className="text-lg font-semibold mb-4"
                   style={{ color: "var(--themed-heading)" }}
                 >
-                  Popular Servers
+                  Example Servers
                 </h3>
                 <div className="flex flex-wrap justify-center gap-2">
                   {[
-                    "mc.hypixel.net",
+                    "23.148.201.20:25573",
                     "play.cubecraft.net",
                     "donutsmp.net",
                     "play.wynncraft.com",
