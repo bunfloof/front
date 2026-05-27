@@ -92,7 +92,7 @@ export default function AcceptableUsePolicyPage() {
             Acceptable Use Policy
           </h1>
           <p style={{ color: "var(--themed-text-muted)" }}>
-            Last updated: December 6, 2025
+            Last updated: May 16, 2026
           </p>
         </div>
       </header>
@@ -184,8 +184,8 @@ export default function AcceptableUsePolicyPage() {
                       consent from the rightsholder.
                     </li>
                     <li>
-                      Hosting websites or content that impersonates individuals
-                      or organizations.
+                      Hosting websites or content that impersonates protected
+                      individuals or organizations.
                     </li>
                     <li>
                       Using the service to distribute spam, phishing attempts,
@@ -270,7 +270,8 @@ export default function AcceptableUsePolicyPage() {
                     </li>
                     <li>
                       Content that promotes violence, harassment,
-                      discrimination, or hate against individuals or groups.
+                      discrimination, or hate against protected individuals or
+                      groups.
                     </li>
                     <li>Content that promotes self-harm or suicide.</li>
                     <li>
@@ -421,8 +422,98 @@ export default function AcceptableUsePolicyPage() {
                     .
                   </p>
                   <p>
-                    We only take credible reports seriously and will investigate
-                    accordingly.
+                    We only act on credible reports that contain the minimum
+                    information required for us to take lawful action.
+                    Allegations of illegal content must be submitted through the
+                    proper authorities described below.
+                  </p>
+                  {/* FAQ: Why reports may not result in action */}
+                  <h3
+                    className="text-lg font-semibold mt-8 mb-2 transition-colors duration-300"
+                    style={{ color: "var(--themed-heading)" }}
+                  >
+                    🟡🟡🟡🟡🟡🟡READ THIS IMPORTANT🟡🟡🟡🟡🟡🟡🟡
+                  </h3>
+                  <p>
+                    Reports must be legally actionable submissions. They must not
+                    lack the minimum elements required under U.S. law for a
+                    service provider to take enforcement action without exposing
+                    themselves to criminal and civil liability. However, most
+                    importantly, we can not expose our staff to material that
+                    can potentially leave them psychologically scarred for life.
+                  </p>
+                  <p>
+                    <strong>
+                      1. We can not act on anonymous, non-validated accusations.
+                    </strong>
+                  </p>
+                  <p>
+                    If we disabled infrastructure every time someone sent an
+                    email alleging illegal content without any verifiable detail
+                    or law-enforcement validation, we would effectively become a
+                    turnkey Layer-7 DoS service. This exact tactic has been
+                    abused for years.
+                  </p>
+                  <p>
+                    <strong>2. Service providers are not investigators.</strong>
+                  </p>
+                  <p>
+                    We do not crawl customer data, hash files, &quot;grep
+                    media,&quot; or inspect content unless compelled by law
+                    enforcement or NCMEC. Doing so without authority is not
+                    &quot;being proactive&quot; it is a privacy violation and,
+                    in some cases, a felony. There is a very specific,
+                    well-known reporting path for reporting illegal materials.
+                  </p>
+                  <p>In the United States, that path is:</p>
+                  <ul className="list-disc list-inside space-y-2 ml-4">
+                    <li>Local law enforcement and/or</li>
+                    <li>
+                      NCMEC CyberTipline:{" "}
+                      <a
+                        href="https://report.cybertip.org"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline"
+                        style={{ color: "var(--themed-accent)" }}
+                      >
+                        https://report.cybertip.org
+                      </a>
+                    </li>
+                  </ul>
+                  <p>Those entities:</p>
+                  <ul className="list-disc list-inside space-y-2 ml-4">
+                    <li>
+                      Have the legal authority to evaluate alleged illegal
+                      content
+                    </li>
+                    <li>Maintain fingerprinting/hash databases</li>
+                    <li>Issue preservation requests and subpoenas</li>
+                    <li>Coordinate with providers correctly</li>
+                  </ul>
+                  <p>
+                    Under absolutely no circumstances will we disclose
+                    &quot;status updates,&quot; customer details, or
+                    investigative steps to you. For a real CSAM case under
+                    investigation, we would be legally prohibited from telling
+                    you anything about it. Expecting otherwise suggests
+                    unfamiliarity with how these processes actually work.
+                  </p>
+                  <p>
+                    U.S. law explicitly requires that allegations of illegal
+                    content be handled through law enforcement or NCMEC, not
+                    informal third-party reports or a forum pressure campaign.
+                    If you genuinely believe it exists, you should follow
+                    exactly what was sent as an e-mail reply.
+                  </p>
+                  <p>
+                    If you can not or will not submit a report to the
+                    appropriate authorities and agencies specifically empowered
+                    and tooled for this, it very much starts to appear as abuse
+                    of process rather than legitimate report. If you were hoping
+                    to find a host to panic act on unverified accusations sent
+                    from anonymous email account, (un)fortunately that
+                    won&apos;t be us.
                   </p>
                 </div>
               </section>

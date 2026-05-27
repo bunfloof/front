@@ -17,6 +17,19 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "new-tutorial-videos",
+    title: "New YouTube Tutorial Videos",
+    excerpt:
+      "We're excited to announce that we've started uploading new tutorial videos on our YouTube channel! You can check them out here: https://youtube.com/@foxomy",
+    date: "May 24, 2026",
+    author: "Cozmo",
+    authorImage: "/imgs/portfolios/cozmo/nCBGCW68_400x400.jpg",
+    readTime: "1 min read",
+    category: "Social Media",
+    emoji: "📷",
+    featured: false,
+  },
+  {
     slug: "foxomy-is-home-hosted",
     title: "Foxomy Is Home Hosted (Really)",
     excerpt:

@@ -331,7 +331,15 @@ const departments: Department[] = [
   {
     id: "backend",
     name: "Backend Team",
-    members: [crabData, enochData, haloData, kobiData, mrw4veData, nxifyData],
+    members: [
+      cozmoData,
+      crabData,
+      enochData,
+      haloData,
+      kobiData,
+      mrw4veData,
+      nxifyData,
+    ],
   },
   {
     id: "business",
@@ -385,8 +393,6 @@ const departments: Department[] = [
     members: [
       benjamincarterData,
       //bunData,
-      cozmoData,
-
     ],
   },
   {
@@ -963,11 +969,11 @@ export function TeamSection() {
             member to learn more about them.
           </p>
 
-          <div className="mt-6 rounded-lg border border-yellow-500/30 bg-yellow-500/10 px-5 py-4 text-yellow-200 text-sm leading-relaxed max-w-3xl">
+          {/* <div className="mt-6 rounded-lg border border-yellow-500/30 bg-yellow-500/10 px-5 py-4 text-yellow-200 text-sm leading-relaxed max-w-3xl">
             <strong className="text-yellow-400">Note:</strong> The information
             displayed on this page may not be accurate as anyone can edit this
             page, including those who are not officially part of the team.
-          </div>
+          </div> */}
         </div>
 
         {/* Team Departments */}

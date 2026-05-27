@@ -44,7 +44,7 @@ const faqs: FAQ[] = [
     answer: (
       <p>
         No, Bun is not a pedophile or zoophile. Those are unsubstantiated
-        allegations made by non-customers such as Brandon from Springracks
+        allegations made by non-customers such as Brandon from ForestRacks
         Hosting and XandarYT.
       </p>
     ),
@@ -68,14 +68,14 @@ const faqs: FAQ[] = [
     ),
   },
   {
-    question: "Did Foxomy hack Springracks or ___ host?",
+    question: "Did Foxomy hack ForestRacks or ___ host?",
     answer: (
       <p>
-        No, Foxomy did not hack or DDoS Springracks nor do we engage in illegal
+        No, Foxomy did not hack or DDoS ForestRacks (formerly Springracks) nor do we engage in illegal
         activities against any hosting provider. These are unsubstantiated
-        allegations spread by Akogeno, Brandon, ProGamingDK, Tamz_, and
-        XandarYT. We are not affiliated with Springracks, and we do not have any
-        malicious intent towards them.
+        allegations spread by Akogeno, Brandon, ProGamingDK, Tamz_, and XandarYT.
+        We are not affiliated with ForestRacks, and we do not have any malicious
+        intent towards them.
       </p>
     ),
   },

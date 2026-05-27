@@ -4,9 +4,10 @@ import { Slide1 } from "@/components/slides/Slide1";
 import { Slide2 } from "@/components/slides/Slide2";
 import { Slide3 } from "@/components/slides/Slide3";
 import { SlideResearch } from "@/components/slides/SlideResearch";
+import { SlideTutorialVideos } from "@/components/slides/SlideTutorialVideos";
 import { Pause, Play } from "lucide-react";
 
-const TOTAL_SLIDES = 3;
+const TOTAL_SLIDES = 4;
 const SLIDE_DURATION = 10000; // 10 seconds
 const TRANSITION_DURATION = 300; // 300ms - adjust this to make transitions faster/slower
 
@@ -300,10 +301,10 @@ export function HeroSection() {
   };
 
   const slides = [
-     <SlideResearch key="slide-research" />,
+    <SlideTutorialVideos key="slide-tutorial-videos" />,
+    <SlideResearch key="slide-research" />,
     <Slide1 key="slide-1" />,
-    <Slide2 key="slide-2" isAnimating={isDragging || isTransitioning} />
-   
+    <Slide2 key="slide-2" isAnimating={isDragging || isTransitioning} />,
   ];
 
   // Create infinite loop array: last, all slides, first

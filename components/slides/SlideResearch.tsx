@@ -22,7 +22,7 @@ export function SlideResearch() {
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 2xl:px-0 py-8">
           <div className="text-white max-w-6xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium mb-6 leading-tight">
-              Bero: Content-Addressed
+              Content-Addressed
               <br />
               Backup System for Minecraft servers
             </h1>

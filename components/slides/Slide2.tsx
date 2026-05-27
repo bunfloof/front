@@ -24,7 +24,7 @@ export function Slide2({ isAnimating = false }: Slide2Props) {
           {/* Hero Text */}
           <div className="text-white max-w-5xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium mb-6 leading-tight">
-              Introducing our new panel
+              Introducing Our New Panel
               <br />
             </h1>
             <p className="text-gray-400 mb-6 text-xl">

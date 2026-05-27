@@ -419,7 +419,7 @@ export default function GameHostingPage() {
       </section>
 
       {/* Report Bug/Pricing Error Link */}
-      <div className="" style={{ backgroundColor: "#030F16" }}>
+      {/* <div className="" style={{ backgroundColor: "#030F16" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-end w-full">
             <a
@@ -433,7 +433,7 @@ export default function GameHostingPage() {
             </a>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Step 1: Location Selection with Map Background */}
       <section

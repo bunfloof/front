@@ -227,19 +227,31 @@ export const ThemedNavbar = () => {
                 <div className="relative" ref={loginRef}>
                   <button
                     onClick={() => setLoginDropdown(!loginDropdown)}
-                    className="group relative z-10 text-sm transition font-medium duration-200 rounded-md px-4 py-2 flex items-center justify-center h-8 gap-1.5 border"
+                    className="group relative z-10 text-sm transition-all font-medium duration-300 rounded-md px-4 py-2 flex items-center justify-center h-8 gap-1.5 border cursor-pointer"
                     style={{
-                      backgroundColor: "var(--themed-button-bg)",
-                      borderColor: "var(--themed-button-border)",
-                      color: "var(--themed-button-text)",
+                      backgroundColor: isAtTop
+                        ? "transparent"
+                        : "var(--themed-button-bg)",
+                      borderColor: isAtTop
+                        ? isDark
+                          ? "rgba(255, 255, 255, 0.2)"
+                          : "rgba(17, 24, 39, 0.2)"
+                        : "var(--themed-button-border)",
+                      color: isAtTop
+                        ? "var(--themed-heading)"
+                        : "var(--themed-button-text)",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor =
-                        "var(--themed-button-hover)";
+                      e.currentTarget.style.backgroundColor = isAtTop
+                        ? isDark
+                          ? "rgba(255, 255, 255, 0.1)"
+                          : "rgba(0, 0, 0, 0.05)"
+                        : "var(--themed-button-hover)";
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor =
-                        "var(--themed-button-bg)";
+                      e.currentTarget.style.backgroundColor = isAtTop
+                        ? "transparent"
+                        : "var(--themed-button-bg)";
                     }}
                   >
                     Login

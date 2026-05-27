@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import React from "react";
 import { menuItems, loginOptions } from "@/config/navigation";
+import { ScrambledText } from "@/components/ScrambledText";
 
 interface MainNavbarProps {
   isDark?: boolean;
@@ -52,30 +53,16 @@ export const MainNavbar = ({ isDark = true }: MainNavbarProps) => {
   return (
     <nav className="fixed top-0 inset-x-0 z-50 w-full">
       {/* Temporary Announcement Banner */}
-      {/* <a
-        href="https://foxomy.com/billing/announcements/66/Chicago-IL-outage-and-transfers-today.html"
-        target="_blank"
-        rel="noopener noreferrer"
+      {/* <div
         className="block w-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 py-2.5 px-4 text-center text-sm font-medium text-white hover:from-amber-600 hover:via-orange-600 hover:to-amber-600 transition-all duration-300 shadow-lg"
       >
         <span className="inline-flex items-center gap-2">
-          <svg
-            className="w-4 h-4 animate-pulse"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fillRule="evenodd"
-              d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-              clipRule="evenodd"
-            />
-          </svg>
-          <strong>Chicago Transfers Today:</strong> All remaining Chicago-IL
-          server (166.1.173.231){" "}
-          transfers are happening today. Click here for
-          details →
+          <strong>Billing Panel Maintenance (10:00 PM PST @ 5/20/2026):</strong>{" "}
+          The /billing panel will be temporarily unavailable due to maintenance.
+          Please email <ScrambledText>support@foxomy.com</ScrambledText> for any
+          inquiries.{" "}
         </span>
-      </a> */}
+      </div> */}
       {/* Full-width gradient backdrop when at top */}
       {isAtTop && (
         <div className="fixed inset-x-0 top-0 h-12 -z-10 pointer-events-none">
@@ -206,10 +193,14 @@ export const MainNavbar = ({ isDark = true }: MainNavbarProps) => {
                 <div className="relative" ref={loginRef}>
                   <button
                     onClick={() => setLoginDropdown(!loginDropdown)}
-                    className={`group relative z-10 text-sm transition font-medium duration-200 rounded-md px-4 py-2 flex items-center justify-center h-8 gap-1.5 cursor-pointer ${
-                      isDark
-                        ? "bg-[#071F2C] hover:bg-[#0D3A54] border border-[#1A77AD]/40 text-[#BDE0F5]"
-                        : "bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-700"
+                    className={`group relative z-10 text-sm transition-all font-medium duration-300 rounded-md px-4 py-2 flex items-center justify-center h-8 gap-1.5 cursor-pointer border ${
+                      isAtTop
+                        ? isDark
+                          ? "bg-transparent hover:bg-white/10 border-white/20 text-white"
+                          : "bg-transparent hover:bg-black/5 border-gray-900/20 text-gray-900"
+                        : isDark
+                        ? "bg-[#071F2C] hover:bg-[#0D3A54] border-[#1A77AD]/40 text-[#BDE0F5]"
+                        : "bg-gray-100 hover:bg-gray-200 border-gray-300 text-gray-700"
                     }`}
                   >
                     Login
