@@ -1477,7 +1477,7 @@ function MinecraftServerStatusContent() {
                 </h3>
                 <div className="flex flex-wrap justify-center gap-2">
                   {[
-                    "23.148.201.20:25573",
+                    "23.148.201.20:25566",
                     "play.cubecraft.net",
                     "donutsmp.net",
                     "play.wynncraft.com",

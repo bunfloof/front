@@ -2,7 +2,8 @@
 
 import { MainNavbar } from "@/components/MainNavbar";
 import { HeroSection } from "@/components/HeroSection";
-import { StatsSection } from "@/components/StatsSection";
+//import { StatsSection } from "@/components/StatsSection";
+import { SmallHostingProvider } from "@/components/SmallHostingProvider";
 import { SupportSection } from "@/components/SupportSection";
 import { GuaranteeSection } from "@/components/GuaranteeSection";
 import { FAQSection } from "@/components/FAQSection";
@@ -21,7 +22,7 @@ export default function Home() {
       <MainNavbar />
       <HeroSection />
       {/* Stats Section */}
-      <StatsSection />
+      <SmallHostingProvider />
       {/* Services Section */}
       <ServicesSection />
       {/* Support Section */}

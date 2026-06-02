@@ -60,13 +60,15 @@ export default function CareersPage() {
               >
                 {`JOB APPLICATION
 
-Foxomy is not currently accepting applications for employment. When we next have an opening, we'll make sure to post to the news on our main page and to our social media pages.
+if ur a furry who goes to UCLA or USC, then u in nigga 
 
-Foxomy's minimum requirements for staff are that they:
-- Reside in California
-- Have at least a 3.92 GPA (unweighted)
-- Not be a loser like Akogeno or Brandon 
-- Not say the N word in front of Bun the furry
+
+
+
+go have fun with bun, crab, and kobi in the city of angels!!!
+
+
+
 
 
 `}

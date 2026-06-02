@@ -165,7 +165,7 @@ export default function NewTutorialVideosPost() {
                 >
                   <iframe
                     className="absolute inset-0 w-full h-full"
-                    src="https://www.youtube.com/embed/EoNi015Ceps"
+                    src="https://www.youtube.com/embed/JMzx9HQNV3Q"
                     title="Foxomy YouTube tutorial video"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"
@@ -178,7 +178,7 @@ export default function NewTutorialVideosPost() {
                 >
                   <iframe
                     className="absolute inset-0 w-full h-full"
-                    src="https://www.youtube.com/embed/uqp0MvswazA"
+                    src="https://www.youtube.com/embed/EoNi015Ceps"
                     title="Foxomy YouTube tutorial video"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"
