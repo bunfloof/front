@@ -562,7 +562,11 @@ export default function TermsOfServicePage() {
                     We always try to improve our service. Customers have the
                     right to complain or give feedback on Foxomy&apos;s service
                     via email{" "}
-                    <a href="mailto:">
+                    <a
+                      href="mailto:"
+                      className="hover:underline"
+                      style={{ color: "var(--themed-accent)" }}
+                    >
                       <ScrambledText>support@foxomy.com</ScrambledText>
                     </a>{" "}
                     or the on-site ticket system.

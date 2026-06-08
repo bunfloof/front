@@ -109,7 +109,7 @@ Foxomy's minimum requirements for staff are that they:
               spellCheck={false}
               className={`${styles.sticky} ${styles.stickyBlue}`}
             >
-              {`Akogeno from UCSC and Brandon from Springracks can fuck off`}
+              {`Brandon from Springracks can flip off`}
             </div>
             <div
               contentEditable

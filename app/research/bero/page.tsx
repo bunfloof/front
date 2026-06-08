@@ -132,8 +132,9 @@ export default function BeroResearchPage() {
             <div className="mb-4" style={{ color: "var(--themed-text)" }}>
               <p>Foxomy Team</p>
               <span className="bg-black">
-                University of California, Los Angeles
+                
               </span>
+              <p>University of Southern California</p>
               <p>Department of Computer Science</p>
             </div>
 

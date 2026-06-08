@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Foxomy: The World's Furry Host in Progress and Research Excellence",
+  title: "Foxomy: The World's Furry Host",
   icons: {
     icon: {
       url: "/icon.svg",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Foxomy: The World's Furry Host in Progress and Research Excellence",
+    title: "Foxomy: The World's Furry Host",
     description:
       "Foxomy provides hosting services with 24x7x365 power and uptime guarantees, top-of-the-line equipment, and round-the-clock customer support. Start your server and play with friends today!",
     siteName: "Foxomy",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Foxomy: The World's Furry Host in Progress and Research Excellence",
+    title: "Foxomy: The World's Furry Host",
     description:
       "Foxomy provides hosting services with 24x7x365 power and uptime guarantees, top-of-the-line equipment, and round-the-clock customer support. Start your server and play with friends today!",
     images: ["https://fur1.foxomy.com/fapublicimgs/foxomybanner.jpg"],

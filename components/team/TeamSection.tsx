@@ -277,7 +277,7 @@ const portfolioBackgrounds: Record<string, string> = {
   halo: haloData.portfolioBg,
   kobi: kobiData.portfolioBg,
   mrw4ve: mrw4veData.portfolioBg,
-  nxify: nxifyData.portfolioBg,
+  //nxify: nxifyData.portfolioBg,
   blstmo: blstmoData.portfolioBg,
   // Business Team
   cheese: cheeseData.portfolioBg,
@@ -338,7 +338,7 @@ const departments: Department[] = [
       haloData,
       kobiData,
       mrw4veData,
-      nxifyData,
+      //nxifyData,
     ],
   },
   {

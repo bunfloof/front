@@ -17,6 +17,19 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "foxomy-will-no-longer-have-a-discord-server",
+    title: "Foxomy Will No Longer Have a Discord Server",
+    excerpt:
+      "The source of all the drama thrived on Discord, and this will be the end of it. It has gotten to the point where it has done real-life harm to people for years. We have come to the decision that we will no longer have an official Discord server.",
+    date: "June 8, 2026",
+    author: "Cozmo",
+    authorImage: "/imgs/portfolios/cozmo/nCBGCW68_400x400.jpg",
+    readTime: "1 min read",
+    category: "Social Media",
+    emoji: "📷",
+    featured: false,
+  },
+  {
     slug: "new-tutorial-videos",
     title: "New YouTube Tutorial Videos",
     excerpt:

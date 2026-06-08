@@ -1,22 +1,22 @@
 "use client";
 
 /* =========================================================================
-   Foxomy · SUMMER HOST 2026  ☀
-   app/summer/page.tsx
+   Foxomy · I MISS SJSU  ·  app/sjsu/page.tsx
 
-   A beach-themed twist on the game hosting configurator. It reuses the same
-   data + components as the main page (so the order flow stays 100% real),
-   but only surfaces three locations and plans 16 GB or under, and wraps the
-   whole thing in a hand-made pixel-art beach skin.
+   A San Jose State send-off skin on the hosting configurator, for current
+   SJSU Spartans. Reuses the same data + components as the main page (so the
+   order flow stays 100% real), surfaces three locations and plans 16 GB or
+   under, and wraps it all in a hand-made pixel-art "pinned-to-the-corkboard"
+   campus scrapbook: parchment, lined notes, pennants, palms and Tower Hall.
 
-   Promo: 3 months free with code SUMMERHOST2026. At WHMCS checkout the buyer
+   Promo: 3 months free with code IMISSSJSU. At WHMCS checkout the buyer
    picks "PayPal Basic (Legacy)" so no payment info is ever entered.
 
-   All beach art lives in /public/imgs/summer/ and is original pixel art.
+   All art lives in /public/imgs/sjsu/ and is original pixel art (no SJSU
+   logos / no Sammy the Spartan). Foxomy is not affiliated with SJSU.
    ========================================================================= */
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { MainNavbar } from "@/components/MainNavbar";
 import { SignalBar, pingToSignalState } from "@/components/SignalBar";
 import {
   locations,
@@ -42,10 +42,7 @@ import {
   Archive,
   Layers,
   Info,
-  Sun,
-  Waves,
   Ticket,
-  CreditCard,
   ChevronDown,
 } from "lucide-react";
 import Image from "next/image";
@@ -53,9 +50,9 @@ import Image from "next/image";
 /* ---------------------------------------------------------------------------
    Promo config
 --------------------------------------------------------------------------- */
-const PROMO = "SUMMERHOST2026";
+const PROMO = "IMISSSJSU";
 const MAX_RAM = 16; // promo only applies to plans 16 GB or under
-const IMG = "/imgs/summer"; // where the user uploads the generated art
+const IMG = "/imgs/sjsu"; // where the user uploads the generated art
 
 // The three locations included in the promo. Matched tolerantly on the
 // location name + tier so it keeps working regardless of exact labels.
@@ -117,6 +114,9 @@ function PixelImg({
     />
   );
 }
+
+// A photographic cut-out helper was here previously; the hero is now pixel-art,
+// so it has been removed.
 
 /* =========================================================================
    PAGE
@@ -295,250 +295,412 @@ export default function SummerHostingPage() {
 
   /* ----------------------------------------------------------------------- */
   return (
-    <div className="font-sans" style={{ background: "#bdeefb" }}>
-      <MainNavbar />
-
-      {/* All summer-only styles, scoped with the sm- prefix */}
+    <div
+      className="font-sans"
+      style={{
+        backgroundImage: `url(${IMG}/tex_cork.png)`,
+        backgroundRepeat: "repeat",
+        backgroundSize: "120px 120px",
+        imageRendering: "pixelated",
+      }}
+    >
+      {/* SJSU styles, scoped with the sm- prefix */}
       <style
         dangerouslySetInnerHTML={{
           __html: `
         .sm-pixel{image-rendering:pixelated;image-rendering:crisp-edges;}
         .sm-mc{font-family:var(--font-minecraft),system-ui,sans-serif;}
-        .sm-shadow{text-shadow:2px 2px 0 rgba(11,37,48,.35);}
-        @keyframes sm-drift{from{transform:translateX(-18vw)}to{transform:translateX(118vw)}}
-        @keyframes sm-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-        @keyframes sm-bobsm{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+        .sm-hand{font-family:"Bradley Hand","Segoe Print","Comic Sans MS",ui-rounded,cursive;}
+        .sm-shadow{text-shadow:2px 2px 0 rgba(6,22,46,.55);}
+        /* parchment "block" panel */
+        .sm-panel{background:#f7efda url(${IMG}/tex_paper.png) repeat;background-size:320px 320px;image-rendering:pixelated;border:3px solid #2f6fb0;box-shadow:inset 2px 2px 0 #fffdf3,inset -3px -3px 0 #cdb06a,0 5px 0 rgba(6,22,46,.16);border-radius:4px}
+        .sm-panel-sel{background:#fcf2d2 url(${IMG}/tex_goldpaper.png) repeat;background-size:320px 320px;image-rendering:pixelated;border:3px solid #0055a2;box-shadow:inset 2px 2px 0 #fffdf2,inset -3px -3px 0 #f3d486,0 0 0 2px rgba(229,168,35,.55),0 6px 0 rgba(0,85,162,.22);border-radius:4px}
+        .sm-link{color:#0a66bd}
+        .sm-link:hover{color:#0055a2;text-decoration:underline}
+        /* handwritten note on lined paper */
+        .sm-note{background:#fffdf3 url(${IMG}/tex_lined.png);background-size:100% auto;image-rendering:pixelated;border:1px solid #d9c7a0;box-shadow:0 10px 22px rgba(6,22,46,.30)}
+        /* --- diorama animations + decor --- */
         @keyframes sm-sway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
-        @keyframes sm-wave{from{background-position-x:0}to{background-position-x:-128px}}
-        @keyframes sm-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-        @keyframes sm-sunpulse{0%,100%{filter:drop-shadow(0 0 10px rgba(255,203,61,.7))}50%{filter:drop-shadow(0 0 22px rgba(255,203,61,.95))}}
-        .sm-bob{animation:sm-bob 4s ease-in-out infinite}
-        .sm-bobsm{animation:sm-bobsm 3.4s ease-in-out infinite}
+        @keyframes sm-sway2{0%,100%{transform:rotate(2.6deg)}50%{transform:rotate(-2.6deg)}}
+        @keyframes sm-swayf{0%,100%{transform:scaleX(-1) rotate(-2.4deg)}50%{transform:scaleX(-1) rotate(2.4deg)}}
+        @keyframes sm-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+        @keyframes sm-drift{from{transform:translateX(-16vw)}to{transform:translateX(116vw)}}
+        @keyframes sm-tw{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.18)}}
         .sm-sway{animation:sm-sway 5s ease-in-out infinite;transform-origin:bottom center}
-        .sm-sun{animation:sm-bob 6s ease-in-out infinite, sm-sunpulse 4s ease-in-out infinite}
-        .sm-ocean{background-image:url(${IMG}/ocean_strip.png);background-repeat:repeat-x;background-size:128px auto;image-rendering:pixelated;animation:sm-wave 6s linear infinite}
-        .sm-sand{background-image:url(${IMG}/tex_sand.png);background-repeat:repeat;background-size:52px 52px;image-rendering:pixelated}
-        .sm-sandstone{background-image:url(${IMG}/tex_sandstone.png);background-repeat:repeat;background-size:64px 64px;image-rendering:pixelated}
-        .sm-planks{background-image:url(${IMG}/tex_planks.png);background-repeat:repeat;background-size:40px 40px;image-rendering:pixelated}
-        /* beveled "block" panel */
-        .sm-panel{background:#fffaf0;border:3px solid #c9a05a;box-shadow:inset 2px 2px 0 #fffef8,inset -3px -3px 0 #d7b06a,0 5px 0 rgba(11,37,48,.10);border-radius:4px}
-        .sm-panel-sel{background:#e3faf4;border:3px solid #00a892;box-shadow:inset 2px 2px 0 #f3fffc,inset -3px -3px 0 #67ddc9,0 0 0 2px rgba(0,196,170,.35),0 6px 0 rgba(0,168,146,.18);border-radius:4px}
-        .sm-clouds img{position:absolute;top:0;opacity:.95}
-        .sm-marquee-track{display:flex;width:max-content;animation:sm-marquee 22s linear infinite}
-        .sm-link{color:#0d6f8f}
-        .sm-link:hover{color:#00a892;text-decoration:underline}
+        .sm-sway2{animation:sm-sway2 6.4s ease-in-out infinite;transform-origin:bottom center}
+        .sm-swayf{animation:sm-swayf 5.6s ease-in-out infinite;transform-origin:bottom center}
+        .sm-bob{animation:sm-bob 6s ease-in-out infinite}
+        .sm-tw{animation:sm-tw 3s ease-in-out infinite}
+        .sm-grass{background-image:url(${IMG}/grass_px.png);background-size:240px 64px;background-repeat:repeat-x;background-position:left bottom;image-rendering:pixelated}
+        .sm-pennant{clip-path:polygon(0 0,100% 0,50% 100%)}
       `,
         }}
       />
 
       {/* ============================== HERO ============================== */}
+      {/* A little hand-built SJSU diorama: real cut-outs of Tower Hall + palms
+          standing on a real lawn, under a painted sky. Promo front & center. */}
       <section
         className="relative overflow-hidden"
         style={{
+          minHeight: "clamp(720px,94vh,1000px)",
           background:
-            "linear-gradient(#79cdf0 0%,#a6e2f6 42%,#d8f3fb 78%,#eaf9fd 100%)",
+            "repeating-linear-gradient(45deg,#0d2954 0 26px,#11346a 26px 52px)",
         }}
       >
-        {/* drifting clouds */}
-        <div className="sm-clouds absolute inset-0 pointer-events-none">
-          <img
-            src={`${IMG}/spr_cloud.png`}
-            alt=""
-            className="sm-pixel"
-            style={{
-              width: 150,
-              top: 38,
-              animation: "sm-drift 38s linear infinite",
-            }}
-          />
-          <img
-            src={`${IMG}/spr_cloud.png`}
-            alt=""
-            className="sm-pixel"
-            style={{
-              width: 105,
-              top: 110,
-              animation: "sm-drift 52s linear infinite",
-              animationDelay: "-12s",
-              opacity: 0.85,
-            }}
-          />
-          <img
-            src={`${IMG}/spr_cloud.png`}
-            alt=""
-            className="sm-pixel"
-            style={{
-              width: 190,
-              top: 20,
-              animation: "sm-drift 64s linear infinite",
-              animationDelay: "-30s",
-              opacity: 0.8,
-            }}
-          />
+        {/* moon + twinkling pixel stars */}
+        <PixelImg
+          src="moon_px.png"
+          w={54}
+          h={54}
+          className="absolute sm-bob"
+          style={{ top: 40, right: "10%", zIndex: 1 }}
+        />
+        <PixelImg
+          src="star_px.png"
+          w={18}
+          h={18}
+          className="absolute sm-tw"
+          style={{ top: 70, left: "14%", zIndex: 1 }}
+        />
+        <PixelImg
+          src="star_px.png"
+          w={14}
+          h={14}
+          className="absolute sm-tw"
+          style={{ top: 124, left: "30%", zIndex: 1, animationDelay: "1.1s" }}
+        />
+        <PixelImg
+          src="star_px.png"
+          w={21}
+          h={21}
+          className="absolute sm-tw"
+          style={{ top: 96, left: "62%", zIndex: 1, animationDelay: ".5s" }}
+        />
+        <PixelImg
+          src="star_px.png"
+          w={14}
+          h={14}
+          className="absolute sm-tw"
+          style={{ top: 172, right: "16%", zIndex: 1, animationDelay: "1.6s" }}
+        />
+        <PixelImg
+          src="star_px.png"
+          w={18}
+          h={18}
+          className="absolute sm-tw"
+          style={{ top: 214, left: "8%", zIndex: 1, animationDelay: "2s" }}
+        />
+        <PixelImg
+          src="star_px.png"
+          w={14}
+          h={14}
+          className="absolute sm-tw"
+          style={{ top: 58, left: "45%", zIndex: 1, animationDelay: ".9s" }}
+        />
+        <PixelImg
+          src="star_px.png"
+          w={18}
+          h={18}
+          className="absolute sm-tw"
+          style={{ top: 150, left: "80%", zIndex: 1, animationDelay: "1.3s" }}
+        />
+
+        {/* pixel pennant bunting */}
+        <div className="absolute left-0 right-0" style={{ top: 10, zIndex: 2 }}>
+          <div style={{ height: 2, background: "rgba(255,255,255,.4)" }} />
+          <div
+            className="flex justify-center"
+            style={{ gap: 8, marginTop: -1, flexWrap: "wrap" }}
+          >
+            {Array.from({ length: 16 }).map((_, i) => (
+              <PixelImg
+                key={i}
+                src={i % 2 ? "pennant_b.png" : "pennant_g.png"}
+                w={22}
+                h={27}
+                className="sm-sway2"
+                style={{
+                  animationDelay: `${(i % 5) * 0.2}s`,
+                  transformOrigin: "top center",
+                }}
+              />
+            ))}
+          </div>
         </div>
 
-        {/* sun */}
+        {/* ----- the ground: pixel grass ----- */}
+        <div
+          className="sm-grass absolute left-0 right-0 bottom-0"
+          style={{ height: 64, zIndex: 1 }}
+        />
+
+        {/* ----- the pixel diorama: Tower Hall + palms on the lawn ----- */}
+        {/* little bushes for ground fill */}
         <PixelImg
-          src="spr_sun.png"
-          w={104}
+          src="bush_px.png"
+          w={66}
+          h={36}
+          className="absolute"
+          style={{ left: "33%", bottom: 40, zIndex: 2 }}
+        />
+        <PixelImg
+          src="bush_px.png"
+          w={54}
+          h={29}
+          className="absolute"
+          style={{ right: "33%", bottom: 42, zIndex: 2 }}
+        />
+        <PixelImg
+          src="bush_px.png"
+          w={48}
+          h={26}
+          className="absolute"
+          style={{ left: "47%", bottom: 38, zIndex: 4 }}
+        />
+
+        {/* short palms */}
+        <PixelImg
+          src="palm_px.png"
+          w={60}
           h={104}
-          className="sm-sun absolute"
-          style={{ right: 40, top: 30 }}
+          className="absolute sm-sway2"
+          style={{ left: "40%", bottom: 52, zIndex: 2, animationDelay: "-2s" }}
+        />
+        <PixelImg
+          src="palm_px.png"
+          w={55}
+          h={95}
+          className="absolute sm-swayf"
+          style={{ right: "40%", bottom: 54, zIndex: 2 }}
+        />
+        {/* mid palms */}
+        <PixelImg
+          src="palm_px.png"
+          w={78}
+          h={135}
+          className="absolute sm-sway"
+          style={{
+            left: "25%",
+            bottom: 50,
+            zIndex: 2,
+            animationDelay: "-1.6s",
+          }}
+        />
+        <PixelImg
+          src="palm_px.png"
+          w={72}
+          h={125}
+          className="absolute sm-swayf"
+          style={{ right: "25%", bottom: 52, zIndex: 2 }}
+        />
+        {/* tall palms */}
+        <PixelImg
+          src="palm_px.png"
+          w={104}
+          h={180}
+          className="absolute sm-sway2"
+          style={{ left: "12%", bottom: 48, zIndex: 2 }}
+        />
+        <PixelImg
+          src="palm_px.png"
+          w={98}
+          h={170}
+          className="absolute sm-swayf"
+          style={{
+            right: "12%",
+            bottom: 50,
+            zIndex: 2,
+            animationDelay: "-0.8s",
+          }}
         />
 
-        {/* palms framing the hero */}
+        {/* Tower Hall — pixel centerpiece (no clock) */}
         <PixelImg
-          src="spr_palm.png"
-          w={150}
-          h={210}
-          className="sm-sway absolute hidden md:block"
-          style={{ left: 18, bottom: 96, zIndex: 2 }}
+          src="tower_px.png"
+          w={112}
+          h={244}
+          className="absolute"
+          style={{
+            left: "50%",
+            transform: "translateX(-50%)",
+            bottom: 54,
+            zIndex: 3,
+          }}
         />
+
+        {/* big foreground framing palms */}
         <PixelImg
-          src="spr_palm.png"
+          src="palm_px.png"
           w={120}
-          h={168}
-          className="sm-sway absolute hidden lg:block"
-          style={{ right: 60, bottom: 96, transform: "scaleX(-1)", zIndex: 2 }}
+          h={208}
+          className="absolute sm-sway hidden sm:block"
+          style={{ left: "-1%", bottom: 34, zIndex: 4 }}
+        />
+        <PixelImg
+          src="palm_px.png"
+          w={128}
+          h={222}
+          className="absolute sm-swayf"
+          style={{ right: "-2%", bottom: 28, zIndex: 4 }}
         />
 
-        {/* hero content */}
-        <div className="relative z-10 max-w-5xl mx-auto px-4 pt-40 pb-44 text-center">
-          <h1
-            className="sm-mc sm-shadow leading-[0.95] text-white font-bold"
-            style={{ fontSize: "clamp(2.6rem,9vw,6rem)" }}
-          >
-            3 MONTHS
-            <br />
-            <span style={{ color: "#ffd34e" }}>FREE</span> HOSTING
-          </h1>
-
-          {/* promo code card */}
-          <div className="mt-9 max-w-xl mx-auto">
-            <div
-              className="relative px-5 pt-5 pb-4 backdrop-blur-md"
-              style={{
-                background: "rgba(10,32,44,0.34)",
-                border: "2px solid rgba(255,255,255,0.55)",
-                borderRadius: 14,
-                boxShadow: "0 10px 30px rgba(11,37,48,.28)",
-              }}
+        {/* ----- centered headline + promo (kept clear of the diorama) ----- */}
+        <div className="relative z-10 max-w-6xl mx-auto px-4 pt-14 pb-10 sm:pb-[360px]">
+          <div className="max-w-2xl mx-auto text-center">
+            <p className="sm-mc sm-shadow text-white tracking-[0.25em] text-sm mb-3"></p>
+            <h1
+              className="sm-mc sm-shadow leading-[0.95] text-white font-bold"
+              style={{ fontSize: "clamp(2.4rem,7.5vw,5.2rem)" }}
             >
-              <div className="flex items-center justify-center gap-2 mb-3">
-                <span className="text-2xl rotate-[20deg]">👈</span>
-                <span className="sm-mc text-white sm-shadow text-lg tracking-widest">
-                  PROMO CODE
-                </span>
-                <span className="text-2xl -scale-x-100 rotate-[20deg]">👈</span>
-              </div>
+              3 MONTHS <span style={{ color: "#ffd24a" }}>FREE</span>
+              <br />
+              MINECRAFT
+              <br />
+              HOSTING
+            </h1>
+            <p className="sm-mc sm-shadow text-white mt-3 text-xl tracking-wide">
+              for <span style={{ color: "#ffd24a" }}>my friends</span> 💙💛
+            </p>
 
-              <button
-                onClick={copyCode}
-                className="group w-full flex flex-wrap items-center justify-center gap-x-3 gap-y-1 px-4 py-3 cursor-pointer transition-transform active:translate-y-0.5"
+            {/* promo code card */}
+            <div className="mt-7 max-w-xl mx-auto">
+              <div
+                className="relative px-5 pt-5 pb-4 backdrop-blur-md"
                 style={{
-                  background: "rgba(0,0,0,0.28)",
-                  border: "2px dashed rgba(255,255,255,0.65)",
-                  borderRadius: 10,
+                  background: "rgba(8,28,58,0.6)",
+                  border: "2px solid rgba(229,168,35,0.75)",
+                  borderRadius: 14,
+                  boxShadow: "0 14px 38px rgba(6,22,46,.5)",
                 }}
-                aria-label="Copy promo code"
               >
-                <span
-                  className="sm-mc sm-shadow"
-                  style={{
-                    color: "#ffe15d",
-                    fontSize: "clamp(1.8rem,6vw,3rem)",
-                    letterSpacing: "0.04em",
-                  }}
-                >
-                  {PROMO}
-                </span>
-                <span className="text-white/90 flex items-center gap-1 text-sm font-semibold">
-                  {copied ? (
-                    <>
-                      <Check className="w-5 h-5" /> Copied!
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-5 h-5" /> Copy
-                    </>
-                  )}
-                </span>
-              </button>
+                <div className="flex items-center justify-center gap-3 mb-3">
+                  <span style={{ color: "#e5a823" }}>✦</span>
+                  <span className="sm-mc text-white sm-shadow text-lg tracking-widest">
+                    PROMO CODE
+                  </span>
+                  <span style={{ color: "#e5a823" }}>✦</span>
+                </div>
 
-              <p className="text-xs sm:text-sm text-white sm-shadow mt-3 leading-snug">
-                Valid through <b>June 30, 2026</b> or while stock lasts · plans{" "}
-                <b>16&nbsp;GB or under</b> · highest availability in{" "}
-                <b>New York</b> · <b>no payment information required</b>
+                <button
+                  onClick={copyCode}
+                  className="group w-full flex flex-wrap items-center justify-center gap-x-3 gap-y-1 px-4 py-3 cursor-pointer transition-transform active:translate-y-0.5"
+                  style={{
+                    background: "rgba(0,0,0,0.34)",
+                    border: "2px dashed rgba(229,168,35,0.75)",
+                    borderRadius: 10,
+                  }}
+                  aria-label="Copy promo code"
+                >
+                  <span
+                    className="sm-mc sm-shadow"
+                    style={{
+                      color: "#ffd24a",
+                      fontSize: "clamp(1.7rem,5.5vw,2.9rem)",
+                      letterSpacing: "0.04em",
+                    }}
+                  >
+                    {PROMO}
+                  </span>
+                  <span className="text-white/90 flex items-center gap-1 text-sm font-semibold">
+                    {copied ? (
+                      <>
+                        <Check className="w-5 h-5" /> Copied!
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-5 h-5" /> Copy
+                      </>
+                    )}
+                  </span>
+                </button>
+
+                <p className="text-xs sm:text-sm text-white sm-shadow mt-3 leading-snug">
+                  Valid through <b>June 30, 2026</b> or while stock lasts ·
+                  plans <b>16&nbsp;GB or under</b> ·{" "}
+                  <b>no payment information required</b>
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={scrollToPick}
+              className="minecraft-button sm-mc mt-8 inline-flex items-center gap-2 px-7 py-3 text-2xl"
+            >
+              Grab a free Minecraft server
+              <ChevronDown className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* handwritten note, tucked to the side */}
+        <div className="relative z-20 mx-auto w-full max-w-xs px-4 pb-16 lg:px-0 lg:pb-0 lg:absolute lg:left-6 lg:top-28 xl:w-[378px] lg:w-[278px]">
+          <div className="relative" style={{ transform: "rotate(-3deg)" }}>
+            <PixelImg
+              src="spr_tape.png"
+              w={84}
+              h={31}
+              className="absolute"
+              style={{
+                top: -14,
+                left: 28,
+                transform: "rotate(-8deg)",
+                zIndex: 4,
+              }}
+            />
+            <PixelImg
+              src="spr_pushpin.png"
+              w={22}
+              h={25}
+              className="absolute"
+              style={{ top: -13, right: 16, zIndex: 5 }}
+            />
+            <div className="sm-note p-5 pt-7">
+              <p
+                className="sm-hand text-lg"
+                style={{ color: "#0a2a4e", lineHeight: "27px" }}
+              >
+                <b>my time @ SJSU 💙💛</b>
+                <br />
+                Even though the dining hall here is pretty mid, San José is my
+                home, and I'm gonna miss it so much. During my time here, I had
+                the privilege of meeting awesome faculty and peers. I'm just
+                moving on a little sooner than I'd planned, to pursue my
+                next academic career. Here's a little fun treat for my fellow Spartan
+                gamers over the summer.
+              </p>
+              <p
+                className="sm-hand text-right text-base mt-1"
+                style={{ color: "#2f5e8c" }}
+              >
+                — with love, a fellow Spartan
               </p>
             </div>
           </div>
-
-          <button
-            onClick={scrollToPick}
-            className="minecraft-button sm-mc mt-8 inline-flex items-center gap-2 px-7 py-3 text-2xl"
-          >
-            Grab a free Minecraft server
-            <ChevronDown className="w-5 h-5" />
-          </button>
         </div>
-
-        {/* sand shelf + beach props + animated ocean at the bottom */}
-        <div className="sm-sand absolute bottom-0 left-0 right-0 h-28 z-0">
-          <PixelImg
-            src="spr_sandcastle.png"
-            w={104}
-            h={96}
-            className="sm-bobsm absolute"
-            style={{ left: "8%", bottom: 18 }}
-          />
-          <PixelImg
-            src="spr_parasol.png"
-            w={96}
-            h={96}
-            className="absolute hidden sm:block"
-            style={{ left: "26%", bottom: 20 }}
-          />
-          <PixelImg
-            src="spr_beachball.png"
-            w={56}
-            h={56}
-            className="sm-bob absolute"
-            style={{ right: "20%", bottom: 22 }}
-          />
-          <PixelImg
-            src="spr_starfish.png"
-            w={48}
-            h={48}
-            className="sm-bobsm absolute"
-            style={{ right: "9%", bottom: 14 }}
-          />
-          <PixelImg
-            src="spr_crab.png"
-            w={64}
-            h={42}
-            className="sm-bobsm absolute hidden sm:block"
-            style={{ left: "46%", bottom: 10 }}
-          />
-        </div>
-        <div className="sm-ocean absolute -bottom-1 left-0 right-0 h-12 z-10" />
       </section>
 
       {/* ======================= STEP 1: LOCATIONS ======================== */}
       <section
         id="sm-locations"
         className="relative py-14"
-        style={{ background: "#bdeefb" }}
+        style={{
+          backgroundImage: `url(${IMG}/tex_bluepaper.png)`,
+          backgroundRepeat: "repeat",
+          backgroundSize: "320px 320px",
+          imageRendering: "pixelated",
+        }}
       >
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex items-center gap-3 mb-7">
             <div
               className="flex items-center justify-center w-11 h-11 rounded"
-              style={{ background: "#0b2530", border: "2px solid #00c4aa" }}
+              style={{ background: "#0a2a4e", border: "2px solid #0a66bd" }}
             >
-              <MapPin className="w-5 h-5" style={{ color: "#ffd34e" }} />
+              <MapPin className="w-5 h-5" style={{ color: "#e5a823" }} />
             </div>
             <div>
-              <h2 className="sm-mc text-2xl" style={{ color: "#0b2530" }}>
+              <h2 className="sm-mc text-2xl" style={{ color: "#0a2a4e" }}>
                 Pick your Location
               </h2>
             </div>
@@ -554,11 +716,11 @@ export default function SummerHostingPage() {
           {summerLocations.length === 0 ? (
             <div
               className="sm-panel p-6 text-center"
-              style={{ color: "#5b4a2a" }}
+              style={{ color: "#313f55" }}
             >
-              No promo beaches are loading right now — check that the New Jersey
-              Budget, New York Premium, and Dallas Budget locations exist in
-              your gameData.
+              No promo locations are loading right now — check that the New
+              Jersey Budget, New York Premium, and Dallas Budget locations exist
+              in your gameData.
             </div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -597,9 +759,9 @@ export default function SummerHostingPage() {
                         style={{
                           background:
                             tierOf(location) === "premium"
-                              ? "#00c4aa"
-                              : "#33a1e0",
-                          color: "#06222e",
+                              ? "#0a66bd"
+                              : "#2f7fd0",
+                          color: "#0a2a4e",
                         }}
                       >
                         {tierOf(location) === "premium" ? "$2/GB" : "$1/GB"}
@@ -610,8 +772,8 @@ export default function SummerHostingPage() {
                       <div
                         className="flex-shrink-0 w-6 h-6 rounded border-2 flex items-center justify-center"
                         style={{
-                          background: isSelected ? "#00a892" : "transparent",
-                          borderColor: isSelected ? "#00a892" : "#c9a05a",
+                          background: isSelected ? "#0055a2" : "transparent",
+                          borderColor: isSelected ? "#0055a2" : "#2f6fb0",
                         }}
                       >
                         {isSelected && (
@@ -634,14 +796,14 @@ export default function SummerHostingPage() {
                           )}
                           <span
                             className="font-bold truncate"
-                            style={{ color: "#0b2530" }}
+                            style={{ color: "#0a2a4e" }}
                           >
                             {location.name}
                           </span>
                         </div>
                         <p
                           className="text-xs mb-2 truncate"
-                          style={{ color: "#7a6738" }}
+                          style={{ color: "#46566f" }}
                         >
                           {location.cpu}
                         </p>
@@ -653,7 +815,7 @@ export default function SummerHostingPage() {
                           />
                           <span
                             className="text-xs font-mono"
-                            style={{ color: "#2c5566" }}
+                            style={{ color: "#2f5e8c" }}
                           >
                             {pingText}
                           </span>
@@ -681,19 +843,24 @@ export default function SummerHostingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="sm-sandstone relative py-14"
-            style={{ background: "#f3e6c4" }}
+            className="relative py-14"
+            style={{
+              backgroundImage: `url(${IMG}/tex_goldpaper.png)`,
+              backgroundRepeat: "repeat",
+              backgroundSize: "320px 320px",
+              imageRendering: "pixelated",
+            }}
           >
             <div className="max-w-6xl mx-auto px-4">
               <div className="flex items-center gap-3 mb-7">
                 <div
                   className="flex items-center justify-center w-11 h-11 rounded"
-                  style={{ background: "#0b2530", border: "2px solid #00c4aa" }}
+                  style={{ background: "#0a2a4e", border: "2px solid #0a66bd" }}
                 >
-                  <Server className="w-5 h-5" style={{ color: "#ffd34e" }} />
+                  <Server className="w-5 h-5" style={{ color: "#e5a823" }} />
                 </div>
                 <div>
-                  <h2 className="sm-mc text-2xl" style={{ color: "#0b2530" }}>
+                  <h2 className="sm-mc text-2xl" style={{ color: "#0a2a4e" }}>
                     Pick your plan
                   </h2>
                 </div>
@@ -702,7 +869,7 @@ export default function SummerHostingPage() {
               {locationPlans.length === 0 ? (
                 <div
                   className="sm-panel p-6 text-center"
-                  style={{ color: "#5b4a2a" }}
+                  style={{ color: "#313f55" }}
                 >
                   No 16&nbsp;GB-or-under plans are available at this beach right
                   now. Try another location.
@@ -734,9 +901,9 @@ export default function SummerHostingPage() {
                             className="flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center mt-1"
                             style={{
                               background: isSelected
-                                ? "#00a892"
+                                ? "#0055a2"
                                 : "transparent",
-                              borderColor: isSelected ? "#00a892" : "#c9a05a",
+                              borderColor: isSelected ? "#0055a2" : "#2f6fb0",
                             }}
                           >
                             {isSelected && (
@@ -750,13 +917,13 @@ export default function SummerHostingPage() {
                             <div>
                               <span
                                 className="text-lg font-extrabold"
-                                style={{ color: "#0b2530" }}
+                                style={{ color: "#0a2a4e" }}
                               >
                                 {plan.ram} GB
                               </span>
                               <span
                                 className="text-xs ml-1 font-medium"
-                                style={{ color: "#7a6738" }}
+                                style={{ color: "#46566f" }}
                               >
                                 RAM
                               </span>
@@ -764,20 +931,20 @@ export default function SummerHostingPage() {
                             <div className="mb-1 leading-tight">
                               <span
                                 className="text-xs line-through"
-                                style={{ color: "#b09255" }}
+                                style={{ color: "#b8973f" }}
                               >
                                 ${plan.price}/mo
                               </span>
                               <div
                                 className="text-sm font-extrabold"
-                                style={{ color: "#00a892" }}
+                                style={{ color: "#0055a2" }}
                               >
                                 $0 for 3 months
                               </div>
                             </div>
                             <div
                               className="space-y-1 text-xs font-medium"
-                              style={{ color: "#7a6738" }}
+                              style={{ color: "#46566f" }}
                             >
                               <div className="flex items-center gap-1.5">
                                 <Cpu className="w-3 h-3" /> {plan.vCores} vCores
@@ -805,7 +972,7 @@ export default function SummerHostingPage() {
 
               <p
                 className="text-xs mt-4 flex items-center gap-1.5"
-                style={{ color: "#7a6738" }}
+                style={{ color: "#46566f" }}
               >
                 <Info className="w-3.5 h-3.5" /> Soft storage limits can be
                 raised for free. Unlimited/unmetered specs fall under the fair
@@ -825,18 +992,23 @@ export default function SummerHostingPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             className="relative py-14"
-            style={{ background: "#bdeefb" }}
+            style={{
+              backgroundImage: `url(${IMG}/tex_bluepaper.png)`,
+              backgroundRepeat: "repeat",
+              backgroundSize: "320px 320px",
+              imageRendering: "pixelated",
+            }}
           >
             <div className="max-w-6xl mx-auto px-4">
               <div className="flex items-center gap-3 mb-7">
                 <div
                   className="flex items-center justify-center w-11 h-11 rounded"
-                  style={{ background: "#0b2530", border: "2px solid #00c4aa" }}
+                  style={{ background: "#0a2a4e", border: "2px solid #0a66bd" }}
                 >
-                  <Package className="w-5 h-5" style={{ color: "#ffd34e" }} />
+                  <Package className="w-5 h-5" style={{ color: "#e5a823" }} />
                 </div>
                 <div>
-                  <h2 className="sm-mc text-2xl" style={{ color: "#0b2530" }}>
+                  <h2 className="sm-mc text-2xl" style={{ color: "#0a2a4e" }}>
                     Optional Addons
                   </h2>
                 </div>
@@ -871,10 +1043,10 @@ export default function SummerHostingPage() {
                           style={{
                             background:
                               isSelected && !isDisabled
-                                ? "#00a892"
+                                ? "#0055a2"
                                 : "transparent",
                             borderColor:
-                              isSelected && !isDisabled ? "#00a892" : "#c9a05a",
+                              isSelected && !isDisabled ? "#0055a2" : "#2f6fb0",
                           }}
                         >
                           {isSelected && !isDisabled && (
@@ -887,32 +1059,32 @@ export default function SummerHostingPage() {
                         <div className="flex-grow">
                           <span
                             className="font-bold"
-                            style={{ color: "#0b2530" }}
+                            style={{ color: "#0a2a4e" }}
                           >
                             {addon.name}
                           </span>
                           <div className="mb-1">
                             <span
                               className="font-bold"
-                              style={{ color: "#00a892" }}
+                              style={{ color: "#0055a2" }}
                             >
                               {addon.price === 0 ? "Free" : `$${addon.price}`}
                             </span>
                             <span
                               className="text-xs font-medium"
-                              style={{ color: "#7a6738" }}
+                              style={{ color: "#46566f" }}
                             >
                               {" "}
                               per month
                             </span>
                           </div>
-                          <p className="text-sm" style={{ color: "#5b4a2a" }}>
+                          <p className="text-sm" style={{ color: "#313f55" }}>
                             {addon.description}
                           </p>
                           {addon.id === "dedicated-ip" && (
                             <p
                               className="text-xs mt-2 font-semibold"
-                              style={{ color: "#0b2530" }}
+                              style={{ color: "#0a2a4e" }}
                             >
                               Please don&apos;t order dedicated IPs on free
                               plans.
@@ -937,22 +1109,27 @@ export default function SummerHostingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="sm-sandstone relative py-14"
-            style={{ background: "#f3e6c4" }}
+            className="relative py-14"
+            style={{
+              backgroundImage: `url(${IMG}/tex_goldpaper.png)`,
+              backgroundRepeat: "repeat",
+              backgroundSize: "320px 320px",
+              imageRendering: "pixelated",
+            }}
           >
             <div className="max-w-5xl mx-auto px-4">
               <div className="flex items-center gap-3 mb-7">
                 <div
                   className="flex items-center justify-center w-11 h-11 rounded"
-                  style={{ background: "#0b2530", border: "2px solid #00c4aa" }}
+                  style={{ background: "#0a2a4e", border: "2px solid #0a66bd" }}
                 >
                   <ShoppingCart
                     className="w-5 h-5"
-                    style={{ color: "#ffd34e" }}
+                    style={{ color: "#e5a823" }}
                   />
                 </div>
                 <div>
-                  <h2 className="sm-mc text-2xl" style={{ color: "#0b2530" }}>
+                  <h2 className="sm-mc text-2xl" style={{ color: "#0a2a4e" }}>
                     Your Order Summary
                   </h2>
                 </div>
@@ -975,10 +1152,10 @@ export default function SummerHostingPage() {
                       ],
                     ].map(([k, v]) => (
                       <div key={k} className="flex justify-between">
-                        <span style={{ color: "#7a6738" }}>{k}</span>
+                        <span style={{ color: "#46566f" }}>{k}</span>
                         <span
                           className="font-semibold"
-                          style={{ color: "#0b2530" }}
+                          style={{ color: "#0a2a4e" }}
                         >
                           {v}
                         </span>
@@ -988,17 +1165,17 @@ export default function SummerHostingPage() {
                     {selectedAddons.length > 0 && (
                       <div
                         className="pt-3 mt-1 space-y-2"
-                        style={{ borderTop: "2px dashed #d7b06a" }}
+                        style={{ borderTop: "2px dashed #cdb06a" }}
                       >
                         {selectedAddons.map((id) => {
                           const a = addons.find((x) => x.id === id);
                           if (!a) return null;
                           return (
                             <div key={id} className="flex justify-between">
-                              <span style={{ color: "#7a6738" }}>{a.name}</span>
+                              <span style={{ color: "#46566f" }}>{a.name}</span>
                               <span
                                 className="font-semibold"
-                                style={{ color: "#0b2530" }}
+                                style={{ color: "#0a2a4e" }}
                               >
                                 {a.price === 0 ? "Free" : `+$${a.price}/mo`}
                               </span>
@@ -1012,30 +1189,30 @@ export default function SummerHostingPage() {
                   {/* deal math */}
                   <div
                     className="pt-3 space-y-1.5 text-sm"
-                    style={{ borderTop: "3px solid #d7b06a" }}
+                    style={{ borderTop: "3px solid #cdb06a" }}
                   >
                     <div className="flex justify-between">
-                      <span style={{ color: "#7a6738" }}>Regular rate</span>
-                      <span style={{ color: "#0b2530" }}>
+                      <span style={{ color: "#46566f" }}>Regular rate</span>
+                      <span style={{ color: "#0a2a4e" }}>
                         ${getMonthly()}/mo
                       </span>
                     </div>
                     <div className="flex justify-between font-semibold">
-                      <span style={{ color: "#00a892" }}>
+                      <span style={{ color: "#0055a2" }}>
                         Promo {PROMO} · first 3 months
                       </span>
-                      <span style={{ color: "#00a892" }}>FREE</span>
+                      <span style={{ color: "#0055a2" }}>FREE</span>
                     </div>
                     <div className="flex justify-between items-baseline pt-2">
                       <span
                         className="font-extrabold text-lg"
-                        style={{ color: "#0b2530" }}
+                        style={{ color: "#0a2a4e" }}
                       >
                         Due today
                       </span>
                       <span
                         className="sm-mc text-3xl"
-                        style={{ color: "#00a892" }}
+                        style={{ color: "#0055a2" }}
                       >
                         $0.00
                       </span>
@@ -1064,23 +1241,21 @@ export default function SummerHostingPage() {
                     )}
                   </a>
 
-                    <p
-                      className="text-xs mb-2 mt-2"
-                      style={{ color: "#7a6738" }}
-                    >
-                      If you don't want to put any payment information, select{" "}
-                      <span style={{ color: "#0b8f78" }}>
-                        PayPal Basic Legacy (Non-subscription/Manual Renew)
-                      </span>{" "}
-                      to bypass it.
-                    </p>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={`${IMG}/paypal_basic_legacy.png`}
-                      alt="Select the PayPal Basic Legacy payment method at checkout"
-                      className="w-full h-auto"
-                    />
-                  </div>
+                  <p className="text-xs mb-2 mt-2" style={{ color: "#46566f" }}>
+                    I don't want your payment information. Do not put any
+                    payment information, select{" "}
+                    <span style={{ color: "#0055a2" }}>
+                      PayPal Basic Legacy (Non-subscription/Manual Renew)
+                    </span>{" "}
+                    to bypass it.
+                  </p>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`${IMG}/paypal_basic_legacy.png`}
+                    alt="Select the PayPal Basic Legacy payment method at checkout"
+                    className="w-full h-auto"
+                  />
+                </div>
 
                 {/* Hosting Facts — Fixed Hosting Consumer Disclosure */}
                 <div className="sm-panel font-sans overflow-hidden">
@@ -1088,70 +1263,81 @@ export default function SummerHostingPage() {
                   <div className="px-4 pt-3 pb-2">
                     <h3
                       className="sm-mc text-2xl font-black tracking-tight leading-none"
-                      style={{ color: "#0b2530" }}
+                      style={{ color: "#0a2a4e" }}
                     >
                       Hosting Facts
                     </h3>
                   </div>
-                  <div className="border-t border-[#d7b06a] mx-2" />
+                  <div className="border-t border-[#cdb06a] mx-2" />
 
                   {/* Provider & Plan Info */}
                   <div className="px-4 py-2">
                     <p
                       className="text-lg font-bold"
-                      style={{ color: "#0b2530" }}
+                      style={{ color: "#0a2a4e" }}
                     >
                       Foxomy
                     </p>
                     <p
                       className="text-base font-semibold"
-                      style={{ color: "#0b2530" }}
+                      style={{ color: "#0a2a4e" }}
                     >
                       {selectedPlan.ram}GB RAM Plan
                     </p>
-                    <p className="text-xs mt-1" style={{ color: "#7a6738" }}>
+                    <p className="text-xs mt-1" style={{ color: "#46566f" }}>
                       Fixed Hosting Consumer Disclosure
                     </p>
                   </div>
-                  <div className="border-t border-[#d7b06a] mx-2" />
+                  <div className="border-t border-[#cdb06a] mx-2" />
 
                   {/* Final Monthly Price */}
                   <div className="px-4 py-3">
                     <div className="flex justify-between items-baseline">
                       <span
                         className="text-lg font-bold"
-                        style={{ color: "#0b2530" }}
+                        style={{ color: "#0a2a4e" }}
                       >
                         Monthly Price
                       </span>
                       <span
                         className="text-2xl font-black"
-                        style={{ color: "#0b2530" }}
+                        style={{ color: "#0a2a4e" }}
                       >
                         ${getMonthly()}
                       </span>
                     </div>
                   </div>
-                  <div className="border-t border-[#d7b06a] mx-2" />
+                  <div className="border-t border-[#cdb06a] mx-2" />
                   {/* Price Disclaimer */}
                   <div className="px-4 py-2">
                     <p
                       className="text-xs leading-tight"
-                      style={{ color: "#7a6738" }}
+                      style={{ color: "#46566f" }}
                     >
                       The monthly price above is the standard rate. With
                       promotional code {PROMO}, the first 3 months are billed at
                       $0; service then renews at the standard monthly rate
-                      above. This price does not require a contract.
+                      above. This price does not require a contract. The promo
+                      is offered to San Jose State University students as a
+                      personal send-off and may end at any time.
+                    </p>
+                    <p
+                      className="text-[10px] leading-tight mt-1"
+                      style={{ color: "#7d8aa0" }}
+                    >
+                      We are a private host and not affiliated with, sponsored
+                      by, or endorsed by San Jose State University.
+                      &ldquo;SJSU&rdquo;, &ldquo;Spartans&rdquo;, and related
+                      names are trademarks of their respective owners.
                     </p>
                   </div>
-                  <div className="border-t border-[#d7b06a] mx-2" />
+                  <div className="border-t border-[#cdb06a] mx-2" />
 
                   {/* Service Details Section */}
                   <div className="px-4 py-2">
                     <p
                       className="text-sm font-bold mb-2"
-                      style={{ color: "#0b2530" }}
+                      style={{ color: "#0a2a4e" }}
                     >
                       Service Specifications
                     </p>
@@ -1164,10 +1350,10 @@ export default function SummerHostingPage() {
                         ["Storage", selectedPlan.storage],
                       ].map(([label, value]) => (
                         <div key={label} className="flex justify-between">
-                          <span style={{ color: "#7a6738" }}>{label}</span>
+                          <span style={{ color: "#46566f" }}>{label}</span>
                           <span
                             className="font-semibold text-right ml-2"
-                            style={{ color: "#0b2530" }}
+                            style={{ color: "#0a2a4e" }}
                           >
                             {value}
                           </span>
@@ -1175,7 +1361,7 @@ export default function SummerHostingPage() {
                       ))}
                       <p
                         className="text-[10px] leading-tight mt-1"
-                        style={{ color: "#7a6738" }}
+                        style={{ color: "#46566f" }}
                       >
                         Soft limit of {selectedPlan.storage.split("/")[0]} GB
                         guaranteed and can be raised for free. Unlimited or
@@ -1195,10 +1381,10 @@ export default function SummerHostingPage() {
                         ],
                       ].map(([label, value]) => (
                         <div key={label} className="flex justify-between">
-                          <span style={{ color: "#7a6738" }}>{label}</span>
+                          <span style={{ color: "#46566f" }}>{label}</span>
                           <span
                             className="font-semibold text-right ml-2"
-                            style={{ color: "#0b2530" }}
+                            style={{ color: "#0a2a4e" }}
                           >
                             {value}
                           </span>
@@ -1206,7 +1392,7 @@ export default function SummerHostingPage() {
                       ))}
                     </div>
                   </div>
-                  <div className="border-t border-[#d7b06a] mx-2" />
+                  <div className="border-t border-[#cdb06a] mx-2" />
 
                   {/* Selected Addons */}
                   {selectedAddons.length > 0 && (
@@ -1214,7 +1400,7 @@ export default function SummerHostingPage() {
                       <div className="px-4 py-2">
                         <p
                           className="text-sm font-bold mb-2"
-                          style={{ color: "#0b2530" }}
+                          style={{ color: "#0a2a4e" }}
                         >
                           Selected Addons
                         </p>
@@ -1227,12 +1413,12 @@ export default function SummerHostingPage() {
                                 key={addonId}
                                 className="flex justify-between"
                               >
-                                <span style={{ color: "#7a6738" }}>
+                                <span style={{ color: "#46566f" }}>
                                   {addon.name}
                                 </span>
                                 <span
                                   className="font-semibold"
-                                  style={{ color: "#0b2530" }}
+                                  style={{ color: "#0a2a4e" }}
                                 >
                                   {addon.price === 0
                                     ? "Free"
@@ -1243,7 +1429,7 @@ export default function SummerHostingPage() {
                           })}
                         </div>
                       </div>
-                      <div className="border-t border-[#d7b06a] mx-2" />
+                      <div className="border-t border-[#cdb06a] mx-2" />
                     </>
                   )}
 
@@ -1251,7 +1437,7 @@ export default function SummerHostingPage() {
                   <div className="px-4 py-2">
                     <p
                       className="text-sm font-bold mb-2"
-                      style={{ color: "#0b2530" }}
+                      style={{ color: "#0a2a4e" }}
                     >
                       Additional Charges &amp; Terms
                     </p>
@@ -1264,10 +1450,10 @@ export default function SummerHostingPage() {
                         ["Government Taxes", "$0"],
                       ].map(([label, value]) => (
                         <div key={label} className="flex justify-between">
-                          <span style={{ color: "#7a6738" }}>{label}</span>
+                          <span style={{ color: "#46566f" }}>{label}</span>
                           <span
                             className="font-semibold"
-                            style={{ color: "#0b2530" }}
+                            style={{ color: "#0a2a4e" }}
                           >
                             {value}
                           </span>
@@ -1275,7 +1461,7 @@ export default function SummerHostingPage() {
                       ))}
                       <p
                         className="text-[10px] leading-tight mt-1"
-                        style={{ color: "#7a6738" }}
+                        style={{ color: "#46566f" }}
                       >
                         Invoices are sent 2 weeks before due date. If you miss
                         payments by more than a month, please contact us to
@@ -1283,7 +1469,7 @@ export default function SummerHostingPage() {
                       </p>
                     </div>
                   </div>
-                  <div className="border-t border-[#d7b06a] mx-2" />
+                  <div className="border-t border-[#cdb06a] mx-2" />
 
                   {/* Legal Links */}
                   <div className="px-4 py-2">
@@ -1306,18 +1492,18 @@ export default function SummerHostingPage() {
                       </a>
                     </div>
                   </div>
-                  <div className="border-t-4 border-[#d7b06a] mx-2" />
+                  <div className="border-t-4 border-[#cdb06a] mx-2" />
                   {/* Customer Support */}
                   <div className="px-4 py-4">
                     <p
                       className="text-sm font-bold mb-2"
-                      style={{ color: "#0b2530" }}
+                      style={{ color: "#0a2a4e" }}
                     >
                       Customer Support
                     </p>
                     <div className="space-y-1 text-xs">
                       <div className="flex justify-between">
-                        <span style={{ color: "#7a6738" }}>Email</span>
+                        <span style={{ color: "#46566f" }}>Email</span>
                         <a
                           href="mailto:support@foxomy.com"
                           className="sm-link font-semibold"
@@ -1326,7 +1512,7 @@ export default function SummerHostingPage() {
                         </a>
                       </div>
                       <div className="flex justify-between">
-                        <span style={{ color: "#7a6738" }}>Support Portal</span>
+                        <span style={{ color: "#46566f" }}>Support Portal</span>
                         <a
                           href="https://foxomy.com/billing/submitticket.php?step=2&deptid=2"
                           target="_blank"
